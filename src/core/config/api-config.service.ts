@@ -91,6 +91,46 @@ export class ApiConfigService {
     };
   }
 
+  get posgresConfig(): TypeOrmModuleOptions {
+    const entities = ['dist/**/*.entity{.ts,.js}'];
+    const migrations = [__dirname + '/migrations/**/*{.ts,.js}'];
+    const seeds = [__dirname + '/seeds/**/*{.ts,.js}'];
+
+    const host = this.configService.get<string>('DATABASE_HOST', 'localhost');
+    const port = this.configService.get<number>('DATABASE_PORT', 6432);
+    const username = this.configService.get<string>(
+      'DATABASE_USERNAME',
+      'root',
+    );
+    const password = this.configService.get<string>('DATABASE_PASSWORD', '');
+    const database = this.configService.get<string>('DATABASE_NAME', 'aution');
+    // const type = this.configService.get<string>('DATABASE_TYPE', 'mysql');
+    const synchronize = false;
+
+    return {
+      entities,
+      migrations,
+      keepConnectionAlive: !this.isTest,
+      dropSchema: this.isTest,
+      type: 'postgres',
+      name: 'default',
+      host,
+      port,
+      username,
+      password,
+      database,
+      subscribers: [],
+      migrationsRun: true,
+      logging: this.getBoolean('ENABLE_ORM_LOGS'),
+      seeds,
+      factories: [__dirname + '/factories/**/*{.ts,.js}'],
+      cli: {
+        migrationsDir: __dirname + '/migrations/',
+      },
+      synchronize,
+    } as unknown as TypeOrmModuleOptions;
+  }
+
   get awsS3Config() {
     return {
       bucketRegion: this.getString('AWS_S3_BUCKET_REGION'),

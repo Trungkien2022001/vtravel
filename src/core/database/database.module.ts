@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as entities from '../entities';
+// import * as entities from '../entities';
 import { ApiConfigModule } from '../config/api-config.module';
 import { ApiConfigService } from '../config/api-config.service';
 @Module({
@@ -9,10 +9,7 @@ import { ApiConfigService } from '../config/api-config.service';
       imports: [ApiConfigModule],
       inject: [ApiConfigService],
       useFactory: (config: ApiConfigService) => {
-        return {
-          ...config.mysqlConfig,
-          entities: Object.values(entities),
-        } as TypeOrmModuleOptions;
+        return config.posgresConfig as unknown as TypeOrmModuleOptions;
       },
     }),
   ],

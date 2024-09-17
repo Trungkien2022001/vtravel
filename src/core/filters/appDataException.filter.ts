@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import * as i18n from 'i18n';
-import { ActionLogs } from '../entities/collections';
+import { ActionLogs } from '../database/entities';
 import { Connection } from 'typeorm';
 import { AppDataError } from 'src/common';
 

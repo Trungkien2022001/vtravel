@@ -42,7 +42,6 @@ export function AppStandardApiHeaders(...headers: TRequestHeader[]) {
       }
     })
     .filter((i) => i) as unknown as HeaderOption[];
-  console.log(headers, REQUEST_HEADERS);
 
   return applyDecorators(ApiHeaders(headerOptions));
 }

@@ -4,7 +4,7 @@ import { LoginDto } from './dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from 'src/shared/entities';
+import { UserEntity } from 'src/core/database/entities';
 import { AppError } from 'src/common';
 import { ERROR } from 'src/shared/constants';
 
@@ -19,7 +19,7 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const user = await this.userRepository.findOne({
       where: {
-        email: loginDto.username,
+        // email: loginDto.username,
         delFlag: 0,
       },
     });

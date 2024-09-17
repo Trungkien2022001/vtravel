@@ -7,7 +7,7 @@ import {
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ActionLogs } from 'src/core/entities';
+import { ActionLogs } from 'src/core/database/entities';
 import { EStandardError } from 'src/shared/enums';
 import { Connection } from 'typeorm';
 

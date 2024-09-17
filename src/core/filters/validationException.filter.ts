@@ -8,7 +8,7 @@ import {
 import { ValidationError } from 'class-validator';
 import * as i18n from 'i18n';
 import { Connection } from 'typeorm';
-import { ActionLogs } from '../entities/collections';
+import { ActionLogs } from '../database/entities';
 import { ERROR } from 'src/shared/constants';
 
 @Catch(ValidationError)

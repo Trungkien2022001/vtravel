@@ -7,10 +7,10 @@ import {
   Logger,
 } from '@nestjs/common';
 import * as i18n from 'i18n';
-import { ActionLogs } from '../entities/collections';
 import { Connection } from 'typeorm';
 import { EStandardError } from 'src/shared/enums';
 import { ERROR } from 'src/shared/constants';
+import { ActionLogs } from '../database/entities';
 
 @Catch()
 export class UnexpectedExceptionFilter implements ExceptionFilter {
