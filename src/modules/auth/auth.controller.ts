@@ -12,7 +12,7 @@ import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import {
   ApiBearerAuth,
   ApiBody,
-  ApiInternalServerErrorResponse,
+  ApiHeader,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -20,7 +20,7 @@ import {
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
   CustomAPIErrorResponse,
-  QrnetStandardApiHeaders,
+  AppStandardApiHeaders,
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 
@@ -32,8 +32,7 @@ export class AuthController {
   @Post('/login')
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
-  @ApiBearerAuth('Bearer')
-  @QrnetStandardApiHeaders('APP_VERSION', 'AUTHORIZATION')
+  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: LoginDto,
     required: true,

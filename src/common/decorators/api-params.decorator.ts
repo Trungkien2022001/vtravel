@@ -10,7 +10,7 @@ interface ParamOption {
   example: string | number;
 }
 
-export function QrnetStandardApiQueries(...params: TRequestQuery[]) {
+export function AppStandardApiQueries(...params: TRequestQuery[]) {
   const paramOptions = params
     .map((param) => {
       switch (param.toLowerCase()) {

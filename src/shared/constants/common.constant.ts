@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export const REQUEST_HEADERS = {
-  APP_VERSION: 'app-version',
-  AUTHORIZATION: 'Authorization',
+  'X-VERSION': 'x-version',
+  'X-KEY': 'x-key',
+  'X-LANG': 'x-lang',
+  'X-ACCESS-TOKEN': 'x-access-token',
 };
 
 export const REQUEST_QUERIES = {
