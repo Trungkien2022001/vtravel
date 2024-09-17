@@ -28,6 +28,27 @@ export class BaseEntity {
   })
   updatedAt: Date;
 
+  @Column({
+    name: 'created_by',
+    type: 'int4',
+    nullable: false,
+  })
+  createdBy: number;
+
+  @Column({
+    name: 'updated_by',
+    type: 'int4',
+    nullable: false,
+  })
+  updatedBy: number;
+
   @Column({ name: 'del_flag', type: 'smallint', nullable: false, default: 0 })
-  delFlag: number;
+  isDeleted: number;
+
+  @Column({
+    name: 'deleted',
+    type: 'timestamp without time zone',
+    nullable: true,
+  })
+  deletedAt: Date;
 }
