@@ -23,9 +23,9 @@ export class CreateUserRoleTable1726586115333 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'ALTER TABLE public."user_role" DROP CONSTRAINT user_role_pkey',
-    );
+    // await queryRunner.query(
+    //   'ALTER TABLE public."user_role" DROP CONSTRAINT user_role_pkey',
+    // );
     await queryRunner.query('DROP TABLE public."user_role"');
   }
 }

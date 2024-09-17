@@ -3,20 +3,11 @@ import {
   Post,
   Body,
   UseInterceptors,
-  HttpStatus,
-  HttpCode,
   // UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, LoginResponseDto } from './dto/login.dto';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiHeader,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
   CustomAPIErrorResponse,

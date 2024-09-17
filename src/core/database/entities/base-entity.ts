@@ -42,11 +42,11 @@ export class BaseEntity {
   })
   updatedBy: number;
 
-  @Column({ name: 'del_flag', type: 'smallint', nullable: false, default: 0 })
+  @Column({ name: 'is_deleted', type: 'smallint', nullable: false, default: 0 })
   isDeleted: number;
 
   @Column({
-    name: 'deleted',
+    name: 'deleted_at',
     type: 'timestamp without time zone',
     nullable: true,
   })

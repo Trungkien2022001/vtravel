@@ -19,9 +19,9 @@ export class CreateUserTable1726584320383 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'ALTER TABLE public."user" DROP CONSTRAINT user_pkey',
-    );
+    // await queryRunner.query(
+    //   'ALTER TABLE public."user" DROP CONSTRAINT user_pkey',
+    // );
     await queryRunner.query('DROP TABLE public."user"');
   }
 }

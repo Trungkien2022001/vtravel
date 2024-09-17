@@ -2,44 +2,50 @@ import { JwtService } from './jwt.service';
 import { Injectable } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/core/database/entities';
 import { AppError } from 'src/common';
 import { ERROR } from 'src/shared/constants';
+import { UserRepository } from 'src/core/database/repositories';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(loginDto: LoginDto) {
+  async login(body: LoginDto) {
     const user = await this.userRepository.findOne({
       where: {
-        // email: loginDto.username,
-        delFlag: 0,
+        username: body.username,
+        isDeleted: 0,
+      },
+      relations: {
+        userRoles: {
+          role: true,
+        },
       },
     });
+
     if (!user) {
       throw new AppError(ERROR.UNAUTHORIZED);
     }
 
     const isValidPassword = await this.compareHash(
-      loginDto.password,
+      body.password,
       user.passwordHash,
     );
     if (!isValidPassword) {
       throw new AppError(ERROR.UNAUTHORIZED);
     }
     const token = this.jwtService.generateToken({
-      username: loginDto.username,
+      username: body.username,
     });
 
     return {
-      email: loginDto.username,
+      email: body.username,
       token,
     };
   }

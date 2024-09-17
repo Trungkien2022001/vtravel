@@ -1,19 +1,10 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  JoinColumn,
-  ManyToOne,
-} from 'typeorm';
-import { RoleEntity } from './role.entity';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from './base-entity';
+import { UserRoleEntity } from './user-role.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ name: 'username', type: 'varchar', length: 100, nullable: true })
+  @Column({ name: 'username', type: 'varchar', length: 50, nullable: false })
   username: string;
 
   @Column({
@@ -24,19 +15,11 @@ export class UserEntity extends BaseEntity {
   })
   passwordHash: string;
 
-  @Column({
-    name: 'role_id',
-    type: 'varchar',
-    length: 50,
-    nullable: false,
-    default: 'user',
-  })
-  roleId: string;
-
-  @Column({ name: 'del_flag', type: 'tinyint', nullable: false, default: 0 })
-  delFlag: number;
-
-  @ManyToOne(() => RoleEntity, { eager: true })
-  @JoinColumn({ name: 'role_id' })
-  role: RoleEntity;
+  /*
+	|--------------------------------------------------------------------------
+	| @OneToMany
+	|--------------------------------------------------------------------------
+	*/
+  @OneToMany(() => UserRoleEntity, (userRoles) => userRoles.role)
+  userRoles: UserRoleEntity[];
 }

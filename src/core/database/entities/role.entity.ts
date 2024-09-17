@@ -1,67 +1,31 @@
 // role.entity.ts
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { BaseEntity } from './base-entity';
+import { UserRoleEntity } from './user-role.entity';
 
 @Entity({ name: 'role' })
-export class RoleEntity {
-  @PrimaryColumn({ type: 'varchar', length: 50 })
-  id: string;
+export class RoleEntity extends BaseEntity {
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+  })
+  name: string;
 
-  @Column({ type: 'varchar', length: 250, nullable: true })
+  @Column({
+    name: 'description',
+    type: 'varchar',
+    length: 250,
+    nullable: true,
+  })
   description: string;
 
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  admin: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  user: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  auction: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 1,
-  })
-  homepage: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  dashboard_auction: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  dashboard_config: number;
-
-  @Column({
-    type: 'bit',
-    // transformer: { from: (v: Buffer) => !!v.readInt8(0), to: (v) => v },
-    nullable: false,
-    default: 0,
-  })
-  dashboard_money: number;
+  /*
+	|--------------------------------------------------------------------------
+	| @OneToMany
+	|--------------------------------------------------------------------------
+	*/
+  @OneToMany(() => UserRoleEntity, (userRoles) => userRoles.role)
+  userRoles: UserRoleEntity[];
 }
