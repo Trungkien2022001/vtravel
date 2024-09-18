@@ -22,6 +22,10 @@ export class ApiConfigService {
     return this.nodeEnv === 'test';
   }
 
+  public getAdminKey(key: string): string {
+    return this.getString(key);
+  }
+
   public getNumber(key: string): number {
     const value = this.get(key);
 

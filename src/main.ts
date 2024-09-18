@@ -3,6 +3,7 @@ import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor, TransformInterceptor, TrimPipe } from './common';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 import helmet from 'helmet';
 import * as path from 'path';
@@ -16,6 +17,7 @@ i18n.configure({
 });
 
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create<INestApplication>(AppModule);
 
   app.enableCors();

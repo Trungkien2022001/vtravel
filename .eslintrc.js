@@ -49,7 +49,7 @@ module.exports = {
       {
         selector: 'property', // classProperty, objectLiteralProperty, typeProperty with type types: boolean, string, number, function, array
         modifiers: ['readonly'],
-        format: ['PascalCase', 'camelCase', 'UPPER_CASE'],
+        format: ['PascalCase', 'camelCase', 'UPPER_CASE', 'snake_case'],
       },
     ],
     '@typescript-eslint/no-redeclare': 'error',

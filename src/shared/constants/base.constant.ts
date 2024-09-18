@@ -48,3 +48,11 @@ export const TIME = {
 export const UTC = 'UTC';
 export const BASE64 = 'base64';
 export const DOCUMENT = 'document';
+
+export const DEFAULT_USERNAME = 'admin';
+export const DEFAULT_PASSWORD = 'admin';
+export const DEFAULT_ADMIN_ROLE = {
+  name: 'super_admin',
+  description: 'Supper Admin',
+  normalizeName: 'Supper Admin',
+};

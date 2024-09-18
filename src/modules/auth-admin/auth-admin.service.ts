@@ -1,4 +1,3 @@
-import { JwtService } from './jwt.service';
 import { Injectable } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,9 +6,10 @@ import { AppError, compareHash } from 'src/common';
 import { ERROR } from 'src/shared/constants';
 import { UserRepository } from 'src/core/database/repositories';
 import { EntityManager } from 'typeorm';
+import { JwtService } from '../auth/jwt.service';
 
 @Injectable()
-export class AuthService {
+export class AuthAdminService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: UserRepository,
@@ -51,8 +51,7 @@ export class AuthService {
           "role" r ON r.id = ur.role_id
       WHERE 
           u.username = $1
-          and ur.is_deleted = false
-          and r.is_deleted = false
+          AND u.is_deleted = false
       GROUP BY 
           u.id;
       `,
@@ -60,17 +59,19 @@ export class AuthService {
     );
 
     if (!data.length) {
-      throw new AppError(ERROR.UNAUTHORIZED);
+      throw new AppError(ERROR.INVALID_CREDENTIAL);
     }
 
     const user = data[0];
 
-    delete user.password_hash;
-
-    const isValidPassword = await compareHash(body.password, user.passwordHash);
+    const isValidPassword = await compareHash(
+      body.password,
+      user.password_hash,
+    );
     if (!isValidPassword) {
-      throw new AppError(ERROR.UNAUTHORIZED);
+      throw new AppError(ERROR.INVALID_CREDENTIAL);
     }
+    delete user.password_hash;
     const token = this.jwtService.generateToken({
       username: body.username,
       id: user.id,

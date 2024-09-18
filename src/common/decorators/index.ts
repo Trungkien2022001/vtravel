@@ -6,3 +6,6 @@ export * from './is-after-now.decorator';
 export * from './is-after-property.decorator';
 export * from './api-headers.decorator';
 export * from './api-params.decorator';
+export * from './roles.decorator';
+export * from './user.decorator';
+export * from './admin.decorator';

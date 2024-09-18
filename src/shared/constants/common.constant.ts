@@ -12,3 +12,9 @@ export const REQUEST_QUERIES = {
   STATUS: 'status',
   TYPE: 'type',
 };
+
+export const JWT_ERROR = {
+  TOKEN_EXPIRED: 'TokenExpiredError',
+  INVALID_TOKEN: 'JsonWebTokenError',
+  NOT_BEFORE: 'NotBeforeError',
+};

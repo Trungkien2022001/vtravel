@@ -1,1 +1,2 @@
-export * from './errorResponse.enum';
+export * from './error-response.enum';
+export * from './role.enum';
