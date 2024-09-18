@@ -14,6 +14,7 @@ import {
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 import { LoginDto, LoginResponseDto } from './dto';
+import { TLoginAdminRequestDto } from 'src/contracts';
 
 @Controller('v1/admin/auth')
 @ApiTags('Auth')
@@ -36,7 +37,7 @@ export class AuthAdminController {
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
-  create(@Body() loginDto: LoginDto) {
+  create(@Body() loginDto: LoginDto): Promise<TLoginAdminRequestDto> {
     return this.authAdminService.login(loginDto);
   }
 }

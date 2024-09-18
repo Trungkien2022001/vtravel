@@ -19,8 +19,11 @@ import {
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth-agent/dto';
-import { CreateAdminAccountDto, UpdateAdminDto } from './dto';
+import {
+  CreateAdminAccountDto,
+  CreateAdminAccountResponseDto,
+  UpdateAdminDto,
+} from './dto';
 import { AdminRolesGuard, SuperAdminGuard } from 'src/common/guards';
 import { BaseAPIResponseDTO } from 'src/shared/dtos';
 import { ERoles } from 'src/shared/enums';
@@ -57,14 +60,14 @@ export class UserAdminController {
   @ApiOperation({ summary: 'Supper Admin create new admin account' })
   @AppStandardApiHeaders('X-KEY', 'X-VERSION')
   @ApiBody({
-    type: LoginDto,
+    type: CreateAdminAccountDto,
     required: true,
     description: 'Create new admin account Body',
   })
   @ApiResponse({
     status: 200,
     description: 'Create new admin account successfully.',
-    type: LoginResponseDto,
+    type: CreateAdminAccountResponseDto,
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()

@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseInterceptors,
   UseGuards,
 } from '@nestjs/common';
@@ -24,7 +23,7 @@ import { LoginDto, LoginResponseDto } from '../auth-agent/dto';
 import { ERoles } from 'src/shared/enums';
 import { AdminRolesGuard } from 'src/common/guards';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
-import { CreateAgentDto, UpdateUserDto } from './dto';
+import { CreateAgentDto, CreateAgentResponseDto, UpdateUserDto } from './dto';
 
 @Controller('v1/user')
 export class UserController {
@@ -37,14 +36,14 @@ export class UserController {
   @ApiOperation({ summary: 'Agent Login' })
   @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
-    type: LoginDto,
+    type: CreateAgentDto,
     required: true,
     description: 'Login Body',
   })
   @ApiResponse({
     status: 200,
     description: 'Login successfully.',
-    type: LoginResponseDto,
+    type: CreateAgentResponseDto,
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
@@ -107,10 +106,5 @@ export class UserController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
   }
 }

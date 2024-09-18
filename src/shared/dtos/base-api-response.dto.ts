@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BaseAPIResponseDTO<T> {
+export class BaseAPIResponseDTO<T = string> {
   @ApiProperty({
     type: String,
     description: 'Status!',

@@ -1,8 +1,8 @@
-import { IAdmin } from 'src/contracts';
+import { IAdmin } from 'src/shared/interface';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-type IAdminrKey = keyof IAdmin;
+type IAdminKey = keyof IAdmin;
 export const Admin = createParamDecorator(
-  (data: IAdminrKey | undefined, ctx: ExecutionContext) => {
+  (data: IAdminKey | undefined, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const user: IAdmin = request.user;
 

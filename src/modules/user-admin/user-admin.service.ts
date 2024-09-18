@@ -17,7 +17,7 @@ import {
 } from 'src/shared/constants';
 import { EntityManager } from 'typeorm';
 import { Transactional } from 'typeorm-transactional';
-import { IAdmin } from 'src/contracts';
+import { IAdmin } from 'src/shared/interface';
 
 @Injectable()
 export class UserAdminService {

@@ -3,12 +3,13 @@ import { AppError, compareHash, JwtService } from 'src/common';
 import { ERROR, WORKSPACE } from 'src/shared/constants';
 import { EntityManager } from 'typeorm';
 import { LoginDto } from './dto';
+import { TLoginAdminRequestDto } from 'src/contracts';
 
 @Injectable()
 export class AuthAdminService {
   constructor(private readonly entityManager: EntityManager) {}
 
-  async login(body: LoginDto) {
+  async login(body: LoginDto): Promise<TLoginAdminRequestDto> {
     const data = await this.entityManager.query(
       `SELECT 
           u.id,

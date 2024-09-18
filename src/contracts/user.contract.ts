@@ -1,15 +1,8 @@
-import { IBaseContract } from './base.contract';
-import { IRole } from './role.contract';
+import { CreateAgentDto, CreateAgentResponseDto } from 'src/modules/user/dto';
 
-export interface IUser extends IBaseContract {
-  username: string;
-  password_hash?: string;
-  roles: Pick<IRole, 'id' | 'name'>[];
-}
-
-export interface IAdmin extends IBaseContract {
-  data: any;
-  username: string;
-  password_hash?: string;
-  roles: Pick<IRole, 'id' | 'name'>[];
-}
+export type TCreateAgentnAccountRequestDto = InstanceType<
+  typeof CreateAgentDto
+>;
+export type TCreateAgentnAccountResponseDto = InstanceType<
+  typeof CreateAgentResponseDto
+>;

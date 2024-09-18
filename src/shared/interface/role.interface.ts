@@ -1,4 +1,4 @@
-import { IBaseContract } from './base.contract';
+import { IBaseContract } from './base-entity.interface';
 
 export interface IRole extends IBaseContract {
   name: string;
