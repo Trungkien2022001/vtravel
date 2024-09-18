@@ -7,24 +7,32 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './agent.service';
-import { CreateAgentDto } from './dto/create-agent.dto';
-import { UpdateUserDto } from './dto/update-agent.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
+  Admin,
   AppStandardApiHeaders,
   CustomAPIErrorResponse,
+  Roles,
   StandardAPIErrorResponse,
+  User,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth-agent/dto/login.dto';
+import { LoginDto, LoginResponseDto } from '../auth-agent/dto';
+import { ERoles } from 'src/shared/enums';
+import { AdminRolesGuard } from 'src/common/guards';
+import { AgentRolesGuard } from 'src/common/guards/agent.guard';
+import { CreateAgentDto, UpdateUserDto } from './dto';
 
 @Controller('v1/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @Roles(ERoles.ADMIN_USER)
+  @UseGuards(AdminRolesGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
   @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
@@ -40,8 +48,11 @@ export class UserController {
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
-  create(@Body() CreateAgentDto: CreateAgentDto) {
-    return this.userService.create(CreateAgentDto);
+  createAgent(
+    @Body() CreateAgentDto: CreateAgentDto,
+    @Admin('id') adminId: number,
+  ) {
+    return this.userService.create(CreateAgentDto, adminId);
   }
 
   @Get()
@@ -49,7 +60,46 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get('me')
+  @Roles(ERoles.AGENT_INFO)
+  @UseGuards(AgentRolesGuard)
+  @UseInterceptors(DatabaseLoggingInterceptor)
+  @ApiOperation({ summary: 'Agent Login' })
+  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @ApiBody({
+    type: LoginDto,
+    required: true,
+    description: 'Login Body',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successfully.',
+    type: LoginResponseDto,
+  })
+  @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
+  @StandardAPIErrorResponse()
+  me(@User('id') agentId: number) {
+    return this.userService.findOne(agentId);
+  }
+
   @Get(':id')
+  @Roles(ERoles.ADMIN_USER)
+  @UseGuards(AdminRolesGuard)
+  @UseInterceptors(DatabaseLoggingInterceptor)
+  @ApiOperation({ summary: 'Agent Login' })
+  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @ApiBody({
+    type: LoginDto,
+    required: true,
+    description: 'Login Body',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login successfully.',
+    type: LoginResponseDto,
+  })
+  @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
+  @StandardAPIErrorResponse()
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }

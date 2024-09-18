@@ -17,15 +17,13 @@ import {
   CustomAPIErrorResponse,
   Roles,
   StandardAPIErrorResponse,
-  User,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth-agent/dto/login.dto';
+import { LoginDto, LoginResponseDto } from '../auth-agent/dto';
 import { CreateAdminAccountDto, UpdateAdminDto } from './dto';
 import { AdminRolesGuard, SuperAdminGuard } from 'src/common/guards';
 import { BaseAPIResponseDTO } from 'src/shared/dtos';
 import { ERoles } from 'src/shared/enums';
-import { IAdmin } from 'src/contracts';
 
 @Controller('v1/admin/user')
 @ApiTags('Admin User Component')

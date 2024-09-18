@@ -3,14 +3,13 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/core/database/entities';
-import { ApiConfigService } from 'src/core/config/api-config.service';
-import { JwtService } from './jwt.service';
+import { AgentEntity } from 'src/core/database/entities';
+import { ApiConfigService, RedisService } from 'src/core';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([AgentEntity])],
   controllers: [AuthController],
-  providers: [AuthService, ApiConfigService, JwtService],
-  exports: [AuthService, JwtService],
+  providers: [AuthService, ApiConfigService, RedisService],
+  exports: [AuthService],
 })
 export class AuthModule {}

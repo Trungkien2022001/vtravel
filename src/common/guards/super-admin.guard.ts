@@ -1,5 +1,5 @@
-import { ApiConfigService } from 'src/core/config/api-config.service';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { ApiConfigService } from 'src/core';
 
 @Injectable()
 export class SuperAdminGuard implements CanActivate {

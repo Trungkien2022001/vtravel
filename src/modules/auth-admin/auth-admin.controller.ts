@@ -6,7 +6,6 @@ import {
   // UseGuards,
 } from '@nestjs/common';
 import { AuthAdminService } from './auth-admin.service';
-import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
@@ -14,6 +13,7 @@ import {
   AppStandardApiHeaders,
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
+import { LoginDto, LoginResponseDto } from './dto';
 
 @Controller('v1/admin/auth')
 @ApiTags('Auth')
@@ -37,26 +37,6 @@ export class AuthAdminController {
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
   create(@Body() loginDto: LoginDto) {
-    return this.authAdminService.login(loginDto);
-  }
-
-  @Post('/create')
-  @UseInterceptors(DatabaseLoggingInterceptor)
-  @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
-  @ApiBody({
-    type: LoginDto,
-    required: true,
-    description: 'Login Body',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Login successfully.',
-    type: LoginResponseDto,
-  })
-  @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
-  @StandardAPIErrorResponse()
-  registerAdmin(@Body() loginDto: LoginDto) {
     return this.authAdminService.login(loginDto);
   }
 }

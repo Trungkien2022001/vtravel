@@ -13,12 +13,12 @@ export class RedisService {
     {
       key,
       ttl = 60,
-      json = false,
+      json = true,
     }: { key: string; ttl?: number; json?: boolean },
     fn: any,
   ): Promise<any> {
     const time = ttl;
-    if (!(typeof time === 'number') && !(typeof time === 'string')) {
+    if (!(typeof time === 'number')) {
       throw new TypeError(
         `expecting ttl to be number (second) or string, got ${typeof time}`,
       );

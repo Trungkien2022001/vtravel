@@ -56,3 +56,9 @@ export const DEFAULT_ADMIN_ROLE = {
   description: 'Supper Admin',
   normalizeName: 'Supper Admin',
 };
+
+export const DEFAULT_PRODUCT = 'hotel';
+export const WORKSPACE = {
+  ADMIN: 'admin',
+  AGENT: 'agent,',
+};

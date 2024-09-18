@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 // import * as entities from '../entities';
-import { ApiConfigModule } from '../config/api-config.module';
-import { ApiConfigService } from '../config/api-config.service';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+import { ApiConfigModule, ApiConfigService } from '../config';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

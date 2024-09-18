@@ -11,9 +11,16 @@ import { AuthModule } from 'src/modules/auth-agent/auth.module';
 import { CoreModule } from 'src/core/core.module';
 import { AuthAdminModule } from 'src/modules/auth-admin/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
+import { UserModule } from 'src/modules/user/agent.module';
 
 @Module({
-  imports: [CoreModule, AuthModule, AuthAdminModule, UserAdminModule],
+  imports: [
+    CoreModule,
+    AuthModule,
+    AuthAdminModule,
+    UserAdminModule,
+    UserModule,
+  ],
   controllers: [],
   providers: [
     {

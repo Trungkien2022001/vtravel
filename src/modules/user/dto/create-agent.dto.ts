@@ -39,12 +39,12 @@ export class CreateAgentDto {
     required: true,
     type: [Number],
     example: [1, 2, 3],
-    description: 'List of role ids',
+    description: 'List of resource ids',
   })
   @IsArray()
   @IsNumber({}, { each: true })
   @IsNotEmpty()
-  role_ids: number[];
+  resource_ids: number[];
 }
 
 class CreateAgentResponse {

@@ -1,83 +1,56 @@
-import { JwtService } from './jwt.service';
 import { Injectable } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/core/database/entities';
-import { AppError, compareHash } from 'src/common';
-import { ERROR } from 'src/shared/constants';
-import { UserRepository } from 'src/core/database/repositories';
-import { EntityManager } from 'typeorm';
+import { AgentEntity } from 'src/core/database/entities';
+import { AppError, JwtService } from 'src/common';
+import {
+  ERROR,
+  REDIS_EXPIRED,
+  REDIS_KEY,
+  WORKSPACE,
+} from 'src/shared/constants';
+import { RedisService } from 'src/core';
+import { AgentRepository } from 'src/core/database/repositories';
+import { LoginDto } from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
-    private readonly entityManager: EntityManager,
+    @InjectRepository(AgentEntity)
+    private readonly agentRepository: AgentRepository,
+    private readonly redisService: RedisService,
   ) {}
 
   async login(body: LoginDto) {
-    // const user = await this.userRepository.findOne({
-    //   where: {
-    //     username: body.username,
-    //     isDeleted: 0,
-    //   },
-    //   relations: {
-    //     userRoles: {
-    //       role: true,
-    //     },
-    //   },
-    // });
+    const { username, password } = body;
 
-    const data = await this.entityManager.query(
-      `SELECT 
-          u.id,
-          u.username,
-          u.password_hash,
-          json_agg(
-              json_build_object(
-                  'id', r.id,
-                  'name', r."name"
-              )
-          ) AS roles,
-          u.created_at,
-          u.updated_at
-      FROM 
-          "user" u
-      INNER JOIN 
-          user_role ur ON u.id = ur.user_id
-      INNER JOIN 
-          "role" r ON r.id = ur.role_id
-      WHERE 
-          u.username = $1
-          and ur.is_deleted = false
-          and r.is_deleted = false
-      GROUP BY 
-          u.id;
-      `,
-      [body.username],
+    const user = await this.redisService.cachedExecute(
+      {
+        key: `${REDIS_KEY.AGENT_LOGIN}:${username}`,
+        ttl: REDIS_EXPIRED['1_WEEKS'],
+      },
+      this.agentRepository.findOne({
+        where: {
+          username,
+          isDeleted: 0,
+        },
+        select: ['password', 'id'],
+      }),
     );
 
-    if (!data.length) {
+    if (!user) {
       throw new AppError(ERROR.UNAUTHORIZED);
     }
 
-    const user = data[0];
-
-    delete user.password_hash;
-
-    const isValidPassword = await compareHash(body.password, user.passwordHash);
+    const isValidPassword = password === user.password;
     if (!isValidPassword) {
       throw new AppError(ERROR.UNAUTHORIZED);
     }
-    const token = this.jwtService.generateToken({
-      username: body.username,
+    const token = JwtService.generateToken({
       id: user.id,
+      workspace: WORKSPACE.AGENT,
     });
 
     return {
-      ...user,
       token,
     };
   }

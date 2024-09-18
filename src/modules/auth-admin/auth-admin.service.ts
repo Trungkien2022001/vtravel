@@ -1,35 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/core/database/entities';
-import { AppError, compareHash } from 'src/common';
-import { ERROR } from 'src/shared/constants';
-import { UserRepository } from 'src/core/database/repositories';
+import { AppError, compareHash, JwtService } from 'src/common';
+import { ERROR, WORKSPACE } from 'src/shared/constants';
 import { EntityManager } from 'typeorm';
-import { JwtService } from '../auth-agent/jwt.service';
+import { LoginDto } from './dto';
 
 @Injectable()
 export class AuthAdminService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
-    private readonly entityManager: EntityManager,
-  ) {}
+  constructor(private readonly entityManager: EntityManager) {}
 
   async login(body: LoginDto) {
-    // const user = await this.userRepository.findOne({
-    //   where: {
-    //     username: body.username,
-    //     isDeleted: 0,
-    //   },
-    //   relations: {
-    //     userRoles: {
-    //       role: true,
-    //     },
-    //   },
-    // });
-
     const data = await this.entityManager.query(
       `SELECT 
           u.id,
@@ -72,9 +51,9 @@ export class AuthAdminService {
       throw new AppError(ERROR.INVALID_CREDENTIAL);
     }
     delete user.password_hash;
-    const token = this.jwtService.generateToken({
-      username: body.username,
+    const token = JwtService.generateToken({
       id: user.id,
+      workspace: WORKSPACE.ADMIN,
     });
 
     return {

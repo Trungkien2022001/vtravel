@@ -7,11 +7,9 @@ import {
   UserEntity,
   UserRoleEntity,
 } from 'src/core/database/entities';
-import { JwtService } from '../auth-agent/jwt.service';
-
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, UserRoleEntity, RoleEntity])],
   controllers: [UserAdminController],
-  providers: [UserAdminService, JwtService],
+  providers: [UserAdminService],
 })
 export class UserAdminModule {}

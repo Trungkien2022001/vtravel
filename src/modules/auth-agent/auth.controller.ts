@@ -6,7 +6,6 @@ import {
   // UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, LoginResponseDto } from './dto/login.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
@@ -14,6 +13,7 @@ import {
   AppStandardApiHeaders,
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
+import { LoginDto, LoginResponseDto } from './dto';
 
 @Controller('v1/auth')
 @ApiTags('Auth')
@@ -36,7 +36,7 @@ export class AuthController {
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
-  create(@Body() loginDto: LoginDto) {
+  loginAgent(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 }
