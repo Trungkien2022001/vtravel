@@ -1,4 +1,4 @@
-import { JwtService } from './../../modules/auth/jwt.service';
+import { JwtService } from '../../modules/auth-agent/jwt.service';
 import { UserAdminService } from './../../modules/user-admin/user-admin.service';
 import { Reflector } from '@nestjs/core';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';

@@ -19,9 +19,6 @@ export class CreateRoleTable1726586102037 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // await queryRunner.query(
-    //   'ALTER TABLE public."role" DROP CONSTRAINT role_pkey',
-    // );
     await queryRunner.query('DROP TABLE public."role"');
   }
 }

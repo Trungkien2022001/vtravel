@@ -6,7 +6,7 @@ import { AppError, compareHash } from 'src/common';
 import { ERROR } from 'src/shared/constants';
 import { UserRepository } from 'src/core/database/repositories';
 import { EntityManager } from 'typeorm';
-import { JwtService } from '../auth/jwt.service';
+import { JwtService } from '../auth-agent/jwt.service';
 
 @Injectable()
 export class AuthAdminService {

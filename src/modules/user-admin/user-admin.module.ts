@@ -7,7 +7,7 @@ import {
   UserEntity,
   UserRoleEntity,
 } from 'src/core/database/entities';
-import { JwtService } from '../auth/jwt.service';
+import { JwtService } from '../auth-agent/jwt.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, UserRoleEntity, RoleEntity])],

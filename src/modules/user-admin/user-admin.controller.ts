@@ -20,7 +20,7 @@ import {
   User,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth/dto/login.dto';
+import { LoginDto, LoginResponseDto } from '../auth-agent/dto/login.dto';
 import { CreateAdminAccountDto, UpdateAdminDto } from './dto';
 import { AdminRolesGuard, SuperAdminGuard } from 'src/common/guards';
 import { BaseAPIResponseDTO } from 'src/shared/dtos';

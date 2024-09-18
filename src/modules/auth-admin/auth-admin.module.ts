@@ -5,7 +5,7 @@ import { AuthAdminController } from './auth-admin.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/core/database/entities';
 import { ApiConfigService } from 'src/core/config/api-config.service';
-import { JwtService } from '../auth/jwt.service';
+import { JwtService } from '../auth-agent/jwt.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],

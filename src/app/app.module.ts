@@ -7,7 +7,7 @@ import {
   AppMetatadaExceptionFilter,
   ValidationExceptionFilter,
 } from 'src/core/filters';
-import { AuthModule } from 'src/modules/auth/auth.module';
+import { AuthModule } from 'src/modules/auth-agent/auth.module';
 import { CoreModule } from 'src/core/core.module';
 import { AuthAdminModule } from 'src/modules/auth-admin/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';

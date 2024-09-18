@@ -8,9 +8,9 @@ import {
   Delete,
   UseInterceptors,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from './agent.service';
+import { CreateAgentDto } from './dto/create-agent.dto';
+import { UpdateUserDto } from './dto/update-agent.dto';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
   AppStandardApiHeaders,
@@ -18,7 +18,7 @@ import {
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth/dto/login.dto';
+import { LoginDto, LoginResponseDto } from '../auth-agent/dto/login.dto';
 
 @Controller('v1/user')
 export class UserController {
@@ -40,8 +40,8 @@ export class UserController {
   })
   @CustomAPIErrorResponse(['VALIDATION_ERROR', 'UNAUTHORIZED'])
   @StandardAPIErrorResponse()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() CreateAgentDto: CreateAgentDto) {
+    return this.userService.create(CreateAgentDto);
   }
 
   @Get()
