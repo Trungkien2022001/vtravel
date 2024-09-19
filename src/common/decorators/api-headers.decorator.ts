@@ -9,7 +9,7 @@ interface HeaderOption {
   schema: object;
 }
 
-export function AppStandardApiHeaders(...headers: TRequestHeader[]) {
+export function StandardApiHeaders(...headers: TRequestHeader[]) {
   const headerOptions = headers
     .map((header) => {
       switch (header.toLowerCase()) {

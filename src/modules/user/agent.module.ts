@@ -28,5 +28,6 @@ import { RedisService } from 'src/core';
   ],
   controllers: [UserController],
   providers: [UserService, UserAdminService, RedisService],
+  exports: [UserService],
 })
 export class UserModule {}

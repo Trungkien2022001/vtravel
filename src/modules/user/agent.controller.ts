@@ -9,10 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './agent.service';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Admin,
-  AppStandardApiHeaders,
+  StandardApiHeaders,
   CustomAPIErrorResponse,
   Roles,
   StandardAPIErrorResponse,
@@ -26,6 +26,7 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { CreateAgentDto, CreateAgentResponseDto, UpdateUserDto } from './dto';
 
 @Controller('v1/user')
+@ApiTags('User Component')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -34,7 +35,7 @@ export class UserController {
   @UseGuards(AdminRolesGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: CreateAgentDto,
     required: true,
@@ -64,7 +65,7 @@ export class UserController {
   @UseGuards(AgentRolesGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: LoginDto,
     required: true,
@@ -86,7 +87,7 @@ export class UserController {
   @UseGuards(AdminRolesGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: LoginDto,
     required: true,

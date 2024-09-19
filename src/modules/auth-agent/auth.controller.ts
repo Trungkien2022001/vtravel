@@ -10,20 +10,20 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
   CustomAPIErrorResponse,
-  AppStandardApiHeaders,
+  StandardApiHeaders,
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 import { LoginDto, LoginResponseDto } from './dto';
 
 @Controller('v1/auth')
-@ApiTags('Auth')
+@ApiTags('Auth Agent Component')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: LoginDto,
     required: true,

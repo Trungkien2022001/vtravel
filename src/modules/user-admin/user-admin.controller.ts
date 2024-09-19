@@ -13,7 +13,7 @@ import { UserAdminService } from './user-admin.service';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Admin,
-  AppStandardApiHeaders,
+  StandardApiHeaders,
   CustomAPIErrorResponse,
   Roles,
   StandardAPIErrorResponse,
@@ -37,7 +37,7 @@ export class UserAdminController {
   @UseGuards(SuperAdminGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Supper Admin create first admin account' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION')
+  @StandardApiHeaders('X-KEY', 'X-VERSION')
   @ApiResponse({
     status: 200,
     description: 'Create new first admin account successfully.',
@@ -58,7 +58,7 @@ export class UserAdminController {
   @UseGuards(AdminRolesGuard)
   @UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Supper Admin create new admin account' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION')
+  @StandardApiHeaders('X-KEY', 'X-VERSION')
   @ApiBody({
     type: CreateAdminAccountDto,
     required: true,

@@ -10,21 +10,21 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DatabaseLoggingInterceptor } from 'src/common/interceptors';
 import {
   CustomAPIErrorResponse,
-  AppStandardApiHeaders,
+  StandardApiHeaders,
   StandardAPIErrorResponse,
 } from 'src/common/decorators';
 import { LoginDto, LoginResponseDto } from './dto';
 import { TLoginAdminRequestDto } from 'src/contracts';
 
 @Controller('v1/admin/auth')
-@ApiTags('Auth')
+@ApiTags('Auth Admin Component')
 export class AuthAdminController {
   constructor(private readonly authAdminService: AuthAdminService) {}
 
   @Post('/login')
   @UseInterceptors(DatabaseLoggingInterceptor)
-  @ApiOperation({ summary: 'Agent Login' })
-  @AppStandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
+  @ApiOperation({ summary: 'Admin Login' })
+  @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
     type: LoginDto,
     required: true,

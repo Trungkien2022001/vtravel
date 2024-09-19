@@ -12,10 +12,12 @@ import { CoreModule } from 'src/core/core.module';
 import { AuthAdminModule } from 'src/modules/auth-admin/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
 import { UserModule } from 'src/modules/user/agent.module';
+import { SearchModule } from 'src/modules/search/search.module';
 
 @Module({
   imports: [
     CoreModule,
+    SearchModule,
     AuthModule,
     AuthAdminModule,
     UserAdminModule,
