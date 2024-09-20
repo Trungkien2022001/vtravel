@@ -40,6 +40,6 @@ export class SearchController {
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
   @UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: SearchByAirportCodeDto) {
-    return this.searchService.SearchByAirportCode(body);
+    return this.searchService.searchByAirportCode(body);
   }
 }

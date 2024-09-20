@@ -64,11 +64,7 @@ export class ValidationExceptionFilter implements ExceptionFilter {
     response.status(HttpStatus.OK).send({
       status: 'error',
       code: ERROR.VALIDATION_ERROR,
-      message: `${errTitle}
-            Constraints: ${msg}
-            Key: ${exception.property}
-            Value: ${exception.value}`,
-      // }) + ' (' + exception.constraints.isString.toString().replace(/\n/g, ''),
+      message: `${errTitle}: ${msg}. Error key: ${exception.property}. Value: ${typeof exception.value !== 'object' ? exception.value : JSON.stringify(exception.value)}`,
     });
   }
 }

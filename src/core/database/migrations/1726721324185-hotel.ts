@@ -9,7 +9,6 @@ export class Hotel1726721324185 implements MigrationInterface {
           region_id int8 NOT NULL,
           airport_code varchar(20) default null,
           city_code varchar(50) default null,
-          district_code varchar(50) default null,
           created_at timestamp with time zone NOT NULL DEFAULT now(),
           updated_at timestamp with time zone NOT NULL DEFAULT now(),
           created_by int4 NULL,

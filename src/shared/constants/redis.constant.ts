@@ -2,6 +2,7 @@
 export const REDIS_KEY = {
   AGENT_LOGIN: 'agent_login',
   AGENT_RESOURCES: 'agent_resources',
+  HOTEL_BY_AIRPORT_CODE: 'hotel_by_airport',
 };
 export const REDIS_EXPIRED = {
   '1_MINUTES': 60,

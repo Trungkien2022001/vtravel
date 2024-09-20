@@ -7,7 +7,7 @@ import { AgentEntity, AgentResourceEntity } from 'src/core/database/entities';
 import { EntityManager } from 'typeorm';
 import { AgentResourceRepository } from 'src/core/database/repositories/agent-resource.repository';
 import { AppError } from 'src/common';
-import { AGENT_ERROR } from 'src/shared/constants/agent-error.constan';
+import { AGENT_ERROR } from 'src/shared/constants/agent-error.constant';
 import { Transactional } from 'typeorm-transactional';
 import { RedisService } from 'src/core';
 import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';

@@ -17,3 +17,19 @@ export function IsUTCTimeString(description?: string) {
     }),
   );
 }
+
+export function IsDateOnly(description?: string) {
+  return applyDecorators(
+    Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, {
+      message: 'Must be a valid date in the format YYYY-MM-DD',
+    }),
+    ApiProperty({
+      required: true,
+      type: String,
+      description,
+      example: '2001-02-20',
+      nullable: false,
+      default: '2001-02-20',
+    }),
+  );
+}
