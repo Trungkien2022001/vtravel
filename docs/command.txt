@@ -1,3 +1,6 @@
 1. Migration
 - Create: 
 typeorm migration:create src/core/database/migrations/create-user-table
+2. Docker:
+docker-compose -p core-tuki-service up
+
