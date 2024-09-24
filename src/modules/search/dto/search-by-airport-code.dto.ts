@@ -17,4 +17,4 @@ export class SearchByAirportCodeDto extends BaseSeachRequestDto {
 
 class SeachByAirportCodeResponse {}
 
-export class SeachByAirportCodeResponseSto extends BaseAPIResponseDTO<SeachByAirportCodeResponse> {}
+export class SeachByAirportCodeResponseDto extends BaseAPIResponseDTO<SeachByAirportCodeResponse> {}

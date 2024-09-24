@@ -1,4 +1,11 @@
-import { SeachByAirportCodeResponseSto, SearchByAirportCodeDto } from './dto';
+import {
+  SeachByAirportCodeResponseDto,
+  SeachByHotelIdsResponseDto,
+  SeachByRegionResponseDto,
+  SearchByAirportCodeDto,
+  SearchByHotelIdsDto,
+  SearchByRegionDto,
+} from './dto';
 import {
   Body,
   Controller,
@@ -7,7 +14,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SearchService } from './seach.service';
+import {
+  SearchByAirportCodeService,
+  SearchByRegionService,
+  SearchService,
+  SearchByHotelIdsService,
+} from './service';
 import { DatabaseLoggingInterceptor } from 'src/common';
 import {
   CustomAPIErrorResponse,
@@ -21,7 +33,12 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 @Controller('v1/search')
 @ApiTags('Search Component')
 export class SearchController {
-  constructor(private readonly searchService: SearchService) {}
+  constructor(
+    private readonly searchService: SearchService,
+    private readonly searchByAirportCodeService: SearchByAirportCodeService,
+    private readonly searchByRegionService: SearchByRegionService,
+    private readonly searchByHotelIdsService: SearchByHotelIdsService,
+  ) {}
 
   @Post('/airport-code')
   @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
@@ -34,12 +51,52 @@ export class SearchController {
   })
   @ApiResponse({
     status: 200,
-    type: SeachByAirportCodeResponseSto,
+    type: SeachByAirportCodeResponseDto,
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
   @UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: SearchByAirportCodeDto) {
-    return this.searchService.searchByAirportCode(body);
+    return this.searchByAirportCodeService.search(body);
+  }
+
+  @Post('/region')
+  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Search by Airport Code' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: SearchByRegionDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: SeachByRegionResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
+  @UseInterceptors(DatabaseLoggingInterceptor)
+  async SearchByRegion(@Body() body: SearchByRegionDto) {
+    return this.searchByRegionService.search(body);
+  }
+
+  @Post('/region')
+  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Search by Airport Code' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: SearchByHotelIdsDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: SeachByHotelIdsResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
+  @UseInterceptors(DatabaseLoggingInterceptor)
+  async SearchByHotelIds(@Body() body: SearchByHotelIdsDto) {
+    return this.searchByHotelIdsService.search(body);
   }
 }
