@@ -82,6 +82,6 @@ export class RegionMappingService {
       throw new AppError(SEARCH_ERROR.INVALID_OR_UNSUPPORTED_AIRPORT_CODE);
     }
 
-    return region.region_id;
+    return region.regionId;
   }
 }

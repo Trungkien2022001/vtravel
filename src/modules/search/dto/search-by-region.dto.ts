@@ -6,11 +6,11 @@ export class SearchByRegionDto extends BaseSeachRequestDto {
   @IsString()
   @ApiProperty({
     type: String,
-    description: 'Region',
+    description: 'Region Id',
     example: '1941',
   })
   // eslint-disable-next-line camelcase
-  region: string;
+  region_id: string;
 }
 
 class SeachByRegionResponse {}

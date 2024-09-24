@@ -63,7 +63,7 @@ export class SearchController {
   @Post('/region')
   @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: 'Search by Airport Code' })
+  @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
     type: SearchByRegionDto,
@@ -80,10 +80,10 @@ export class SearchController {
     return this.searchByRegionService.search(body);
   }
 
-  @Post('/region')
+  @Post('/hotel-ids')
   @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: 'Search by Airport Code' })
+  @ApiOperation({ summary: 'Search by Hotel Ids' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
     type: SearchByHotelIdsDto,

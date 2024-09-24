@@ -1,4 +1,9 @@
-import { RedisService } from 'src/core';
+import { SearchService } from './seach.service';
+import {
+  HotelMappingService,
+  RedisService,
+  RegionMappingService,
+} from 'src/core';
 import { EntityManager } from 'typeorm';
 import { SearchByAirportCodeDto } from '../dto/search-by-airport-code.dto';
 import { Injectable } from '@nestjs/common';
@@ -11,20 +16,23 @@ export class SearchByAirportCodeService {
   constructor(
     private readonly entityManager: EntityManager,
     private readonly redisService: RedisService,
+    private readonly searchService: SearchService,
+    private readonly regionMappingService: RegionMappingService,
+    private readonly hotelMappingService: HotelMappingService,
   ) {}
 
   async search(body: SearchByAirportCodeDto) {
     ValidateSearchRequest(body);
     const { airport_code: airportCode } = body;
-    const hotelIds = await this.redisService.cachedExecute(
-      {
-        key: `${REDIS_KEY.HOTEL_BY_AIRPORT_CODE}:${airportCode}`,
-        ttl: REDIS_EXPIRED['1_WEEKS'],
-      },
-      this.getHotelByAirportCode(airportCode),
-    );
+    const regionId =
+      await this.regionMappingService.getRegionFromDestination(airportCode);
+    const hotels = await this.searchService.findRoomIdsFromRegion({
+      ...body,
+      // eslint-disable-next-line camelcase
+      region_id: regionId,
+    });
 
-    return hotelIds;
+    return hotels;
   }
 
   async getHotelByAirportCode(airportCode: string): Promise<number[]> {

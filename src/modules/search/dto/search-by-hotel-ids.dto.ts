@@ -11,7 +11,7 @@ export class SearchByHotelIdsDto extends BaseSeachRequestDto {
   @ApiProperty({
     type: [String],
     description: 'List of hotel ids',
-    example: [1, 2, 3],
+    example: ['1', '2', '3'],
   })
   // eslint-disable-next-line camelcase
   hotel_ids: string[];

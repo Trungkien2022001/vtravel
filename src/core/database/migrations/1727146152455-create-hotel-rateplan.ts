@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class CreateHotelRateplan1727146152455 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-        CREATE TABLE hotel_rateplan (
+        CREATE TABLE room_rateplan (
             "id" serial NOT NULL,
             "code" varchar(100) NOT NULL,
             "name" varchar(255) NOT NULL,
@@ -21,6 +21,6 @@ export class CreateHotelRateplan1727146152455 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('DROP TABLE public."hotel_rateplan"');
+    await queryRunner.query('DROP TABLE public."room_rateplan"');
   }
 }

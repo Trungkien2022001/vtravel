@@ -19,6 +19,7 @@ import {
   MIN_ROOM_ALLOWED,
 } from '../constants';
 import { IsDateOnly } from 'src/common/decorators';
+import { Type } from 'class-transformer';
 
 export class RoomsSearchRequestDto {
   @IsNumber()
@@ -60,6 +61,7 @@ export class RoomsSearchRequestDto {
 
 export class BaseSeachRequestDto {
   @ValidateNested()
+  @Type(() => RoomsSearchRequestDto)
   @ApiProperty({
     type: [RoomsSearchRequestDto],
     description: 'Number of rooms!',

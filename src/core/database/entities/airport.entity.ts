@@ -34,7 +34,7 @@ export class AirportEntity extends BasePrimaryIdOnlyEntity {
   longitude: number;
 
   @Column({
-    name: 'region_typpe',
+    name: 'region_type',
     nullable: true,
     type: 'varchar',
     length: 255,

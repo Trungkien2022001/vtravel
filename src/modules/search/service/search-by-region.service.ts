@@ -1,4 +1,9 @@
-import { RedisService, RegionMappingService } from 'src/core';
+import { SearchService } from './seach.service';
+import {
+  RedisService,
+  RegionMappingService,
+  HotelMappingService,
+} from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { ValidateSearchRequest } from 'src/common';
@@ -10,13 +15,18 @@ export class SearchByRegionService {
   constructor(
     private readonly entityManager: EntityManager,
     private readonly redisService: RedisService,
+    private readonly searchService: SearchService,
     private readonly regionMappingService: RegionMappingService,
+    private readonly hotelMappingService: HotelMappingService,
   ) {}
 
   async search(body: SearchByRegionDto) {
     ValidateSearchRequest(body);
-    const { region } = body;
+    // const { region_id: regionId } = body;
+    const hotels =
+      // await this.hotelMappingService.findRoomIdsFromRegion(regionId);
+      await this.searchService.findRoomIdsFromRegion(body);
 
-    return region;
+    return hotels;
   }
 }
