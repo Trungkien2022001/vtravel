@@ -6,3 +6,5 @@ export * from './agent-resource.entity';
 export * from './agent.entity';
 export * from './resource.entity';
 export * from './hotel.entity';
+export * from './airport.entity';
+export * from './destination-region-mapping';

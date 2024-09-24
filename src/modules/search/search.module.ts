@@ -3,7 +3,7 @@ import { SearchController } from './search.controller';
 import { SearchService } from './service/seach.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgentEntity, HotelEntity } from 'src/core/database/entities';
-import { RedisModule } from 'src/core';
+import { RedisModule, RegionMappingModule } from 'src/core';
 import { AuthModule } from '../auth-agent/auth.module';
 import { UserModule } from '../user/agent.module';
 import {
@@ -18,6 +18,7 @@ import {
     RedisModule,
     AuthModule,
     UserModule,
+    RegionMappingModule,
   ],
   controllers: [SearchController],
   providers: [

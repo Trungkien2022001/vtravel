@@ -62,3 +62,5 @@ export const WORKSPACE = {
   ADMIN: 'admin',
   AGENT: 'agent,',
 };
+
+export const IATA_AIPORT_CODE_LENGTH = 3;

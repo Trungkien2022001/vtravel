@@ -52,3 +52,9 @@ export class BaseEntity {
   })
   deletedAt: Date;
 }
+
+@Entity()
+export class BasePrimaryIdOnlyEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+}
