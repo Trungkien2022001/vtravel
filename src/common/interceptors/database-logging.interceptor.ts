@@ -31,9 +31,9 @@ export class DatabaseLoggingInterceptor implements NestInterceptor {
         actionLog.status = response?.statusCode || 200;
         actionLog.request = JSON.stringify(request.body);
         actionLog.response = JSON.stringify(response);
-        actionLog.error = response.stack;
+        actionLog.error = response?.stack;
         actionLog.errorCode =
-          response.code || EStandardError.INTERNAL_SERVER_ERROR;
+          response?.code || EStandardError.INTERNAL_SERVER_ERROR;
 
         this.connection.getRepository(ActionLogs).save(actionLog);
       }),

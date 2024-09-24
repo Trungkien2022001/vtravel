@@ -11,7 +11,7 @@ export class HotelMappingService {
     private readonly entityManager: EntityManager,
     private readonly redisService: RedisService,
   ) {}
-  async findRoomIdsFromRegion(regionId: string): Promise<string[]> {
+  async findHotelIdsFromRegion(regionId: string): Promise<string[]> {
     const hotelIds = await this.redisService.cachedExecute(
       {
         key: `${REDIS_KEY.HOTEL_IDS_FROM_REGION}:${regionId}`,

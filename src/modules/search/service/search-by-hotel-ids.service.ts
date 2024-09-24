@@ -16,8 +16,9 @@ export class SearchByHotelIdsService {
   async search(body: SearchByHotelIdsDto) {
     ValidateSearchRequest(body);
     // const { hotel_ids: hotelIds } = body;
-    const rooms = this.searchService.findRoomsIdsFromHotelIds(body);
+    const rooms = await this.searchService.findRoomsIdsFromHotelIds(body);
+    const rates = await this.searchService.findRateDetailsByRoomsIds(rooms);
 
-    return rooms;
+    return rates;
   }
 }

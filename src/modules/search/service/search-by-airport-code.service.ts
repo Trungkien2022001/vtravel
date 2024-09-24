@@ -26,7 +26,7 @@ export class SearchByAirportCodeService {
     const { airport_code: airportCode } = body;
     const regionId =
       await this.regionMappingService.getRegionFromDestination(airportCode);
-    const hotels = await this.searchService.findRoomIdsFromRegion({
+    const hotels = await this.searchService.findActiveHotelIdsFromRegion({
       ...body,
       // eslint-disable-next-line camelcase
       region_id: regionId,

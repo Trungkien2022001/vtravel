@@ -22,10 +22,7 @@ export class SearchByRegionService {
 
   async search(body: SearchByRegionDto) {
     ValidateSearchRequest(body);
-    // const { region_id: regionId } = body;
-    const hotels =
-      // await this.hotelMappingService.findRoomIdsFromRegion(regionId);
-      await this.searchService.findRoomIdsFromRegion(body);
+    const hotels = await this.searchService.findHotelAvailable(body);
 
     return hotels;
   }
