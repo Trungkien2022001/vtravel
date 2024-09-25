@@ -15,11 +15,17 @@ import { UserModule } from 'src/modules/user/agent.module';
 import { SearchModule } from 'src/modules/hotel-search/search.module';
 import { DevSupportModule } from 'src/modules/dev-support/dev-support.module';
 import { HotelInfoSearchModule } from 'src/modules/hotel-info-search/hotel-info-search.module';
+import { DataCenterModule } from 'src/modules/data-center/data-center.module';
+import { HotelDetailModule } from 'src/modules/hotel-detail/detail.module';
+import { HotelPrebookModule } from 'src/modules/hotel-prebook/prebook.module';
 
 @Module({
   imports: [
     CoreModule,
     HotelInfoSearchModule,
+    HotelDetailModule,
+    HotelPrebookModule,
+    DataCenterModule,
     SearchModule,
     AuthModule,
     AuthAdminModule,
