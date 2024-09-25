@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchByRegionDto } from 'src/modules/hotel-search/dto';
 
 @Injectable()
-export class HotelInfoSearchService {
+export class DataCenterService {
   constructor(
     private readonly elasticSearchService: ElasticSearchService,
     private readonly redisService: RedisService,

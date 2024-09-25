@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ElasticsearchModule, RedisModule } from 'src/core';
-import { HotelInfoSearchController } from './hotel-info-search.controller';
-import { HotelInfoSearchService } from './services';
+import { DataCenterController } from './data-center.controller';
+import { DataCenterService } from './services';
 import { SearchModule } from '../hotel-search/search.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
@@ -26,8 +26,8 @@ import { UserService } from '../user/agent.service';
     ElasticsearchModule,
     SearchModule,
   ],
-  controllers: [HotelInfoSearchController],
-  providers: [HotelInfoSearchService, UserService],
-  exports: [HotelInfoSearchService],
+  controllers: [DataCenterController],
+  providers: [DataCenterService, UserService],
+  exports: [DataCenterService],
 })
-export class HotelInfoSearchModule {}
+export class DataCenterModule {}

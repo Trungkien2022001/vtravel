@@ -4,7 +4,7 @@ import {
   StandardAPIErrorResponse,
   StandardApiHeaders,
 } from 'src/common/decorators';
-import { HotelInfoSearchService } from './services/hotel-info-search.service';
+import { DataCenterService } from './services/data-center.service';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
   SeachByRegionResponseDto,
@@ -15,10 +15,8 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('v1/hotel-info-search')
-export class HotelInfoSearchController {
-  constructor(
-    private readonly hotelInfoSearchService: HotelInfoSearchService,
-  ) {}
+export class DataCenterController {
+  constructor(private readonly DataCenterService: DataCenterService) {}
 
   @Post('region')
   @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
@@ -42,6 +40,6 @@ export class HotelInfoSearchController {
     'TOKEN_EXPIRED',
   ])
   searchByRegion(@Body() body: SearchByRegionDto) {
-    return this.hotelInfoSearchService.searchByRegion(body);
+    return this.DataCenterService.searchByRegion(body);
   }
 }
