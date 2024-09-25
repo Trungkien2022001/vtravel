@@ -60,7 +60,7 @@ export class RoomsSearchRequestDto {
 }
 
 export class BaseSeachRequestDto {
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => RoomsSearchRequestDto)
   @ApiProperty({
     type: [RoomsSearchRequestDto],

@@ -5,7 +5,8 @@ export const REDIS_KEY = {
   HOTEL_BY_AIRPORT_CODE: 'hotel_by_airport',
   DESTINATION_TO_REGION: 'dest2region',
   HOTEL_IDS_FROM_REGION: 'hotelids',
-  HOTEL_ROOMS_FROM_REGION: 'hotelrooms',
+  HOTEL_ROOMS_FROM_SEARCH_REQUEST: 'hotelroom',
+  HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
 };
 export const REDIS_EXPIRED = {
   '1_MINUTES': 60,

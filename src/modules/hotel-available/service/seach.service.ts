@@ -10,6 +10,7 @@ import {
 import { SearchByHotelIdsDto, SearchByRegionDto } from '../dto';
 import { getBitsArray } from 'src/common';
 import * as _ from 'lodash';
+import { RoomsSearchRequestDto } from 'src/shared/dtos';
 
 @Injectable()
 export class AvailableService {
@@ -19,21 +20,29 @@ export class AvailableService {
   ) {}
 
   async findHotelAvailable(body: SearchByRegionDto) {
-    const activeHotels = await this.findActiveHotelIdsFromRegion(body);
+    const cacheKey = this.buildCacheKey(body);
+    const activeHotels = await this.findActiveHotelIds(body, cacheKey);
     if (!activeHotels.length) {
       return [];
     }
     const hotelIds = await activeHotels.map((h) => h.hotel_id);
-    const hotelRates = await this.getHotelRates(hotelIds);
+    const hotelRates = await this.getHotelRates(hotelIds, cacheKey);
 
     return this.mergeHotelRate(activeHotels, hotelRates);
   }
 
-  async findActiveHotelIdsFromRegion(body: SearchByRegionDto): Promise<any[]> {
-    const maxAdult = body.rooms[0].adult;
-    const maxChildren = body.rooms[0].children;
-    const maxInfant = body.rooms[0].infant;
+  async findActiveHotelIds(
+    body: SearchByRegionDto,
+    cacheKey?: string,
+  ): Promise<any[]> {
+    const { maxAdult, maxChildren, maxInfant } = this.getMaxNumOfPaxes(
+      body.rooms,
+    );
+
+    const numOfRooms = body.rooms.length;
     const binaryAvailRoomCheck = getBitsArray(10, 3);
+    const redisKey = cacheKey || this.buildCacheKey(body);
+
     const handle = async () => {
       const rows = await this.entityManager.query(`
         select 
@@ -57,11 +66,12 @@ export class AvailableService {
           // eslint-disable-next-line camelcase
           room_ids: items.map((i) => i.room_id),
         }))
+        .filter((h) => h.room_ids.length >= numOfRooms)
         .value();
     };
     const hotels = await this.redisService.cachedExecute(
       {
-        key: `${REDIS_KEY.HOTEL_ROOMS_FROM_REGION}:${body.region_id}`,
+        key: `${REDIS_KEY.HOTEL_ROOMS_FROM_SEARCH_REQUEST}:${redisKey}`,
         ttl: REDIS_EXPIRED['1_DAYS'],
       },
       handle,
@@ -115,14 +125,21 @@ export class AvailableService {
 
     return rates;
   }
-  async getHotelRates(hotelIds: string[]) {
-    const hotels = this.entityManager.query(`
-      select 
-        hotel_id,
-        best_price_combination 
-      from hotel h 
-      where h.hotel_id in(${hotelIds.map((id) => `'${id}'`).join(',')})
-        and h.is_deleted = false`);
+  async getHotelRates(hotelIds: string[], cacheKey: string) {
+    const hotels = await this.redisService.cachedExecute(
+      {
+        key: `${REDIS_KEY.HOTEL_RATES_FROM_SEARCH_REQUEST}:${cacheKey}`,
+        ttl: REDIS_EXPIRED['1_DAYS'],
+      },
+      () =>
+        this.entityManager.query(`
+        select 
+          hotel_id,
+          best_price_combination as rooms
+        from hotel h 
+        where h.hotel_id in(${hotelIds.map((id) => `'${id}'`).join(',')})
+          and h.is_deleted = false`),
+    );
 
     return hotels;
   }
@@ -137,7 +154,7 @@ export class AvailableService {
 
     mergedData.forEach((hotel) => {
       // eslint-disable-next-line camelcase
-      let rooms = hotel.best_price_combination.filter((b) =>
+      let rooms = hotel.rooms?.filter((b) =>
         hotel.room_ids.includes(b.room_id),
       );
 
@@ -155,11 +172,34 @@ export class AvailableService {
       });
 
       delete hotel.room_ids;
-      delete hotel.best_price_combination;
+      delete hotel.rooms;
 
       hotel.rooms = rooms;
     });
 
     return mergedData;
+  }
+
+  buildCacheKey(body: SearchByRegionDto): string {
+    let key = `r${body.region_id}`;
+    key += `:i${body.checkin}:${body.checkout}`;
+    body.rooms.forEach((room) => {
+      key += `:p${room.adult}${room.children}${room.infant}`;
+    });
+
+    return key;
+  }
+
+  getMaxNumOfPaxes(rooms: RoomsSearchRequestDto[]) {
+    return rooms.reduce(
+      (maxValues, room) => {
+        return {
+          maxAdult: Math.max(maxValues.maxAdult, room.adult),
+          maxChildren: Math.max(maxValues.maxChildren, room.children),
+          maxInfant: Math.max(maxValues.maxInfant, room.infant),
+        };
+      },
+      { maxAdult: 0, maxChildren: 0, maxInfant: 0 },
+    );
   }
 }

@@ -14,8 +14,7 @@ export class DataCenterService {
   ) {}
 
   async searchByRegion(body: SearchByRegionDto) {
-    const hotels =
-      await this.availableService.findActiveHotelIdsFromRegion(body);
+    const hotels = await this.availableService.findActiveHotelIds(body);
     const hotelIds = hotels.map((h) => h.hotel_id);
 
     return this.elasticSearchService.findHotelByHotelIds(hotelIds);

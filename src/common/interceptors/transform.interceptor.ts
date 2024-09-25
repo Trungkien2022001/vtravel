@@ -21,19 +21,18 @@ export class TransformInterceptor implements NestInterceptor {
         const error = data?.responseError;
         const message = data?.responseMessage || 'Success';
         const code = data?.responseCode;
-        if (data !== null && typeof data === 'object') {
-          delete data.responseStatus;
-          delete data.responseMessage;
-          delete data.responseError;
-          delete data.responseCode;
+        let totalRecords;
+        if (Array.isArray(data)) {
+          totalRecords = data.length;
         }
 
         return {
           status,
           error,
           message,
-          data,
           code,
+          total_records: totalRecords,
+          data,
         };
       }),
     );
