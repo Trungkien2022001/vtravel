@@ -3,3 +3,4 @@ export * from './custom-error.type';
 export * from './dynamic-config.type';
 export * from './error.type';
 export * from './search.type';
+export * from './elasticsearch.type';

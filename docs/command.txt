@@ -2,5 +2,25 @@
 - Create: 
 typeorm migration:create src/core/database/migrations/create-user-table
 2. Docker:
-docker-compose -p core-tuki-service up
+docker-compose -p core-vtravel-service up
 
+
+----- SSL
+docker run --rm \
+-v $(pwd)/certs:/certs \
+-v $(pwd)/certs-data:/certs-data \
+docker.elastic.co/elasticsearch/elasticsearch:8.15.1 \
+bin/elasticsearch-certutil https
+
+
+docker run --rm \
+-v $(pwd)/certs:/certs \
+-v $(pwd)/certs-data:/certs-data \
+docker.elastic.co/elasticsearch/elasticsearch:8.15.1 \
+bin/elasticsearch-certutil http
+
+docker run --rm -it \
+  -v $(pwd)/certs:/certs \
+  -v $(pwd)/certs-data:/certs-data \
+  docker.elastic.co/elasticsearch/elasticsearch:8.15.1 \
+  bin/elasticsearch-certutil http

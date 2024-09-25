@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DevSupportController } from './dev-support.controller';
 import { UserAdminService } from '../user-admin/user-admin.service';
-import { RedisService } from 'src/core';
+import { ElasticsearchModule, RedisService } from 'src/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AgentEntity,
@@ -13,6 +13,7 @@ import { DevSupportService } from './services';
 
 @Module({
   imports: [
+    ElasticsearchModule,
     TypeOrmModule.forFeature([
       AgentEntity,
       UserEntity,

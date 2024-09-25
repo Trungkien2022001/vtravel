@@ -25,41 +25,61 @@ services:
       - zookeeper
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
     container_name: elasticsearch
     environment:
-      - discovery.type=single-node
+      - node.name=es-node
       - cluster.name=${ES_CLUSTER_NAME}
-      - node.name=${ES_NODE_NAME}
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      # - xpack.security.http.ssl.keystore.path=/usr/share/elasticsearch/config/certs/elastic-certificates.p12
+      # - xpack.security.http.ssl.truststore.path=/usr/share/elasticsearch/config/certs/elastic-certificates.p12
+      # - xpack.security.transport.ssl.verification_mode=certificate
+      # - xpack.license.self_generated.type=basic
+      - ELASTIC_PASSWORD=${ES_PASSWORD}
+      - ELASTICSEARCH_USERNAME={ELASTICSEARCH_USERNAME}
       - ES_JAVA_OPTS=${ES_JAVA_OPTS}
     ports:
       - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
       - "${ELASTICSEARCH_TRANSPORT_PORT}:${ELASTICSEARCH_TRANSPORT_PORT}"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+      - ./certs:/usr/share/elasticsearch/config/certs
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
+    image: docker.elastic.co/kibana/kibana:8.15.1
     container_name: kibana
     ports:
       - "${KIBANA_PORT}:${KIBANA_PORT}"
     environment:
-      ELASTICSEARCH_URL: ${ELASTICSEARCH_URL}
+      - ELASTICSEARCH_URL=https://${ELASTICSEARCH_URL}
+      - ELASTICSEARCH_USERNAME={ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ES_PASSWORD}
+      - ELASTICSEARCH_SERVICEACCOUNTTOKEN
+      # - SERVER_SSL_ENABLED=true
+      # - SERVER_SSL_CERTIFICATE=/usr/share/kibana/config/certs/kibana-cert.pem
+      # - SERVER_SSL_KEY=/usr/share/kibana/config/certs/kibana-key.pem
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      # - ./certs:/usr/share/elasticsearch/config/certs
+    networks:
+      - elastic
     depends_on:
       - elasticsearch
-
-  # nginx:
-  #   image: nginx:latest
-  #   container_name: nginx
-  #   ports:
-  #     - "${NGINX_PORT}:80"
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf
 
 volumes:
   esdata:
     driver: local
 
 networks:
-  default:
+  elastic:
     driver: bridge
