@@ -61,7 +61,7 @@ export class SearchController {
   }
 
   @Post('/region')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.SEARCH_BY_REGION)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
@@ -81,7 +81,7 @@ export class SearchController {
   }
 
   @Post('/hotel-ids')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.SEARCH_BY_HOTEL_IDS)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Hotel Ids' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

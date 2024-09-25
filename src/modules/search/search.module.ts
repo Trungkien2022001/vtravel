@@ -28,6 +28,6 @@ import {
     SearchByAirportCodeService,
     SearchByHotelIdsService,
   ],
-  exports: [],
+  exports: [SearchService],
 })
 export class SearchModule {}

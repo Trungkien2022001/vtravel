@@ -12,3 +12,5 @@ export const MAX_INFANT_ALLOWED = 10;
 
 export const AIRPORT_CODE_LENGTH = 3;
 export const MAX_HOTEL_IDS_SEARCH = 50;
+
+export const MAXIMUM_HOTEL_RETUREND = 5000;

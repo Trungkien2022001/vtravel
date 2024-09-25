@@ -2,6 +2,10 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ElasticsearchService as EsService } from '@nestjs/elasticsearch';
 import { TElasticsearchDocumentType } from 'src/shared/types';
 import * as _ from 'lodash';
+import {
+  ELASTICSEARCH_DOCUMENT,
+  MAXIMUM_HOTEL_RETUREND,
+} from 'src/shared/constants';
 
 @Injectable()
 export class ElasticSearchService {
@@ -45,5 +49,25 @@ export class ElasticSearchService {
       }
       Logger.log(idx);
     }
+  }
+
+  async findHotelByHotelIds(hotelIds: string[]) {
+    const hotels = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.HOTEL_INFO,
+      size: MAXIMUM_HOTEL_RETUREND,
+      body: {
+        query: {
+          bool: {
+            filter: {
+              terms: {
+                hotel_id: hotelIds,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return hotels.hits.hits.map((h) => h._source);
   }
 }

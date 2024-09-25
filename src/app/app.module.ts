@@ -14,10 +14,12 @@ import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
 import { UserModule } from 'src/modules/user/agent.module';
 import { SearchModule } from 'src/modules/search/search.module';
 import { DevSupportModule } from 'src/modules/dev-support/dev-support.module';
+import { HotelInfoSearchModule } from 'src/modules/hotel-info-search/hotel-info-search.module';
 
 @Module({
   imports: [
     CoreModule,
+    HotelInfoSearchModule,
     SearchModule,
     AuthModule,
     AuthAdminModule,
