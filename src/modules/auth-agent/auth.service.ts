@@ -28,13 +28,14 @@ export class AuthService {
         key: `${REDIS_KEY.AGENT_LOGIN}:${username}`,
         ttl: REDIS_EXPIRED['1_WEEKS'],
       },
-      this.agentRepository.findOne({
-        where: {
-          username,
-          isDeleted: 0,
-        },
-        select: ['password', 'id'],
-      }),
+      () =>
+        this.agentRepository.findOne({
+          where: {
+            username,
+            isDeleted: 0,
+          },
+          select: ['password', 'id'],
+        }),
     );
 
     if (!user) {

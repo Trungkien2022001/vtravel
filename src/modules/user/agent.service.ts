@@ -70,8 +70,9 @@ export class UserService {
         key: `${REDIS_KEY.AGENT_RESOURCES}:${agentId}`,
         ttl: REDIS_EXPIRED['1_WEEKS'],
       },
-      this.entityManager.query(
-        `SELECT
+      () =>
+        this.entityManager.query(
+          `SELECT
             a.id,
             a.username,
             json_agg(
@@ -93,8 +94,8 @@ export class UserService {
         GROUP BY
             a.id;
         `,
-        [agentId],
-      ),
+          [agentId],
+        ),
     );
     if (!data.length) {
       throw new AppError(AGENT_ERROR.AGENT_NOTFOUND);
