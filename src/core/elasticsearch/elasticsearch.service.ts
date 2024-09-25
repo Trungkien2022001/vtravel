@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ElasticsearchService as EsService } from '@nestjs/elasticsearch';
 import { TElasticsearchDocumentType } from 'src/shared/types';
@@ -56,6 +58,22 @@ export class ElasticSearchService {
       index: ELASTICSEARCH_DOCUMENT.HOTEL_INFO,
       size: MAXIMUM_HOTEL_RETUREND,
       body: {
+        _source: [
+          'hotel_id',
+          'name',
+          'address',
+          'country_code',
+          'city_code',
+          'destrict_code',
+          'street_code',
+          'currency',
+          'rating',
+          'latitude',
+          'longitude',
+          'rank',
+          // 'amenities',
+          'images',
+        ],
         query: {
           bool: {
             filter: {

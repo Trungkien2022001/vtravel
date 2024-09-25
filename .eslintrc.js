@@ -40,7 +40,7 @@ module.exports = {
       {
         selector: 'memberLike', //matches the same as property, parameterProperty, method, accessor, enumMember with type: none
         format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
-        leadingUnderscore: 'forbid',
+        // leadingUnderscore: 'forbid',
       },
       {
         selector: 'typeLike', //matches the same as class, interface, typeAlias, enum, typeParameter ( abstract, unused)
