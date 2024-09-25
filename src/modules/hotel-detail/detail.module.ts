@@ -10,7 +10,7 @@ import {
   UserRoleEntity,
 } from 'src/core/database/entities';
 import { RedisModule } from 'src/core';
-import { AuthModule } from '../auth-agent/auth.module';
+import { AuthModule } from '../agent-auth/auth.module';
 import { UserModule } from '../user/agent.module';
 
 @Module({

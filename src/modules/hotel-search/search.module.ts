@@ -4,7 +4,7 @@ import { SearchService } from './service/seach.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgentEntity, HotelEntity } from 'src/core/database/entities';
 import { HotelMappingModule, RedisModule, RegionMappingModule } from 'src/core';
-import { AuthModule } from '../auth-agent/auth.module';
+import { AuthModule } from '../agent-auth/auth.module';
 import { UserModule } from '../user/agent.module';
 import {
   SearchByAirportCodeService,

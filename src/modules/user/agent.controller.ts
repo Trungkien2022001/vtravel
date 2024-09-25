@@ -19,7 +19,7 @@ import {
   User,
 } from 'src/common/decorators';
 import { DatabaseLoggingInterceptor } from 'src/common';
-import { LoginDto, LoginResponseDto } from '../auth-agent/dto';
+import { LoginDto, LoginResponseDto } from '../agent-auth/dto';
 import { ERoles } from 'src/shared/enums';
 import { AdminRolesGuard } from 'src/common/guards';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';

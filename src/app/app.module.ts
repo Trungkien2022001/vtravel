@@ -7,9 +7,9 @@ import {
   AppMetatadaExceptionFilter,
   ValidationExceptionFilter,
 } from 'src/core/filters';
-import { AuthModule } from 'src/modules/auth-agent/auth.module';
+import { AuthModule } from 'src/modules/agent-auth/auth.module';
 import { CoreModule } from 'src/core/core.module';
-import { AuthAdminModule } from 'src/modules/auth-admin/auth-admin.module';
+import { AuthAdminModule } from 'src/modules/admin-auth/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
 import { UserModule } from 'src/modules/user/agent.module';
 import { SearchModule } from 'src/modules/hotel-search/search.module';
