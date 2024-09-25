@@ -13,6 +13,7 @@ import { AuthAdminModule } from 'src/modules/auth-admin/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
 import { UserModule } from 'src/modules/user/agent.module';
 import { SearchModule } from 'src/modules/search/search.module';
+import { DevSupportModule } from 'src/modules/dev-support/dev-support.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SearchModule } from 'src/modules/search/search.module';
     AuthAdminModule,
     UserAdminModule,
     UserModule,
+    DevSupportModule,
   ],
   controllers: [],
   providers: [
