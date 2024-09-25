@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SearchController } from './search.controller';
-import { SearchService } from './service/seach.service';
+import { AvailableController } from './available.controller';
+import { AvailableService } from './service/seach.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgentEntity, HotelEntity } from 'src/core/database/entities';
 import { HotelMappingModule, RedisModule, RegionMappingModule } from 'src/core';
@@ -21,13 +21,13 @@ import {
     RegionMappingModule,
     HotelMappingModule,
   ],
-  controllers: [SearchController],
+  controllers: [AvailableController],
   providers: [
-    SearchService,
+    AvailableService,
     SearchByRegionService,
     SearchByAirportCodeService,
     SearchByHotelIdsService,
   ],
-  exports: [SearchService],
+  exports: [AvailableService],
 })
-export class SearchModule {}
+export class HotelAvailableModule {}

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ElasticsearchModule, RedisModule } from 'src/core';
-import { HotelInfoSearchController } from './hotel-info-search.controller';
-import { HotelInfoSearchService } from './services';
-import { SearchModule } from '../hotel-search/search.module';
+import { HotelSearchController } from './hotel-search.controller';
+import { HotelSearchService } from './services';
+import { HotelAvailableModule } from '../hotel-available/available.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AgentEntity,
@@ -24,10 +24,10 @@ import { UserService } from '../user/agent.service';
     ]),
     RedisModule,
     ElasticsearchModule,
-    SearchModule,
+    HotelAvailableModule,
   ],
-  controllers: [HotelInfoSearchController],
-  providers: [HotelInfoSearchService, UserService],
-  exports: [HotelInfoSearchService],
+  controllers: [HotelSearchController],
+  providers: [HotelSearchService, UserService],
+  exports: [HotelSearchService],
 })
-export class HotelInfoSearchModule {}
+export class HotelSearchModule {}

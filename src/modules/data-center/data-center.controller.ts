@@ -9,7 +9,7 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
   SeachByRegionResponseDto,
   SearchByRegionDto,
-} from '../hotel-search/dto';
+} from '../hotel-available/dto';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';

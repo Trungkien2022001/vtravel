@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ElasticsearchModule, RedisModule } from 'src/core';
 import { DataCenterController } from './data-center.controller';
 import { DataCenterService } from './services';
-import { SearchModule } from '../hotel-search/search.module';
+import { HotelAvailableModule } from '../hotel-available/available.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AgentEntity,
@@ -24,7 +24,7 @@ import { UserService } from '../user/agent.service';
     ]),
     RedisModule,
     ElasticsearchModule,
-    SearchModule,
+    HotelAvailableModule,
   ],
   controllers: [DataCenterController],
   providers: [DataCenterService, UserService],

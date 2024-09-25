@@ -17,7 +17,7 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   SearchByAirportCodeService,
   SearchByRegionService,
-  SearchService,
+  AvailableService,
   SearchByHotelIdsService,
 } from './service';
 import { DatabaseLoggingInterceptor } from 'src/common';
@@ -32,9 +32,9 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 
 @Controller('v1/search')
 @ApiTags('Search Component')
-export class SearchController {
+export class AvailableController {
   constructor(
-    private readonly searchService: SearchService,
+    private readonly availableService: AvailableService,
     private readonly searchByAirportCodeService: SearchByAirportCodeService,
     private readonly searchByRegionService: SearchByRegionService,
     private readonly searchByHotelIdsService: SearchByHotelIdsService,

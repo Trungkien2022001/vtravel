@@ -12,9 +12,9 @@ import { CoreModule } from 'src/core/core.module';
 import { AuthAdminModule } from 'src/modules/admin-auth/auth-admin.module';
 import { UserAdminModule } from 'src/modules/user-admin/user-admin.module';
 import { UserModule } from 'src/modules/user/agent.module';
-import { SearchModule } from 'src/modules/hotel-search/search.module';
+import { HotelAvailableModule } from 'src/modules/hotel-available/available.module';
 import { DevSupportModule } from 'src/modules/dev-support/dev-support.module';
-import { HotelInfoSearchModule } from 'src/modules/hotel-info-search/hotel-info-search.module';
+import { HotelSearchModule } from 'src/modules/hotel-search/hotel-search.module';
 import { DataCenterModule } from 'src/modules/data-center/data-center.module';
 import { HotelDetailModule } from 'src/modules/hotel-detail/detail.module';
 import { HotelPrebookModule } from 'src/modules/hotel-prebook/prebook.module';
@@ -22,11 +22,11 @@ import { HotelPrebookModule } from 'src/modules/hotel-prebook/prebook.module';
 @Module({
   imports: [
     CoreModule,
-    HotelInfoSearchModule,
+    HotelSearchModule,
     HotelDetailModule,
     HotelPrebookModule,
     DataCenterModule,
-    SearchModule,
+    HotelAvailableModule,
     AuthModule,
     AuthAdminModule,
     UserAdminModule,

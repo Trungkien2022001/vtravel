@@ -12,7 +12,7 @@ import { getBitsArray } from 'src/common';
 import * as _ from 'lodash';
 
 @Injectable()
-export class SearchService {
+export class AvailableService {
   constructor(
     protected readonly entityManager: EntityManager,
     protected readonly redisService: RedisService,

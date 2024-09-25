@@ -1,4 +1,4 @@
-import { SearchService } from './seach.service';
+import { AvailableService } from './seach.service';
 import {
   RedisService,
   RegionMappingService,
@@ -15,14 +15,14 @@ export class SearchByRegionService {
   constructor(
     private readonly entityManager: EntityManager,
     private readonly redisService: RedisService,
-    private readonly searchService: SearchService,
+    private readonly availableService: AvailableService,
     private readonly regionMappingService: RegionMappingService,
     private readonly hotelMappingService: HotelMappingService,
   ) {}
 
   async search(body: SearchByRegionDto) {
     ValidateSearchRequest(body);
-    const hotels = await this.searchService.findHotelAvailable(body);
+    const hotels = await this.availableService.findHotelAvailable(body);
 
     return hotels;
   }

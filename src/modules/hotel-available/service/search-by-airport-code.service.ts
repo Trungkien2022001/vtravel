@@ -1,4 +1,4 @@
-import { SearchService } from './seach.service';
+import { AvailableService } from './seach.service';
 import {
   HotelMappingService,
   RedisService,
@@ -16,7 +16,7 @@ export class SearchByAirportCodeService {
   constructor(
     private readonly entityManager: EntityManager,
     private readonly redisService: RedisService,
-    private readonly searchService: SearchService,
+    private readonly availableService: AvailableService,
     private readonly regionMappingService: RegionMappingService,
     private readonly hotelMappingService: HotelMappingService,
   ) {}
@@ -26,7 +26,7 @@ export class SearchByAirportCodeService {
     const { airport_code: airportCode } = body;
     const regionId =
       await this.regionMappingService.getRegionFromDestination(airportCode);
-    const hotels = await this.searchService.findActiveHotelIdsFromRegion({
+    const hotels = await this.availableService.findActiveHotelIdsFromRegion({
       ...body,
       // eslint-disable-next-line camelcase
       region_id: regionId,
