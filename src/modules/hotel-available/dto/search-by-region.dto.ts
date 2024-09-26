@@ -13,6 +13,6 @@ export class SearchByRegionDto extends BaseSeachRequestDto {
   region_id: string;
 }
 
-class SeachByRegionResponse {}
+class SearchByRegionResponse {}
 
-export class SeachByRegionResponseDto extends BaseAPIResponseDTO<SeachByRegionResponse> {}
+export class SearchByRegionResponseDto extends BaseAPIResponseDTO<SearchByRegionResponse> {}

@@ -1,7 +1,7 @@
 import {
   SeachByAirportCodeResponseDto,
   SeachByHotelIdsResponseDto,
-  SeachByRegionResponseDto,
+  SearchByRegionResponseDto,
   SearchByAirportCodeDto,
   SearchByHotelIdsDto,
   SearchByRegionDto,
@@ -71,7 +71,7 @@ export class AvailableController {
   })
   @ApiResponse({
     status: 200,
-    type: SeachByRegionResponseDto,
+    type: SearchByRegionResponseDto,
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])

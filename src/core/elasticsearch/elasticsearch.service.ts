@@ -6,7 +6,9 @@ import { TElasticsearchDocumentType } from 'src/shared/types';
 import * as _ from 'lodash';
 import {
   ELASTICSEARCH_DOCUMENT,
+  MAXIMUM_ES_SUGGESTED_HOTEL,
   MAXIMUM_HOTEL_RETUREND,
+  MAXIMUM_ES_SUGGESTED_REGION,
 } from 'src/shared/constants';
 
 @Injectable()
@@ -119,6 +121,85 @@ export class ElasticSearchService {
               terms: {
                 room_id: roomIds,
               },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+
+  async getHotelsFromName(text: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.HOTEL_INFO,
+      size: MAXIMUM_ES_SUGGESTED_HOTEL,
+      body: {
+        _source: ['hotel_id', 'name', 'address', 'country_code'],
+        query: {
+          match_phrase: {
+            name: text,
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+  async getRegionsFromName(text: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.REGION,
+      size: MAXIMUM_ES_SUGGESTED_REGION,
+      body: {
+        _source: [
+          'region_id',
+          'region_name',
+          'region_name_full',
+          'country',
+          'region_type',
+        ],
+        query: {
+          bool: {
+            must: {
+              match_phrase: {
+                region_name: text,
+              },
+            },
+            must_not: {
+              terms: {
+                region_type: [
+                  'point_of_interest',
+                  'neighborhood',
+                  'metro_station',
+                  'train_station',
+                ],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+
+  async getSmartRegionsFromName(text: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.REGION,
+      size: MAXIMUM_ES_SUGGESTED_REGION,
+      body: {
+        _source: [
+          'region_id',
+          'region_name',
+          'region_name_full',
+          'country',
+          'region_type',
+        ],
+        query: {
+          match: {
+            region_name: {
+              query: text,
+              fuzziness: 'AUTO',
             },
           },
         },
