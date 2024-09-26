@@ -7,7 +7,7 @@ import {
 import { HotelSearchService } from './services/hotel-search.service';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
-  SeachByRegionResponseDto,
+  SearchByRegionResponseDto,
   SearchByRegionDto,
 } from '../hotel-available/dto';
 import { ERoles } from 'src/shared/enums';
@@ -29,7 +29,7 @@ export class HotelSearchController {
   })
   @ApiResponse({
     status: 200,
-    type: SeachByRegionResponseDto,
+    type: SearchByRegionResponseDto,
   })
   @StandardAPIErrorResponse()
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-VERSION', 'X-LANG')

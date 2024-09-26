@@ -14,3 +14,6 @@ export const AIRPORT_CODE_LENGTH = 3;
 export const MAX_HOTEL_IDS_SEARCH = 50;
 
 export const MAXIMUM_HOTEL_RETUREND = 5000;
+
+export const MAXIMUM_ES_SUGGESTED_HOTEL = 100;
+export const MAXIMUM_ES_SUGGESTED_REGION = 10;

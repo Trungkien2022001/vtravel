@@ -6,30 +6,31 @@ import {
 } from 'src/common/decorators';
 import { DataCenterService } from './services/data-center.service';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import {
-  SeachByRegionResponseDto,
-  SearchByRegionDto,
-} from '../hotel-available/dto';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  HotelPlaceholderSuggestedDto,
+  HotelPlaceholderSuggestedResponseDto,
+} from './dtos';
 
-@Controller('v1/hotel-info-search')
+@Controller('v1/data-center')
+@ApiTags('Data Center Component')
 export class DataCenterController {
-  constructor(private readonly DataCenterService: DataCenterService) {}
+  constructor(private readonly dataCenterService: DataCenterService) {}
 
-  @Post('region')
+  @Post('hotel-placeholder-suggested')
   @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: 'Search by Region Id' })
+  @ApiOperation({ summary: 'Get Hotel Suggest Place Holder' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
-    type: SearchByRegionDto,
+    type: HotelPlaceholderSuggestedDto,
     required: true,
   })
   @ApiResponse({
     status: 200,
-    type: SeachByRegionResponseDto,
+    type: HotelPlaceholderSuggestedResponseDto,
   })
   @StandardAPIErrorResponse()
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-VERSION', 'X-LANG')
@@ -39,7 +40,7 @@ export class DataCenterController {
     'INVALID_TOKEN',
     'TOKEN_EXPIRED',
   ])
-  searchByRegion(@Body() body: SearchByRegionDto) {
-    return this.DataCenterService.searchByRegion(body);
+  searchByRegion(@Body() body: HotelPlaceholderSuggestedDto) {
+    return this.dataCenterService.getHotelPlaceHolderSuggested(body.text);
   }
 }

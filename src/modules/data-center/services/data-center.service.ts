@@ -4,6 +4,7 @@ import { ElasticSearchService, RedisService } from 'src/core';
 import { Injectable } from '@nestjs/common';
 import { SearchByRegionDto } from 'src/modules/hotel-available/dto';
 import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
+import * as unidecode from 'unidecode';
 
 @Injectable()
 export class DataCenterService {
@@ -64,5 +65,17 @@ export class DataCenterService {
     );
 
     return rates;
+  }
+  async getHotelPlaceHolderSuggested(text: string) {
+    const queryPhrase = unidecode(text);
+    const [hotels, regions] = await Promise.all([
+      await this.elasticSearchService.getHotelsFromName(queryPhrase),
+      await this.elasticSearchService.getRegionsFromName(queryPhrase),
+    ]);
+
+    return {
+      regions,
+      hotels,
+    };
   }
 }
