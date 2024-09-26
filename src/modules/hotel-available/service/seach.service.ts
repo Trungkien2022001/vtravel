@@ -8,7 +8,11 @@ import {
   REDIS_KEY,
 } from 'src/shared/constants';
 import { SearchByHotelIdsDto, SearchByRegionDto } from '../dto';
-import { getBitsArray } from 'src/common';
+import {
+  buildRegionSearchCacheKey,
+  getBitsArray,
+  getMaxNumOfPaxes,
+} from 'src/common';
 import * as _ from 'lodash';
 import { RoomsSearchRequestDto } from 'src/shared/dtos';
 
@@ -20,7 +24,7 @@ export class AvailableService {
   ) {}
 
   async findHotelAvailable(body: SearchByRegionDto) {
-    const cacheKey = this.buildCacheKey(body);
+    const cacheKey = buildRegionSearchCacheKey(body);
     const activeHotels = await this.findActiveHotelIds(body, cacheKey);
     if (!activeHotels.length) {
       return [];
@@ -35,13 +39,11 @@ export class AvailableService {
     body: SearchByRegionDto,
     cacheKey?: string,
   ): Promise<any[]> {
-    const { maxAdult, maxChildren, maxInfant } = this.getMaxNumOfPaxes(
-      body.rooms,
-    );
+    const { maxAdult, maxChildren, maxInfant } = getMaxNumOfPaxes(body.rooms);
 
     const numOfRooms = body.rooms.length;
     const binaryAvailRoomCheck = getBitsArray(10, 3);
-    const redisKey = cacheKey || this.buildCacheKey(body);
+    const redisKey = cacheKey || buildRegionSearchCacheKey(body);
 
     const handle = async () => {
       const rows = await this.entityManager.query(`
@@ -179,28 +181,5 @@ export class AvailableService {
     });
 
     return mergedData;
-  }
-
-  buildCacheKey(body: SearchByRegionDto): string {
-    let key = `r${body.region_id}`;
-    key += `:i${body.checkin}:${body.checkout}`;
-    body.rooms.forEach((room) => {
-      key += `:p${room.adult}${room.children}${room.infant}`;
-    });
-
-    return key;
-  }
-
-  getMaxNumOfPaxes(rooms: RoomsSearchRequestDto[]) {
-    return rooms.reduce(
-      (maxValues, room) => {
-        return {
-          maxAdult: Math.max(maxValues.maxAdult, room.adult),
-          maxChildren: Math.max(maxValues.maxChildren, room.children),
-          maxInfant: Math.max(maxValues.maxInfant, room.infant),
-        };
-      },
-      { maxAdult: 0, maxChildren: 0, maxInfant: 0 },
-    );
   }
 }

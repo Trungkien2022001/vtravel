@@ -88,4 +88,43 @@ export class ElasticSearchService {
 
     return hotels.hits.hits.map((h) => h._source);
   }
+  async getHotelInfo(hotelId: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.HOTEL_INFO,
+      size: MAXIMUM_HOTEL_RETUREND,
+      body: {
+        query: {
+          bool: {
+            filter: {
+              term: {
+                hotel_id: hotelId,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits[0]._source;
+  }
+
+  async getRoomsInfo(roomIds: string[]) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.ROOM_INFO,
+      size: MAXIMUM_HOTEL_RETUREND,
+      body: {
+        query: {
+          bool: {
+            filter: {
+              terms: {
+                room_id: roomIds,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
 }

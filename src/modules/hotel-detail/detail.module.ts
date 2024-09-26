@@ -9,9 +9,10 @@ import {
   UserEntity,
   UserRoleEntity,
 } from 'src/core/database/entities';
-import { RedisModule } from 'src/core';
+import { ElasticsearchModule, RedisModule } from 'src/core';
 import { AuthModule } from '../agent-auth/auth.module';
 import { UserModule } from '../user/agent.module';
+import { HotelAvailableModule } from '../hotel-available/available.module';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import { UserModule } from '../user/agent.module';
     RedisModule,
     AuthModule,
     UserModule,
+    HotelAvailableModule,
+    ElasticsearchModule,
   ],
   controllers: [HotelDetailController],
   providers: [HotelDetailService],

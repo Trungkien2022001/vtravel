@@ -6,6 +6,7 @@ export const REDIS_KEY = {
   DESTINATION_TO_REGION: 'dest2region',
   HOTEL_IDS_FROM_REGION: 'hotelids',
   HOTEL_ROOMS_FROM_SEARCH_REQUEST: 'hotelroom',
+  HOTEL_AVAIL_RATE: 'availrate',
   HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
   CURRENCY: 'currency',
   CURRENCIES: 'currencies',
