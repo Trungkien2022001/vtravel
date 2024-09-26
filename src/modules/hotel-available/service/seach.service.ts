@@ -175,6 +175,7 @@ export class AvailableService {
       delete hotel.rooms;
 
       hotel.rooms = rooms;
+      hotel.currency = rooms[0].currency || DEFAULT_CURRENCY;
     });
 
     return mergedData;

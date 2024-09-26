@@ -12,6 +12,7 @@ import {
   UserRoleEntity,
 } from 'src/core/database/entities';
 import { UserService } from '../user/agent.service';
+import { DataCenterModule } from '../data-center/data-center.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserService } from '../user/agent.service';
     RedisModule,
     ElasticsearchModule,
     HotelAvailableModule,
+    DataCenterModule,
   ],
   controllers: [HotelSearchController],
   providers: [HotelSearchService, UserService],

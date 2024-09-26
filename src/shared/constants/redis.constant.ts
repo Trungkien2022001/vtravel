@@ -7,6 +7,8 @@ export const REDIS_KEY = {
   HOTEL_IDS_FROM_REGION: 'hotelids',
   HOTEL_ROOMS_FROM_SEARCH_REQUEST: 'hotelroom',
   HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
+  CURRENCY: 'currency',
+  CURRENCIES: 'currencies',
 };
 export const REDIS_EXPIRED = {
   '1_MINUTES': 60,

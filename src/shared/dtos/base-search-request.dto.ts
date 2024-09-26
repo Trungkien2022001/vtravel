@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   ArrayMinSize,
+  IsNotEmpty,
   IsNumber,
   IsString,
   Max,
@@ -87,4 +88,13 @@ export class BaseSeachRequestDto {
     example: '2026-02-22',
   })
   checkout: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    description: 'Currency',
+    example: 'VND',
+  })
+  currency: string;
 }

@@ -4,6 +4,8 @@ import { EntityManager } from 'typeorm';
 import { ElasticSearchService, RedisService } from 'src/core';
 import { Injectable } from '@nestjs/common';
 import { SearchByRegionDto } from 'src/modules/hotel-available/dto';
+import { DataCenterService } from 'src/modules/data-center';
+import * as _ from 'lodash';
 
 @Injectable()
 export class HotelSearchService {
@@ -12,36 +14,60 @@ export class HotelSearchService {
     private readonly redisService: RedisService,
     private readonly entityManager: EntityManager,
     private readonly availableService: AvailableService,
+    private readonly dataCenterService: DataCenterService,
   ) {}
 
   async searchByRegion(body: SearchByRegionDto) {
+    const currency = body.currency;
+    const numOfRooms = body.rooms.length;
     const hotels = await this.availableService.findHotelAvailable(body);
+    const hotelCurrencies = _.uniq(hotels.map((hotel) => hotel.currency));
+    const currencyRates = await this.dataCenterService.getConvertCurrencies(
+      currency,
+      hotelCurrencies,
+    );
     const hotelIds = hotels.map((h) => h.hotel_id);
 
     const hotelsInfo =
       await this.elasticSearchService.findHotelByHotelIds(hotelIds);
-    const rateMaps = this.getBestRoomRate(hotels);
+    const rateMaps = this.getBestRoomRate(
+      hotels,
+      numOfRooms,
+      currencyRates,
+      currency,
+    );
 
     return hotelsInfo.map((hotel: any) => ({
       ...hotel,
       // amenities: hotel.amenities?.map((amenity) => amenity.name),
       rating: hotel.rating?.rating,
-      cover_image:
-        'https://i.travelapi.com/lodging/1000000/30000/26800/26769/92f0a687_z.jpg',
+      images:
+        (hotel.images && hotel.images.length && hotel.images[0].urls) || [],
       total_price: rateMaps[hotel.hotel_id].total_price,
       price_currency: rateMaps[hotel.hotel_id].currency,
     }));
   }
 
-  getBestRoomRate(hotels: any[]) {
+  getBestRoomRate(
+    hotels: any[],
+    numOfRooms: number,
+    currencyRates: any,
+    destCurrency: string,
+  ) {
     const objHotels = {};
     for (let idx = 0; idx < hotels.length; idx++) {
       const hotel = hotels[idx];
       const hotelId: string = hotel.hotel_id;
       const bestRoomRate = hotel.rooms[0];
+      const currency = bestRoomRate.currency;
+      const exchangeRate = currencyRates[`${currency}${destCurrency}`] || 1;
+      const bestPriceForSingleRoom = bestRoomRate.total_price * exchangeRate;
+      // const totalPrice = hotel.rooms
+      //   .slice(0, numOfRooms)
+      //   .reduce((sum, hotel) => sum + hotel.total_price, 0);
       objHotels[hotelId] = {
-        total_price: bestRoomRate.total_price,
-        currency: bestRoomRate.currency,
+        total_price: bestPriceForSingleRoom * numOfRooms,
+        currency: destCurrency,
       };
     }
 
