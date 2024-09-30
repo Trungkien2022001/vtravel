@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsString } from 'class-validator';
 import { MAX_HOTEL_IDS_SEARCH } from 'src/shared/constants';
-import { BaseAPIResponseDTO, BaseSeachRequestDto } from 'src/shared/dtos';
+import { BaseAPIResponseDTO, BaseHotelSeachRequestDto } from 'src/shared/dtos';
 
-export class SearchByHotelIdsDto extends BaseSeachRequestDto {
+export class SearchByHotelIdsDto extends BaseHotelSeachRequestDto {
   @IsArray()
   @IsString({ each: true })
   @ArrayMinSize(1)

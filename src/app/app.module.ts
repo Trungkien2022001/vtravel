@@ -18,20 +18,22 @@ import { HotelSearchModule } from 'src/modules/hotel-search/hotel-search.module'
 import { DataCenterModule } from 'src/modules/data-center/data-center.module';
 import { HotelDetailModule } from 'src/modules/hotel-detail/detail.module';
 import { HotelPrebookModule } from 'src/modules/hotel-prebook/prebook.module';
+import { TourSearchModule } from 'src/modules/tour-search/tour-search.module';
 
 @Module({
   imports: [
     CoreModule,
+    TourSearchModule,
     HotelSearchModule,
     HotelDetailModule,
     HotelPrebookModule,
-    DataCenterModule,
     HotelAvailableModule,
+    DataCenterModule,
     AuthModule,
+    DevSupportModule,
     AuthAdminModule,
     UserAdminModule,
     UserModule,
-    DevSupportModule,
   ],
   controllers: [],
   providers: [

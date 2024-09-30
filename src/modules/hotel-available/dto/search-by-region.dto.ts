@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { BaseAPIResponseDTO, BaseSeachRequestDto } from 'src/shared/dtos';
+import { BaseAPIResponseDTO, BaseHotelSeachRequestDto } from 'src/shared/dtos';
 
-export class SearchByRegionDto extends BaseSeachRequestDto {
+export class SearchByRegionDto extends BaseHotelSeachRequestDto {
   @IsString()
   @ApiProperty({
     type: String,

@@ -1,8 +1,8 @@
-import { BaseSeachRequestDto } from 'src/shared/dtos';
+import { BaseHotelSeachRequestDto } from 'src/shared/dtos';
 import * as moment from 'moment';
 import { AppError } from '../errors';
 import { DEFAULT_DATE_FORMAT, SEARCH_ERROR } from 'src/shared/constants';
-export function ValidateSearchRequest(req: BaseSeachRequestDto): void {
+export function ValidateSearchRequest(req: BaseHotelSeachRequestDto): void {
   if (
     moment(req.checkin, DEFAULT_DATE_FORMAT).isBefore(moment().startOf('day'))
   ) {

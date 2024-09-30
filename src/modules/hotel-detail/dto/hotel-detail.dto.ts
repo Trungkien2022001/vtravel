@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { BaseAPIResponseDTO, BaseSeachRequestDto } from 'src/shared/dtos';
+import { BaseAPIResponseDTO, BaseHotelSeachRequestDto } from 'src/shared/dtos';
 
-export class HotelDetailDto extends BaseSeachRequestDto {
+export class HotelDetailDto extends BaseHotelSeachRequestDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({

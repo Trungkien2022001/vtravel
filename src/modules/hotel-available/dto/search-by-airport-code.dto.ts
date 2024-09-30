@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length } from 'class-validator';
 import { AIRPORT_CODE_LENGTH } from 'src/shared/constants';
-import { BaseAPIResponseDTO, BaseSeachRequestDto } from 'src/shared/dtos';
+import { BaseAPIResponseDTO, BaseHotelSeachRequestDto } from 'src/shared/dtos';
 
-export class SearchByAirportCodeDto extends BaseSeachRequestDto {
+export class SearchByAirportCodeDto extends BaseHotelSeachRequestDto {
   @IsString()
   @Length(AIRPORT_CODE_LENGTH)
   @ApiProperty({

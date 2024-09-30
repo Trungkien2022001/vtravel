@@ -17,3 +17,5 @@ export const MAXIMUM_HOTEL_RETUREND = 5000;
 
 export const MAXIMUM_ES_SUGGESTED_HOTEL = 100;
 export const MAXIMUM_ES_SUGGESTED_REGION = 10;
+
+export const MAX_TOUR_DURATION = 10;
