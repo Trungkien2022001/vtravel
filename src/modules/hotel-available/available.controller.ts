@@ -30,8 +30,8 @@ import {
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 
-@Controller('v1/search')
-@ApiTags('Search Component')
+@Controller('v1/hotel/available')
+@ApiTags('Hotel Availability Only Component')
 export class AvailableController {
   constructor(
     private readonly availableService: AvailableService,
@@ -41,7 +41,7 @@ export class AvailableController {
   ) {}
 
   @Post('/airport-code')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Airport Code' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
@@ -61,7 +61,7 @@ export class AvailableController {
   }
 
   @Post('/region')
-  @Roles(ERoles.SEARCH_BY_REGION)
+  @Roles(ERoles.HOTEL_SEARCH_BY_REGION)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
@@ -81,7 +81,7 @@ export class AvailableController {
   }
 
   @Post('/hotel-ids')
-  @Roles(ERoles.SEARCH_BY_HOTEL_IDS)
+  @Roles(ERoles.HOTEL_SEARCH_BY_HOTEL_IDS)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Hotel Ids' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

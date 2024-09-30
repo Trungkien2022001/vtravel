@@ -20,7 +20,7 @@ export class DataCenterController {
   constructor(private readonly dataCenterService: DataCenterService) {}
 
   @Post('hotel-placeholder-suggested')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Get Hotel Suggest Place Holder' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

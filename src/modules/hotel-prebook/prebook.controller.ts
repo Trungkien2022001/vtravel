@@ -17,13 +17,13 @@ import {
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 
-@Controller('v1/hotel-detail')
-@ApiTags('Hotel Detail Component')
+@Controller('v1/hotel/prebook')
+@ApiTags('Hotel Prebook Component')
 export class HotelPrebookController {
   constructor(private readonly HotelPrebookService: HotelPrebookService) {}
 
   @Post('/airport-code')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: '' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

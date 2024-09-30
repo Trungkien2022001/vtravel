@@ -12,14 +12,15 @@ import {
 } from '../hotel-available/dto';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('v1/hotel-info-search')
+@Controller('v1/hotel/search')
+@ApiTags('Hotel Search Component')
 export class HotelSearchController {
   constructor(private readonly HotelSearchService: HotelSearchService) {}
 
   @Post('region')
-  @Roles(ERoles.SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
