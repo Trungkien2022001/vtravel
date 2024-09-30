@@ -52,11 +52,18 @@ export class DevSupportService {
     await this.elasticSearchService.bulk('region', data);
   }
 
-  async bulkInsertRRoomslElasticseach() {
+  async bulkInsertRoomslElasticseach() {
     const data = await this.entityManager.query(`
       SELECT * FROM room_info
       `);
 
     await this.elasticSearchService.bulk('room_info', data);
+  }
+  async bulkInsertTourslElasticseach() {
+    const data = await this.entityManager.query(`
+      SELECT * FROM tour_info
+      `);
+
+    await this.elasticSearchService.bulk('tour_info', data);
   }
 }

@@ -1,3 +1,33 @@
+UPDATE tour
+SET 
+    minimum_pax = tr_data.minimum_pax,
+    best_price_combination = tr_data.best_price_combination
+FROM (
+    SELECT 
+        tr.tour_id,
+        tr.minimum_pax,
+        jsonb_agg(json_build_object(
+            'available_times', tr.available_times,
+            'rate_detail', tr.rate_detail,
+            'name', tr.name,
+            'full_rate', tr.full_rate,
+            'cancellation_policies', tr.cancellation_policies,
+            'extra_adult', tr.extra_adult,
+            'extra_children', tr.extra_children
+        )) AS best_price_combination
+    FROM (
+        SELECT
+            tr2.tour_id,
+            MIN(full_rate) AS full_rate
+        FROM tour_rate tr2
+        GROUP BY tr2.tour_id
+    ) tr2
+    INNER JOIN tour_rate tr ON tr.tour_id = tr2.tour_id AND tr.full_rate = tr2.full_rate
+    WHERE tr.is_active = true
+    GROUP BY tr.tour_id, tr.minimum_pax
+) AS tr_data
+WHERE tour.tour_id = tr_data.tour_id;
+-- 
 insert into hotel (hotel_id, best_price_combination)
 SELECT 
     rr.hotel_id,

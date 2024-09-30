@@ -9,6 +9,7 @@ import {
   MAXIMUM_ES_SUGGESTED_HOTEL,
   MAXIMUM_HOTEL_RETUREND,
   MAXIMUM_ES_SUGGESTED_REGION,
+  MAXIMUM_TOUR_RETUREND,
 } from 'src/shared/constants';
 
 @Injectable()
@@ -35,7 +36,7 @@ export class ElasticSearchService {
   }
   async bulk(index: TElasticsearchDocumentType, data: any) {
     const cnk = _.chunk(data, 50);
-    Logger.log(`Total record: ${data.lLength}, Total chunk: ${cnk.length}`);
+    Logger.log(`Total record: ${data.length}, Total chunk: ${cnk.length}`);
     for (let idx = 0; idx < cnk.length; idx++) {
       const list = cnk[idx];
       try {
@@ -122,6 +123,36 @@ export class ElasticSearchService {
                 room_id: roomIds,
               },
             },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+
+  async getToursInfo(tourIds: string[]) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.TOUR_INFO,
+      size: MAXIMUM_TOUR_RETUREND,
+      body: {
+        _source: [
+          'id',
+          'name',
+          'descriptions',
+          'duration',
+          'passport_require',
+          'description',
+        ],
+        query: {
+          bool: {
+            filter: [
+              {
+                terms: {
+                  'id.keyword': tourIds,
+                },
+              },
+            ],
           },
         },
       },

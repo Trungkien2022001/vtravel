@@ -19,6 +19,7 @@ import { DataCenterModule } from 'src/modules/data-center/data-center.module';
 import { HotelDetailModule } from 'src/modules/hotel-detail/detail.module';
 import { HotelPrebookModule } from 'src/modules/hotel-prebook/prebook.module';
 import { TourSearchModule } from 'src/modules/tour-search/tour-search.module';
+import { CurrencyModule } from 'src/modules/currency/currency.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { TourSearchModule } from 'src/modules/tour-search/tour-search.module';
     AuthAdminModule,
     UserAdminModule,
     UserModule,
+    CurrencyModule,
   ],
   controllers: [],
   providers: [

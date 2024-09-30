@@ -33,7 +33,14 @@ export class DevSupportController {
   @Post('elasticsearch/bulk/room')
   @Roles(ERoles.SUPER_ADMIN)
   @UseGuards(AdminRolesGuard)
-  bulkRRoomsElasticsearch() {
-    return this.devSupportService.bulkInsertRRoomslElasticseach();
+  bulkRoomsElasticsearch() {
+    return this.devSupportService.bulkInsertRoomslElasticseach();
+  }
+
+  @Post('elasticsearch/bulk/tour')
+  @Roles(ERoles.SUPER_ADMIN)
+  @UseGuards(AdminRolesGuard)
+  bulkToursElasticsearch() {
+    return this.devSupportService.bulkInsertTourslElasticseach();
   }
 }

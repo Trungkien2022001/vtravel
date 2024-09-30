@@ -18,6 +18,6 @@ export class TourSearchbyRegionService {
   ) {}
 
   async searchByRegion(body: TourSearchByRegionDto) {
-    await this.tourSearchService.search(body);
+    return await this.tourSearchService.search(body);
   }
 }
