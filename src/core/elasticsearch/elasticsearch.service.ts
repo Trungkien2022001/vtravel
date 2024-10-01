@@ -10,6 +10,7 @@ import {
   MAXIMUM_HOTEL_RETUREND,
   MAXIMUM_ES_SUGGESTED_REGION,
   MAXIMUM_TOUR_RETUREND,
+  MAXIMUM_VEHICLE_RETUREND,
 } from 'src/shared/constants';
 
 @Injectable()
@@ -159,6 +160,55 @@ export class ElasticSearchService {
     });
 
     return rows.hits.hits.map((h) => h._source);
+  }
+
+  async getVehicleInfo(vehicleId: string): Promise<any> {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.VEHICLE_INFO,
+      body: {
+        query: {
+          bool: {
+            filter: {
+              term: {
+                id: vehicleId,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits[0]._source;
+  }
+
+  async getVehiclesInfo(vehicleIds: string[]) {
+    const hotels = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.VEHICLE_INFO,
+      size: MAXIMUM_VEHICLE_RETUREND,
+      body: {
+        _source: [
+          'id',
+          'name',
+          'type',
+          'country_code',
+          'city_code',
+          'region_id',
+          'description',
+          'currency',
+        ],
+        query: {
+          bool: {
+            filter: {
+              terms: {
+                id: vehicleIds,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return hotels.hits.hits.map((h) => h._source);
   }
   async getTourInfo(tourId: string): Promise<any> {
     const result = await this.elasticsearchService.search({

@@ -3,4 +3,5 @@ export const ELASTICSEARCH_DOCUMENT = {
   ROOM_INFO: 'room_info',
   REGION: 'region',
   TOUR_INFO: 'tour_info',
+  VEHICLE_INFO: 'vehicle_info',
 } as const;

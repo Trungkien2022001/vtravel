@@ -8,6 +8,7 @@ export const REDIS_KEY = {
   HOTEL_ROOMS_FROM_SEARCH_REQUEST: 'hotelroom',
   HOTEL_AVAIL_RATE: 'hotelavailrate',
   TOUR_AVAIL_RATE: 'touravailrate',
+  VEHICLE_AVAIL_RATE: 'vehicleavailrate',
   HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
   CURRENCY: 'currency',
   CURRENCIES: 'currencies',

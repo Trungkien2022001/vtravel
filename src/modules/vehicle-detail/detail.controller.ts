@@ -18,15 +18,15 @@ import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { VehicleDetailDto, VehicleDetailResponseDto } from './dto';
 
-@Controller('v1/tour/detail')
-@ApiTags('Tour Detail Component')
+@Controller('v1/vehicle/detail')
+@ApiTags('Vehicle Detail Component')
 export class VehicleDetailController {
   constructor(private readonly VehicleDetailService: VehicleDetailService) {}
 
   @Post('')
   @Roles(ERoles.TOUR_DETAIL)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: 'Get Tour Detail' })
+  @ApiOperation({ summary: 'Get Vehicle Detail' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
     type: VehicleDetailDto,

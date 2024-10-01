@@ -23,61 +23,77 @@ export class VehicleDetailService {
   ) {}
 
   async getVehicleDetail(body: VehicleDetailDto) {
-    await this.checkAvailableTour(body);
-    const tourRates = await this.findAllRate(body);
-    const tourInfo = await this.elasticSearchService.getTourInfo(body.tour_id);
+    const vehicleRates = await this.findAllRate(body);
+    const vehicleInfo = await this.elasticSearchService.getVehicleInfo(
+      body.vehicle_id,
+    );
 
     return {
-      ...tourInfo,
-      rate: tourRates,
+      ...vehicleInfo,
+      rate: vehicleRates,
     };
   }
 
   async checkAvailableTour(body: VehicleDetailDto) {
     let additionalConditional = '';
-    const numOfPax = body.adult + body.children + body.infant;
 
     const diffDays = moment(body.checkin, DEFAULT_DATE_FORMAT).diff(
       moment(APPLICATION_STARTED_DATE),
       'days',
     );
     for (let index = 0; index <= body.duration; index++) {
-      additionalConditional += ` and  tc2.availability[${diffDays + index}] > 0 \n`;
+      additionalConditional += ` and  vc.availability[${diffDays + index}] > 0 \n`;
     }
 
-    const avaiTours = await this.entityManager.query(`
+    const avaiVehicles = await this.entityManager.query(`
       select 
-        tc2.tour_id
-      from tour_control tc2 
-      where tc2.tour_id = '${body.tour_id}'
-        and tc2.duration <= ${body.duration}
-        and tc2.minimum_pax <= ${numOfPax}
-            ${additionalConditional}
+        vc.vehicle_id, 
+        vc.airport_code ,
+        vc.country_code ,
+        vr.rate,
+        vr.cancellation_policies,
+        vr.refunable
+      from vehicle_control vc 
+      inner join vehicle_rate vr on vc.id = vr.vehicle_id 
+      where vc.vehicle_id = '${body.vehicle_id}'
+      and vc.max_duration >= ${body.duration}
+          ${additionalConditional}
       `);
-    if (!avaiTours.length) {
-      throw new AppError(SEARCH_ERROR.TOUR_NOT_AVAILABLE_WITH_THAT_CONDITIONAL);
+
+    if (!avaiVehicles.length) {
+      throw new AppError(
+        SEARCH_ERROR.VEHICLE_NOT_AVAILABLE_WITH_THAT_CONDITIONAL,
+      );
     }
+
+    return avaiVehicles[0];
   }
 
   async findAllRate(body: VehicleDetailDto) {
     const redisKey = buildVehicleDetailCacheKey(body);
-    const numOfPax = body.adult + body.children + body.infant;
+    let additionalConditional = '';
+
+    const diffDays = moment(body.checkin, DEFAULT_DATE_FORMAT).diff(
+      moment(APPLICATION_STARTED_DATE),
+      'days',
+    );
+    for (let index = 0; index <= body.duration; index++) {
+      additionalConditional += ` and  vc.availability[${diffDays + index}] > 0 \n`;
+    }
     const handle = async () => {
       const rows = await this.entityManager.query(`
-        select 
-          id,
-          tour_id,
-          rate_detail,
-          cancellation_policies,
-          name,
-          full_rate ,
-          currency 
-        from tour_rate tr 
-        where 
-          tr.tour_id = '${body.tour_id}'
-          and tr.minimum_pax  <= ${numOfPax}
-          and tr.maximum_pax  >= ${numOfPax}
-          and tr.is_active = true
+         select 
+          vc.vehicle_id, 
+          vc.airport_code ,
+          vc.country_code ,
+          vr.rate,
+          vr.cancellation_policies,
+          vr.refunable
+        from vehicle_control vc 
+        inner join vehicle_rate vr on vc.id = vr.vehicle_id 
+        where vc.vehicle_id = '${body.vehicle_id}'
+        and vc.max_duration >= ${body.duration}
+            ${additionalConditional}
     `);
 
       // const tours = _(rows)
@@ -89,6 +105,11 @@ export class VehicleDetailService {
       //     rate_ids: items,
       //   }))
       //   .value();
+      if (!rows.length) {
+        throw new AppError(
+          SEARCH_ERROR.VEHICLE_NOT_AVAILABLE_WITH_THAT_CONDITIONAL,
+        );
+      }
 
       return rows[0];
     };
@@ -102,6 +123,4 @@ export class VehicleDetailService {
 
     return hotels;
   }
-
-  mergeRoomInfo(roomsInfo: any[], rates: any[]) {}
 }

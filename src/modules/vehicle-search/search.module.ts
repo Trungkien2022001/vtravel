@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ElasticsearchModule, RedisModule } from 'src/core';
-import { VehicleSearchController } from './tour-search.controller';
+import { VehicleSearchController } from './search.controller';
 import { VehicleSearchbyRegionService, VehicleSearchService } from './services';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {

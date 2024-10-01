@@ -7,11 +7,11 @@ export class VehicleDetailDto extends BaseTourSearchRequestDto {
   @IsNotEmpty()
   @ApiProperty({
     type: String,
-    description: 'Tour ID',
+    description: 'Vehicle ID',
     example: '1234',
   })
   // eslint-disable-next-line camelcase
-  tour_id: string;
+  vehicle_id: string;
 }
 
 class VehicleDetailResponse {}

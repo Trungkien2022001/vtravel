@@ -1,6 +1,7 @@
 import { SearchByRegionDto } from 'src/modules/hotel-available/dto';
 import { HotelDetailDto } from 'src/modules/hotel-detail/dto';
 import { TourDetailDto } from 'src/modules/tour-detail/dto';
+import { VehicleDetailDto } from 'src/modules/vehicle-detail/dto';
 
 export function buildRegionSearchCacheKey(body: SearchByRegionDto): string {
   let key = `r${body.region_id}`;
@@ -30,8 +31,8 @@ export function buildTourDetailCacheKey(body: TourDetailDto): string {
   return key;
 }
 
-export function buildVehicleDetailCacheKey(body: TourDetailDto): string {
-  let key = `h${body.tour_id}`;
+export function buildVehicleDetailCacheKey(body: VehicleDetailDto): string {
+  let key = `h${body.vehicle_id}`;
   key += `:i${body.checkin}`;
   key += `:p${body.adult}${body.children}${body.infant}`;
 

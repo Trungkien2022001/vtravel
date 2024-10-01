@@ -1,8 +1,8 @@
 {
   "name": "vtravel",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "VTralvel TMS - Travel Management System",
+  "author": "nguyenkien2022001@gmail.com",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

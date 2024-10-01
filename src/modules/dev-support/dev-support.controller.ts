@@ -43,4 +43,11 @@ export class DevSupportController {
   bulkToursElasticsearch() {
     return this.devSupportService.bulkInsertTourslElasticseach();
   }
+
+  @Post('elasticsearch/bulk/vehicle')
+  @Roles(ERoles.SUPER_ADMIN)
+  @UseGuards(AdminRolesGuard)
+  bulkVehiclesElasticsearch() {
+    return this.devSupportService.bulkInsertVehicleslElasticseach();
+  }
 }

@@ -24,30 +24,28 @@ export class VehicleSearchService {
 
   async search(body: VehicleSearchByRegionDto) {
     const {
-      adult: numOfAdult,
-      children: numOfChildrend,
-      infant: numOfInfant,
+      // adult: numOfAdult,
+      // children: numOfChildrend,
+      // infant: numOfInfant,
       currency,
       checkin,
       region_id: regionId,
       duration,
     } = body;
-    const numOfPax = numOfAdult + numOfChildrend + numOfInfant;
-    const availTous = await this.getAvailTours({
+    const vehicleRates = await this.getAvailVehicles({
       checkin,
       duration,
       regionId,
-      numOfPax,
     });
-    const tourRates = await this.transFromBasicRates(availTous, currency);
-    const tourBasicInformation = await this.getBasicTourInfo(
-      tourRates.map((t) => t.id),
+    const rates = await this.transFromBasicRates(vehicleRates, currency);
+    const vehicleBasicInformation = await this.getBasicVehicleInfo(
+      vehicleRates.map((t) => t.vehicle_id),
     );
 
-    return this.mergeTourRateInfo(tourRates, tourBasicInformation);
+    return this.mergeVehicleRateInfo(rates, vehicleBasicInformation);
   }
 
-  async getAvailTours({ checkin, duration, regionId, numOfPax }) {
+  async getAvailVehicles({ checkin, duration, regionId }) {
     let additionalConditional = '';
 
     const diffDays = moment(checkin, DEFAULT_DATE_FORMAT).diff(
@@ -55,65 +53,62 @@ export class VehicleSearchService {
       'days',
     );
     for (let index = 0; index <= duration; index++) {
-      additionalConditional += ` and  tc2.availability[${diffDays + index}] > 0 \n`;
+      additionalConditional += ` and  vc.availability[${diffDays + index}] > 0 \n`;
     }
 
-    const avaiTours = await this.entityManager.query(`
+    const avaiVehicles = await this.entityManager.query(`
       select 
-        t.tour_id ,
-        t.country_code ,
-        t.city_code ,
-        t.region_id,
-        t.best_price_combination
-      from tour t 
-      inner join tour_control tc2 on tc2.tour_id = t.tour_id 
-      where t.region_id = '${regionId}'
-        and tc2.duration <= ${duration}
-        and tc2.minimum_pax <= ${numOfPax}
-            ${additionalConditional}
+        vc.vehicle_id, 
+        vc.airport_code ,
+        vc.country_code ,
+        vr.rate,
+        vr.cancellation_policies,
+        vr.refunable
+      from vehicle_control vc 
+      inner join vehicle_rate vr on vc.id = vr.vehicle_id 
+      where vc.region_id = '${regionId}'
+      and vc.max_duration >= ${duration}
+          ${additionalConditional}
       `);
 
-    return avaiTours;
+    return avaiVehicles;
   }
 
-  async transFromBasicRates(availTours: any[], currency: string) {
+  async transFromBasicRates(vehicleRates: any[], currency: string) {
     const exchangeRate = await this.currencyService.getExchangeRate(currency);
-    const tourRates = [];
-    for (let index = 0; index < availTours.length; index++) {
-      const tour = availTours[index];
-      const rate = tour.best_price_combination[0];
+    const rates = [];
+    for (let index = 0; index < vehicleRates.length; index++) {
+      const vehicle = vehicleRates[index];
+      const rate = vehicle.rate[0];
       if (!rate) {
         continue;
       }
-      const price = exchangeRate * rate.full_rate;
-      tourRates.push({
-        id: tour.tour_id,
-        region_id: tour.region_id,
-        country_code: tour.country_code,
-        city_code: tour.city_code,
-        rate_name: rate.name,
-        nonrefunable: !rate.cancellation_policies,
+      const price = exchangeRate * rate.VehiclePrice;
+      rates.push({
+        id: vehicle.vehicle_id,
+        rate_name: rate.Id,
+        refunable: vehicle.refunable,
         currency,
         price,
       });
     }
 
-    return tourRates;
+    return rates;
   }
 
-  async getBasicTourInfo(tourIds: string[]) {
-    return this.elasticSearchService.getToursInfo(tourIds);
+  async getBasicVehicleInfo(vehicleIds: string[]) {
+    return this.elasticSearchService.getVehiclesInfo(vehicleIds);
   }
 
-  async mergeTourRateInfo(toursRate: any[], toursInfo: any[]) {
+  async mergeVehicleRateInfo(rates: any[], informations: any[]) {
     const objRate = {};
-    toursRate.map((rate) => {
+    rates.map((rate) => {
       objRate[rate.id] = rate;
     });
 
-    return toursInfo.map((tour) => ({
-      ...tour,
-      ...objRate[tour.id],
+    return informations.map((vehicle) => ({
+      ...vehicle,
+      ...objRate[vehicle.id],
     }));
   }
 }

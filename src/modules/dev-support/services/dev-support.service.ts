@@ -66,4 +66,11 @@ export class DevSupportService {
 
     await this.elasticSearchService.bulk('tour_info', data);
   }
+  async bulkInsertVehicleslElasticseach() {
+    const data = await this.entityManager.query(`
+      SELECT * FROM vehicle_info
+      `);
+
+    await this.elasticSearchService.bulk('vehicle_info', data);
+  }
 }

@@ -20,8 +20,8 @@ import { VehicleSearchbyRegionService } from './services';
 import { VehicleSearchbyAirportCodeService } from './services/search-by-airport-code.service';
 import { VehicleSearchbyIdService } from './services/search-by-id.service';
 
-@Controller('v1/tour/search')
-@ApiTags('Tour Search Component')
+@Controller('v1/vehicle/search')
+@ApiTags('Vehicle Search Component')
 export class VehicleSearchController {
   constructor(
     private readonly VehicleSearchByRegionService: VehicleSearchbyRegionService,
@@ -30,9 +30,9 @@ export class VehicleSearchController {
   ) {}
 
   @Post('region')
-  @Roles(ERoles.TOUR_SEARCH_BY_REGION)
+  @Roles(ERoles.VEHICLE_SEARCH_BY_REGION)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: 'Tour Search by Region Id' })
+  @ApiOperation({ summary: 'Vehicle Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
     type: VehicleSearchByRegionDto,
@@ -55,7 +55,7 @@ export class VehicleSearchController {
   }
 
   @Post('airport-code')
-  @Roles(ERoles.TOUR_SEARCH_BY_AIRPORT_CODE)
+  @Roles(ERoles.VEHICLE_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Tour Search by Airport Code' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
@@ -80,7 +80,7 @@ export class VehicleSearchController {
   }
 
   @Post('id')
-  @Roles(ERoles.TOUR_SEARCH_BY_IDS)
+  @Roles(ERoles.VEHICLE_SEARCH_BY_IDS)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Tour Search by  Ids' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
