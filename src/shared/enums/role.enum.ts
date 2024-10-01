@@ -12,7 +12,5 @@ export enum ERoles {
   TOUR_SEARCH_BY_AIRPORT_CODE = 'tour_search_by_airport_code',
   TOUR_SEARCH_BY_REGION = 'tour_search_by_region',
   TOUR_SEARCH_BY_IDS = 'tour_search_by_ids',
-  TOUR_INFO_SEARCH_BY_REGION = 'tour_info_search_by_region',
-  TOUR_INFO_SEARCH_BY_CITY = 'tour_info_search_by_city',
-  TOUR_INFO_SEARCH_BY_STREET = 'tour_info_search_by_street',
+  TOUR_DETAIL = 'tour_detail',
 }

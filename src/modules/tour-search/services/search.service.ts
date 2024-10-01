@@ -37,8 +37,6 @@ export class TourSearchService {
       checkin,
       duration,
       regionId,
-      numOfAdult,
-      numOfChildrend,
       numOfPax,
     });
     const tourRates = await this.transFromBasicRates(availTous, currency);
@@ -49,14 +47,7 @@ export class TourSearchService {
     return this.mergeTourRateInfo(tourRates, tourBasicInformation);
   }
 
-  async getAvailTours({
-    checkin,
-    duration,
-    regionId,
-    numOfAdult,
-    numOfChildrend,
-    numOfPax,
-  }) {
+  async getAvailTours({ checkin, duration, regionId, numOfPax }) {
     let additionalConditional = '';
 
     const diffDays = moment(checkin, DEFAULT_DATE_FORMAT).diff(
@@ -77,8 +68,6 @@ export class TourSearchService {
       from tour t 
       inner join tour_control tc2 on tc2.tour_id = t.tour_id 
       where t.region_id = '${regionId}'
-        and tc2.max_adult >= ${numOfAdult}
-        and tc2.max_children >= ${numOfChildrend}
         and tc2.duration <= ${duration}
         and tc2.minimum_pax <= ${numOfPax}
             ${additionalConditional}

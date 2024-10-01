@@ -160,6 +160,26 @@ export class ElasticSearchService {
 
     return rows.hits.hits.map((h) => h._source);
   }
+  async getTourInfo(tourId: string): Promise<any> {
+    const result = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.TOUR_INFO,
+      body: {
+        query: {
+          bool: {
+            filter: [
+              {
+                term: {
+                  'id.keyword': tourId,
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+
+    return result.hits.hits[0]?._source || null;
+  }
 
   async getHotelsFromName(text: string) {
     const rows = await this.elasticsearchService.search({
