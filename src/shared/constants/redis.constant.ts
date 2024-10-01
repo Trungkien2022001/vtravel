@@ -12,6 +12,7 @@ export const REDIS_KEY = {
   HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
   CURRENCY: 'currency',
   CURRENCIES: 'currencies',
+  INSURANCE: 'insurance',
 };
 export const REDIS_EXPIRED = {
   '1_MINUTES': 60,

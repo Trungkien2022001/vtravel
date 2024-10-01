@@ -16,4 +16,5 @@ export enum ERoles {
   VEHICLE_SEARCH_BY_REGION = 'vehicle_search_by_region',
   VEHICLE_SEARCH_BY_IDS = 'vehicle_search_by_ids',
   TOUR_DETAIL = 'tour_detail',
+  BASIC_INSURANCE_RATE = 'basic_insurance_rate',
 }

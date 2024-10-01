@@ -23,10 +23,12 @@ import { CurrencyModule } from 'src/modules/currency/currency.module';
 import { TourDetailModule } from 'src/modules/tour-detail/detail.module';
 import { VehicleSearchModule } from 'src/modules/vehicle-search/search.module';
 import { VehicleDetailModule } from 'src/modules/vehicle-detail/detail.module';
+import { InsuranceModule } from 'src/modules/insurance/insurance.module';
 
 @Module({
   imports: [
     CoreModule,
+    InsuranceModule,
     VehicleDetailModule,
     VehicleSearchModule,
     TourDetailModule,

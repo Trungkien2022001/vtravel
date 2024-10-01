@@ -144,6 +144,7 @@ export class ElasticSearchService {
           'duration',
           'passport_require',
           'description',
+          'images',
         ],
         query: {
           bool: {
@@ -195,6 +196,7 @@ export class ElasticSearchService {
           'region_id',
           'description',
           'currency',
+          'images',
         ],
         query: {
           bool: {
