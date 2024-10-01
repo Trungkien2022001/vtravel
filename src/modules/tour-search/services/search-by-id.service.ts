@@ -4,11 +4,11 @@ import { ElasticSearchService, RedisService } from 'src/core';
 import { Injectable } from '@nestjs/common';
 import { DataCenterService } from 'src/modules/data-center';
 import * as _ from 'lodash';
-import { TourSearchByRegionDto } from '../dto';
+import { TourSearchByIdDto } from '../dto';
 import { TourSearchService } from './search.service';
 
 @Injectable()
-export class TourSearchbyRegionService {
+export class TourSearchbyIdService {
   constructor(
     private readonly elasticSearchService: ElasticSearchService,
     private readonly redisService: RedisService,
@@ -17,7 +17,7 @@ export class TourSearchbyRegionService {
     private readonly dataCenterService: DataCenterService,
   ) {}
 
-  async search(body: TourSearchByRegionDto) {
-    return await this.tourSearchService.search(body);
+  async search(body: TourSearchByIdDto) {
+    // return await this.tourSearchService.search(body);
   }
 }
