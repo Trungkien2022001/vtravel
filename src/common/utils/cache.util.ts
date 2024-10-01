@@ -29,3 +29,11 @@ export function buildTourDetailCacheKey(body: TourDetailDto): string {
 
   return key;
 }
+
+export function buildVehicleDetailCacheKey(body: TourDetailDto): string {
+  let key = `h${body.tour_id}`;
+  key += `:i${body.checkin}`;
+  key += `:p${body.adult}${body.children}${body.infant}`;
+
+  return key;
+}
