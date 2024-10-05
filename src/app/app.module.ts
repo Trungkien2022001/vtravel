@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import {
   UnexpectedExceptionFilter,
   AppDataExceptionFilter,
@@ -24,6 +24,7 @@ import { TourDetailModule } from 'src/modules/tour-detail/detail.module';
 import { VehicleSearchModule } from 'src/modules/vehicle-search/search.module';
 import { VehicleDetailModule } from 'src/modules/vehicle-detail/detail.module';
 import { InsuranceModule } from 'src/modules/insurance/insurance.module';
+import { DatabaseLoggingInterceptor } from 'src/common';
 
 @Module({
   imports: [
@@ -66,6 +67,10 @@ import { InsuranceModule } from 'src/modules/insurance/insurance.module';
     {
       provide: APP_FILTER,
       useClass: AppMetatadaExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DatabaseLoggingInterceptor,
     },
   ],
 })
