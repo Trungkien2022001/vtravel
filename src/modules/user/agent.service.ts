@@ -73,26 +73,30 @@ export class UserService {
       () =>
         this.entityManager.query(
           `SELECT
-            a.id,
-            a.username,
-            json_agg(
-                json_build_object(
-                    'id', r.id,
-                    'name', r."name"
-                )
-            ) AS roles
-        FROM
-            "agent" a
-        INNER JOIN
-            agent_resource ar ON a.id = ar.agent_id
-        INNER JOIN
-            "resource" r ON r.id = ar.resource_id
-        WHERE
-            a.id = $1
-            and ar.is_deleted = false
-            and r.is_deleted = false
-        GROUP BY
-            a.id;
+              a.id,
+              a.username,
+              json_agg(
+                  json_build_object(
+                      'id', r.id,
+                      'name', r."name"
+                  )
+              ) AS roles,
+              a.ip_checked,
+              array_agg(DISTINCT aiw.ip) AS whitelist_ips
+          FROM
+              "agent" a
+          INNER JOIN
+              agent_resource ar ON a.id = ar.agent_id
+          INNER JOIN
+              "resource" r ON r.id = ar.resource_id
+          INNER JOIN
+              agent_ip_whitelist aiw ON aiw.agent_id = a.id AND aiw.is_deleted = false
+          WHERE
+              a.id = $1
+              AND ar.is_deleted = false
+              AND r.is_deleted = false
+          GROUP BY
+              a.id;
         `,
           [agentId],
         ),

@@ -15,6 +15,7 @@ import {
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AgentIpWhitelistGuard } from 'src/common/guards';
 
 @Controller('v1/hotel/search')
 @ApiTags('Hotel Search Component')
@@ -23,7 +24,7 @@ export class HotelSearchController {
 
   @Post('region')
   @Roles(ERoles.HOTEL_SEARCH_BY_REGION)
-  @UseGuards(AgentRolesGuard)
+  @UseGuards(AgentRolesGuard, AgentIpWhitelistGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
