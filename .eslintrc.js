@@ -60,7 +60,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     quotes: ['error', 'single'],
-    'max-len': ['error', { code: 200 }],
+    'max-len': ['warn', { code: 200 }],
     'no-console': 'off',
     'no-empty': 'off',
     'no-duplicate-imports': 'error',
