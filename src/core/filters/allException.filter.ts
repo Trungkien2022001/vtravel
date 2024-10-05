@@ -10,13 +10,13 @@ import * as i18n from 'i18n';
 import { Connection } from 'typeorm';
 import { EStandardError } from 'src/shared/enums';
 import { ERROR } from 'src/shared/constants';
-import { ActionLogs } from '../database/entities';
+import { ErrorLogs } from '../database/entities';
 
 @Catch()
 export class UnexpectedExceptionFilter implements ExceptionFilter {
   constructor(
-    // @InjectRepository(ActionLogs)
-    // private readonly actionLogsRepo: ActionLogsRepository
+    // @InjectRepository(ErrorLogs)
+    // private readonly ErrorLogsRepo: ErrorLogsRepository
     private readonly connection: Connection,
   ) {}
 
@@ -40,23 +40,22 @@ export class UnexpectedExceptionFilter implements ExceptionFilter {
     );
     Logger.error(request.body);
 
-    const actionLog = new ActionLogs();
-    actionLog.clientIp = request.ip;
-    actionLog.path = request.url;
-    actionLog.matchedRoute = request.originalUrl;
-    actionLog.user = request.user ? JSON.stringify(request.user) : 'Anonymous';
-    actionLog.method = request.method;
-    actionLog.status = response.statusCode || 200;
-    actionLog.request = JSON.stringify({
+    const errorLog = new ErrorLogs();
+    errorLog.clientIp = request.ip;
+    errorLog.path = request.url;
+    errorLog.matchedRoute = request.originalUrl;
+    errorLog.user = request.user ? JSON.stringify(request.user) : 'Anonymous';
+    errorLog.method = request.method;
+    errorLog.status = response.statusCode || 200;
+    errorLog.request = JSON.stringify({
       body: request.body,
       params: request.params,
     });
-    actionLog.header = JSON.stringify(request.headers);
-    actionLog.error = exception.stack;
-    actionLog.errorCode =
-      exception.code || EStandardError.INTERNAL_SERVER_ERROR;
+    errorLog.header = JSON.stringify(request.headers);
+    errorLog.error = exception.stack;
+    errorLog.errorCode = exception.code || EStandardError.INTERNAL_SERVER_ERROR;
 
-    this.connection.getRepository(ActionLogs).save(actionLog);
+    this.connection.getRepository(ErrorLogs).save(errorLog);
 
     if (httpStatus === 401) {
       return response.status(HttpStatus.UNAUTHORIZED).send({

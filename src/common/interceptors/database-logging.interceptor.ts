@@ -25,7 +25,7 @@ export class DatabaseLoggingInterceptor implements NestInterceptor {
         actionLog.path = url;
         actionLog.matchedRoute = originalUrl;
         actionLog.clientIp = ip;
-        actionLog.user = request.user?.username || 'Anonymous';
+        actionLog.user = request.user?.id || 'Anonymous';
         actionLog.method = method;
         actionLog.header = JSON.stringify(request.headers);
         actionLog.status = response?.statusCode || 200;

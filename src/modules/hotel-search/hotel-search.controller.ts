@@ -5,7 +5,13 @@ import {
   StandardApiHeaders,
 } from 'src/common/decorators';
 import { HotelSearchService } from './services/hotel-search.service';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   SearchByRegionResponseDto,
   SearchByRegionDto,
@@ -16,6 +22,7 @@ import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AgentIpWhitelistGuard } from 'src/common/guards';
+import { DatabaseLoggingInterceptor } from 'src/common';
 
 @Controller('v1/hotel/search')
 @ApiTags('Hotel Search Component')
@@ -24,6 +31,7 @@ export class HotelSearchController {
 
   @Post('region')
   @Roles(ERoles.HOTEL_SEARCH_BY_REGION)
+  @UseInterceptors(DatabaseLoggingInterceptor)
   @UseGuards(AgentRolesGuard, AgentIpWhitelistGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

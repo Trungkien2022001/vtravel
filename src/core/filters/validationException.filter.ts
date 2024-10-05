@@ -9,7 +9,7 @@ import {
 import { ValidationError } from 'class-validator';
 import * as i18n from 'i18n';
 import { Connection } from 'typeorm';
-import { ActionLogs } from '../database/entities';
+import { ErrorLogs } from '../database/entities';
 import { ERROR } from 'src/shared/constants';
 
 function collectValidationErrors(exception: any): any {
@@ -61,22 +61,22 @@ export class ValidationExceptionFilter implements ExceptionFilter {
 
     // tslint:disable-next-line:forin
 
-    const actionLog = new ActionLogs();
-    actionLog.clientIp = request.ip;
-    actionLog.path = request.url;
-    actionLog.matchedRoute = request.originalUrl;
-    actionLog.user = request.user ? JSON.stringify(request.user) : 'Anonymous';
-    actionLog.method = request.method;
-    actionLog.status = response.statusCode || 200;
-    actionLog.request = JSON.stringify({
+    const errorLog = new ErrorLogs();
+    errorLog.clientIp = request.ip;
+    errorLog.path = request.url;
+    errorLog.matchedRoute = request.originalUrl;
+    errorLog.user = request.user ? JSON.stringify(request.user) : 'Anonymous';
+    errorLog.method = request.method;
+    errorLog.status = response.statusCode || 200;
+    errorLog.request = JSON.stringify({
       body: request.body,
       params: request.params,
     });
-    actionLog.header = JSON.stringify(request.headers);
-    actionLog.error = errorMessage; // Giả sử 'msg' là biến chứa thông tin lỗi
-    actionLog.errorCode = ERROR.VALIDATION_ERROR;
+    errorLog.header = JSON.stringify(request.headers);
+    errorLog.error = errorMessage; // Giả sử 'msg' là biến chứa thông tin lỗi
+    errorLog.errorCode = ERROR.VALIDATION_ERROR;
 
-    this.connection.getRepository(ActionLogs).save(actionLog);
+    this.connection.getRepository(ErrorLogs).save(errorLog);
 
     const errTitle = i18n.__({
       phrase: ERROR.VALIDATION_ERROR,

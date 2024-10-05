@@ -8,3 +8,4 @@ export * from './resource.entity';
 export * from './hotel.entity';
 export * from './airport.entity';
 export * from './destination-region-mapping';
+export * from './error-log.entity';
