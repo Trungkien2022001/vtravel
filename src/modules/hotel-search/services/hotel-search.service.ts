@@ -29,6 +29,9 @@ export class HotelSearchService {
     const currency = body.currency;
     const numOfRooms = body.rooms.length;
     const hotels = await this.availableService.findHotelAvailable(body);
+    if (!hotels.length) {
+      return [];
+    }
     const hotelCurrencies = _.uniq(hotels.map((hotel) => hotel.currency));
     const currencyRates = await this.dataCenterService.getConvertCurrencies(
       currency,

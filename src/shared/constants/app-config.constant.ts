@@ -1,5 +1,5 @@
 export const MIN_ROOM_ALLOWED = 1;
-export const MAX_ROOM_ALLOWED = 4;
+export const MAX_ROOM_ALLOWED = 5;
 
 export const MIN_ADULT_ALLOWED = 1;
 export const MAX_ADULT_ALLOWED = 10;
