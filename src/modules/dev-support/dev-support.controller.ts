@@ -30,6 +30,14 @@ export class DevSupportController {
   bulkRegionElasticsearch() {
     return this.devSupportService.bulkInsertRegionslElasticseach();
   }
+
+  @Post('elasticsearch/bulk/airport')
+  @Roles(ERoles.SUPER_ADMIN)
+  @UseGuards(AdminRolesGuard)
+  bulkAirportElasticsearch() {
+    return this.devSupportService.bulkInsertAirportslElasticseach();
+  }
+
   @Post('elasticsearch/bulk/room')
   @Roles(ERoles.SUPER_ADMIN)
   @UseGuards(AdminRolesGuard)

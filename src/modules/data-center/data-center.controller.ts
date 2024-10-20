@@ -13,6 +13,10 @@ import {
   HotelPlaceholderSuggestedDto,
   HotelPlaceholderSuggestedResponseDto,
 } from './dtos';
+import {
+  ParentRegionDto,
+  ParentRegionResponseDto,
+} from './dtos/parent-reigon.dto';
 
 @Controller('v1/data-center')
 @ApiTags('Data Center Component')
@@ -42,5 +46,30 @@ export class DataCenterController {
   ])
   searchByRegion(@Body() body: HotelPlaceholderSuggestedDto) {
     return this.dataCenterService.getHotelPlaceHolderSuggested(body.text);
+  }
+
+  @Post('parent-region')
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Get Parent Region' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: ParentRegionDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: ParentRegionResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-VERSION', 'X-LANG')
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse([
+    'FORBIDDEN_TO_ACCESS',
+    'INVALID_TOKEN',
+    'TOKEN_EXPIRED',
+  ])
+  getParentRegion(@Body() body: ParentRegionDto) {
+    return this.dataCenterService.getParentRegion(body.region_id);
   }
 }

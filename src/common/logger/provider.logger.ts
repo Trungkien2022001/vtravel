@@ -1,7 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { FlightSearchDto } from 'src/modules/flight-available/dto';
-import { ALLOW_SAVE_PROVIDER_LOG, ProductType } from 'src/shared/constants';
-// import { Connection } from 'typeorm';
+import { ALLOW_SAVE_PROVIDER_LOG } from 'src/shared/constants';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENT_EMITTERS } from 'src/shared/constants/event-emitter.constant';
 import { IProviderLog } from 'src/shared';

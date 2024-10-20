@@ -13,7 +13,7 @@ import {
 } from './database/entities';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventEmitterHandlerModule } from './event-emitter';
-import { ProviderLogger } from 'src/common/logger/provider.logger';
+import { ProviderLogger } from 'src/common/logger';
 
 const providers: Provider[] = [
   ApiConfigService,

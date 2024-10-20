@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchByRegionDto } from 'src/modules/hotel-available/dto';
 import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
 import * as unidecode from 'unidecode';
+import { tryParseJson } from 'src/common';
 
 @Injectable()
 export class DataCenterService {
@@ -20,6 +21,25 @@ export class DataCenterService {
     const hotelIds = hotels.map((h) => h.hotel_id);
 
     return this.elasticSearchService.findHotelByHotelIds(hotelIds);
+  }
+
+  async getParentRegion(regionId: string) {
+    const esData: any[] =
+      await this.elasticSearchService.findRegionById(regionId);
+    if (!esData.length) {
+      return [];
+    }
+    const ancestorRegions = tryParseJson(esData[0].ancestors);
+    const priorityOrder = ['city', 'multi_city_vicinity', 'province_state'];
+
+    for (const type of priorityOrder) {
+      const region = ancestorRegions?.find((item) => item.type === type);
+      if (region) {
+        return region;
+      }
+    }
+
+    return [];
   }
 
   async getConvertCurrency(c1: string, c2: string) {
@@ -68,16 +88,19 @@ export class DataCenterService {
   }
   async getHotelPlaceHolderSuggested(text: string) {
     const queryPhrase = unidecode(text);
-    const [hotels, regions] = await Promise.all([
+    const [airports, hotels, regions] = await Promise.all([
+      await this.elasticSearchService.getAirportsFromName(queryPhrase),
       await this.elasticSearchService.getHotelsFromName(queryPhrase),
       await this.elasticSearchService.getRegionsFromName(queryPhrase),
     ]);
 
     return {
       statistic: {
+        airports: airports.length,
         regions: regions.length,
         hotels: hotels.length,
       },
+      airports,
       regions,
       hotels,
     };

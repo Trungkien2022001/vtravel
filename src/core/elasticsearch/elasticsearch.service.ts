@@ -249,6 +249,34 @@ export class ElasticSearchService {
 
     return rows.hits.hits.map((h) => h._source);
   }
+
+  async getAirportsFromName(text: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.AIRPORT,
+      body: {
+        _source: [
+          'airport_code',
+          'airport_name',
+          'latitude',
+          'longitude',
+          'region_id',
+          'region_name_full',
+          'country_code',
+        ],
+        query: {
+          bool: {
+            should: [
+              { match_phrase: { airport_code: text } },
+              { match_phrase: { airport_name: text } },
+            ],
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+
   async getRegionsFromName(text: string) {
     const rows = await this.elasticsearchService.search({
       index: ELASTICSEARCH_DOCUMENT.REGION,
@@ -270,12 +298,34 @@ export class ElasticSearchService {
             },
             must_not: {
               terms: {
-                region_type: [
-                  'point_of_interest',
-                  'neighborhood',
-                  'metro_station',
-                  'train_station',
-                ],
+                region_type: ['neighborhood', 'continent', 'country'],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+  async findRegionById(regionId: string) {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.REGION,
+      size: MAXIMUM_ES_SUGGESTED_REGION,
+      body: {
+        _source: [
+          'region_id',
+          'region_name',
+          'region_name_full',
+          'country',
+          'region_type',
+          'ancestors',
+        ],
+        query: {
+          bool: {
+            must: {
+              term: {
+                region_id: regionId,
               },
             },
           },

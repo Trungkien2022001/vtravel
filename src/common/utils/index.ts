@@ -7,3 +7,4 @@ export * from './pax.util';
 export * from './cache.util';
 export * from './ip-whitelist.util';
 export * from './uuid.util';
+export * from './json.util';

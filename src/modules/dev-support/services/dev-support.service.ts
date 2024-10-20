@@ -52,6 +52,14 @@ export class DevSupportService {
     await this.elasticSearchService.bulk('region', data);
   }
 
+  async bulkInsertAirportslElasticseach() {
+    const data = await this.entityManager.query(`
+      SELECT * FROM airport where region_id is not null
+      `);
+
+    await this.elasticSearchService.bulk('airport', data);
+  }
+
   async bulkInsertRoomslElasticseach() {
     const data = await this.entityManager.query(`
       SELECT * FROM room_info

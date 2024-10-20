@@ -6,8 +6,7 @@ import * as crypto from 'crypto';
 import { FlightProvider, FlightSession } from 'src/shared';
 import { FLIGHT_AMADEUS_CONFIG } from 'src/shared/constants';
 import { HttpService } from '@nestjs/axios';
-import { ProviderLogger } from 'src/common/logger/provider.logger';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ProviderLogger } from 'src/common/logger';
 
 @Injectable()
 export class HelperService {
