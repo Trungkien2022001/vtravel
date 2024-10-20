@@ -6,6 +6,7 @@ export const REDIS_KEY = {
   DESTINATION_TO_REGION: 'dest2region',
   HOTEL_IDS_FROM_REGION: 'hotelids',
   HOTEL_ROOMS_FROM_SEARCH_REQUEST: 'hotelroom',
+  ES_HOTELS_INFO: 'es_hotels',
   HOTEL_AVAIL_RATE: 'hotelavailrate',
   TOUR_AVAIL_RATE: 'touravailrate',
   VEHICLE_AVAIL_RATE: 'vehicleavailrate',
@@ -13,6 +14,10 @@ export const REDIS_KEY = {
   CURRENCY: 'currency',
   CURRENCIES: 'currencies',
   INSURANCE: 'insurance',
+  PROVIDER: {
+    HOTEL: 'provider:hotel',
+    FLIGHT: 'provider:flight',
+  },
 };
 export const REDIS_EXPIRED = {
   '1_MINUTES': 60,

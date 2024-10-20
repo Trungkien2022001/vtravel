@@ -31,27 +31,27 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn'],
     '@typescript-eslint/restrict-template-expressions': ['warn'],
 
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        selector: 'variableLike', // matches the same as variable, function and parameter
-        format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
-      },
-      {
-        selector: 'memberLike', //matches the same as property, parameterProperty, method, accessor, enumMember with type: none
-        format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
-        // leadingUnderscore: 'forbid',
-      },
-      {
-        selector: 'typeLike', //matches the same as class, interface, typeAlias, enum, typeParameter ( abstract, unused)
-        format: ['PascalCase', 'UPPER_CASE'],
-      },
-      {
-        selector: 'property', // classProperty, objectLiteralProperty, typeProperty with type types: boolean, string, number, function, array
-        modifiers: ['readonly'],
-        format: ['PascalCase', 'camelCase', 'UPPER_CASE', 'snake_case'],
-      },
-    ],
+    // '@typescript-eslint/naming-convention': [
+    //   'error',
+    //   {
+    //     selector: 'variableLike', // matches the same as variable, function and parameter
+    //     format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
+    //   },
+    //   {
+    //     selector: 'memberLike', //matches the same as property, parameterProperty, method, accessor, enumMember with type: none
+    //     format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'],
+    //     // leadingUnderscore: 'forbid',
+    //   },
+    //   {
+    //     selector: 'typeLike', //matches the same as class, interface, typeAlias, enum, typeParameter ( abstract, unused)
+    //     format: ['PascalCase', 'UPPER_CASE'],
+    //   },
+    //   {
+    //     selector: 'property', // classProperty, objectLiteralProperty, typeProperty with type types: boolean, string, number, function, array
+    //     modifiers: ['readonly'],
+    //     format: ['PascalCase', 'camelCase', 'UPPER_CASE', 'snake_case'],
+    //   },
+    // ],
     '@typescript-eslint/no-redeclare': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'warn',
     '@typescript-eslint/interface-name-prefix': 'off',

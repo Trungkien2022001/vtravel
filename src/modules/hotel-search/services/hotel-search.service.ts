@@ -6,13 +6,15 @@ import {
   RedisService,
   RegionMappingService,
 } from 'src/core';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   SearchByAirportCodeDto,
   SearchByRegionDto,
 } from 'src/modules/hotel-available/dto';
 import { DataCenterService } from 'src/modules/data-center';
 import * as _ from 'lodash';
+import { buildRegionSearchCacheKey } from 'src/common';
+import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
 
 @Injectable()
 export class HotelSearchService {
@@ -28,6 +30,7 @@ export class HotelSearchService {
   async searchByRegion(body: SearchByRegionDto) {
     const currency = body.currency;
     const numOfRooms = body.rooms.length;
+    const cacheKey = buildRegionSearchCacheKey(body);
     const hotels = await this.availableService.findHotelAvailable(body);
     if (!hotels.length) {
       return [];
@@ -39,6 +42,12 @@ export class HotelSearchService {
     );
     const hotelIds = hotels.map((h) => h.hotel_id);
 
+    // const hotelsInfo = await this.redisService.cachedExecute(
+    //   {
+    //     key: `${REDIS_KEY.ES_HOTELS_INFO}:${cacheKey}`,
+    //     ttl: REDIS_EXPIRED['1_DAYS'],
+    //   },
+    // );
     const hotelsInfo =
       await this.elasticSearchService.findHotelByHotelIds(hotelIds);
     const rateMaps = this.getBestRoomRate(
@@ -77,6 +86,7 @@ export class HotelSearchService {
 
     const hotelsInfo =
       await this.elasticSearchService.findHotelByHotelIds(hotelIds);
+    Logger.log(hotelsInfo.length);
     const rateMaps = this.getBestRoomRate(
       hotels,
       numOfRooms,

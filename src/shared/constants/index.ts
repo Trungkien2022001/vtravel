@@ -7,3 +7,4 @@ export * from './datetime-format.constant';
 export * from './search-error.constant';
 export * from './search.constant';
 export * from './elasticsearch.constant';
+export * from './flight.constant';

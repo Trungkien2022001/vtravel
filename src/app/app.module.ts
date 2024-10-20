@@ -25,10 +25,12 @@ import { VehicleSearchModule } from 'src/modules/vehicle-search/search.module';
 import { VehicleDetailModule } from 'src/modules/vehicle-detail/detail.module';
 import { InsuranceModule } from 'src/modules/insurance/insurance.module';
 import { DatabaseLoggingInterceptor } from 'src/common';
+import { FlightSearchModule } from 'src/modules/flight-available/available.module';
 
 @Module({
   imports: [
     CoreModule,
+    FlightSearchModule,
     InsuranceModule,
     VehicleDetailModule,
     VehicleSearchModule,
