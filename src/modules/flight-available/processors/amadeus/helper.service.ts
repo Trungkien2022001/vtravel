@@ -6,11 +6,15 @@ import * as crypto from 'crypto';
 import { FlightProvider, FlightSession } from 'src/shared';
 import { FLIGHT_AMADEUS_CONFIG } from 'src/shared/constants';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { ProviderLogger } from 'src/common/logger/provider.logger';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class HelperService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly providerLogger: ProviderLogger,
+  ) {}
   hashPassword(password, nonce, created) {
     // eslint-disable-next-line prettier/prettier
     const shasum = crypto.createHash('sha1').update(password).digest();
@@ -137,7 +141,12 @@ export class HelperService {
     );
   }
 
-  async sendRequest(xml: string, acc: FlightProvider, action: string) {
+  async sendRequest(
+    req: any,
+    xml: string,
+    acc: FlightProvider,
+    action: string,
+  ) {
     const opts = {
       headers: {
         'Content-Type': 'text/xml;charset=utf8',
@@ -145,22 +154,28 @@ export class HelperService {
       },
       data: xml, // Use 'data' instead of 'body' for axios
     };
-
+    let statusCode: number;
+    let body: string;
     try {
       const response = await this.httpService
         .post(acc.url, opts.data, { headers: opts.headers })
         .toPromise();
-
-      return {
-        statusCode: response.status,
-        body: response.data,
-      };
+      statusCode = response.status;
+      body = response.data;
     } catch (error) {
-      // Handle error accordingly
-      return {
-        statusCode: error.status,
-        body: error.response.data,
-      };
+      // Handle error accordingl
+      statusCode = error.status;
+      body = error.response.data;
     }
+    this.providerLogger.log({
+      product: 'FLIGHT',
+      body: req,
+      request: xml,
+      response: body,
+      userId: req.agentId,
+      statusCode: statusCode,
+    });
+
+    return body;
   }
 }

@@ -1,0 +1,3 @@
+export const EVENT_EMITTERS = {
+  SAVE_PROVIDER_LOGS: 'SAVE_PROVIDER_LOGS',
+};

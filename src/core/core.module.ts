@@ -11,24 +11,30 @@ import {
   AirportEntity,
   DestinationRegionMappingEntity,
 } from './database/entities';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventEmitterHandlerModule } from './event-emitter';
+import { ProviderLogger } from 'src/common/logger/provider.logger';
 
 const providers: Provider[] = [
   ApiConfigService,
   ConfigService,
   RegionMappingService,
   HotelMappingService,
+  ProviderLogger,
 ];
 
 @Global()
 @Module({
   providers,
   imports: [
+    EventEmitterModule.forRoot(),
     TypeOrmModule.forFeature([AirportEntity, DestinationRegionMappingEntity]),
     DatabaseModule,
     RedisModule,
     ElasticsearchModule,
     RegionMappingModule,
     HotelMappingModule,
+    EventEmitterHandlerModule,
   ],
   exports: [...providers],
 })

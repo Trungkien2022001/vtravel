@@ -15,11 +15,11 @@ export class AvailableService {
     private readonly moduleRef: ModuleRef,
   ) {}
 
-  async search(body: any) {
+  async search(body: any, agentId: number) {
     const providerName = FLIGHT_PROVIDERS.DEFAULT;
     const processor = await this.getProcessorFactory(providerName);
 
-    return processor.search(body);
+    return processor.search(body, agentId);
   }
 
   /**

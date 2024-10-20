@@ -27,3 +27,5 @@ export const APPLICATION_STARTED_DATE = '2024-10-01 00:00:00';
 
 export const MIN_MULTI_CITY_ALLOWED = 1;
 export const MAX_MULTI_CITY_ALLOWED = 5;
+
+export const ALLOW_SAVE_PROVIDER_LOG = true;

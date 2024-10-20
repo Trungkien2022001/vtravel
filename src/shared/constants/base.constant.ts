@@ -59,6 +59,17 @@ export const DEFAULT_ADMIN_ROLE = {
 };
 
 export const DEFAULT_PRODUCT = 'hotel';
+export const PRODUCTS = {
+  HOTEL: 'HOTEL',
+  FLIGHT: 'FLIGHT',
+  TOUR: 'TOUR',
+  VEHICLE: 'VEHICLE',
+  INSURANCE: 'INSURANCE',
+  COMBO: 'COMBO',
+  TRIP: 'TRIP',
+} as const;
+
+export type ProductType = keyof typeof PRODUCTS;
 export const WORKSPACE = {
   ADMIN: 'admin',
   AGENT: 'agent,',

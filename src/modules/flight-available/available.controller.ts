@@ -14,6 +14,7 @@ import {
   Roles,
   StandardAPIErrorResponse,
   StandardApiHeaders,
+  User,
 } from 'src/common/decorators';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
@@ -39,7 +40,10 @@ export class AvailableController {
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
   @UseInterceptors(DatabaseLoggingInterceptor)
-  async FlightSerch(@Body() body: FlightSearchDto) {
-    return this.availableService.search(body);
+  async FlightSesrch(
+    @Body() body: FlightSearchDto,
+    @User('id') agentId: number,
+  ) {
+    return this.availableService.search(body, agentId);
   }
 }

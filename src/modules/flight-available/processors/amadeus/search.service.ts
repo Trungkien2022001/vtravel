@@ -34,7 +34,7 @@ export class AmadeusSearchService {
     protected readonly helperService: HelperService,
   ) {}
 
-  async search(req: FlightSearchDto): Promise<any> {
+  async search(req: FlightSearchDto, agentId: number): Promise<any> {
     ValidateFlightSearchRequest(req);
     const providerCres: FlightProvider[] =
       await this.redisService.cachedExecute(
@@ -51,11 +51,12 @@ export class AmadeusSearchService {
     const xmlRequest = this.makeRequest(req, provider);
 
     const xmlResponse = await this.helperService.sendRequest(
+      { ...req, agentId },
       xmlRequest,
       provider,
       FLIGHT_AMADEUS_ACTIONS.Fare_MasterPricerTravelBoardSearch,
     );
-    const jsResp = await this.transformResponse(xmlResponse.body);
+    const jsResp = await this.transformResponse(xmlResponse);
 
     const decimals = CURRENCY_DECIMALS[jsResp.currency];
 
@@ -170,9 +171,9 @@ export class AmadeusSearchService {
     delete jsResp.flight_index;
 
     const availbility = this.cleanup(jsResp, req, provider);
-    const flights = this.correctFlightInfo(availbility, req);
+    const response = this.correctFlightInfo(availbility, req);
 
-    return flights;
+    return response;
   }
 
   makeRequest(req: FlightSearchDto, provider: FlightProvider) {
@@ -1170,6 +1171,6 @@ export class AmadeusSearchService {
       }
     });
 
-    return resp;
+    return resp.flights;
   }
 }
