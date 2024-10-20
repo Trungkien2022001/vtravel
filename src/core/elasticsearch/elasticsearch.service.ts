@@ -262,6 +262,7 @@ export class ElasticSearchService {
           'region_id',
           'region_name_full',
           'country_code',
+          'region_type',
         ],
         query: {
           bool: {
@@ -298,7 +299,13 @@ export class ElasticSearchService {
             },
             must_not: {
               terms: {
-                region_type: ['neighborhood', 'continent', 'country'],
+                region_type: [
+                  'neighborhood',
+                  'continent',
+                  'country',
+                  'high_level_region',
+                  'province_state',
+                ],
               },
             },
           },
@@ -308,10 +315,10 @@ export class ElasticSearchService {
 
     return rows.hits.hits.map((h) => h._source);
   }
-  async findRegionById(regionId: string) {
+  async findRegionById(regionId: string): Promise<any> {
     const rows = await this.elasticsearchService.search({
       index: ELASTICSEARCH_DOCUMENT.REGION,
-      size: MAXIMUM_ES_SUGGESTED_REGION,
+      size: 5000,
       body: {
         _source: [
           'region_id',
@@ -320,12 +327,44 @@ export class ElasticSearchService {
           'country',
           'region_type',
           'ancestors',
+          'descendants',
         ],
         query: {
           bool: {
             must: {
               term: {
                 region_id: regionId,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return rows.hits.hits.map((h) => h._source);
+  }
+
+  async findRegionByIds(regionIds: string[]): Promise<any> {
+    const rows = await this.elasticsearchService.search({
+      index: ELASTICSEARCH_DOCUMENT.REGION,
+      size: 5000,
+      body: {
+        _source: [
+          'region_id',
+          'region_name',
+          'region_name_full',
+          'country',
+          'center_latitude',
+          'center_longitude',
+          'region_type',
+          'ancestors',
+          'descendants',
+        ],
+        query: {
+          bool: {
+            must: {
+              terms: {
+                region_id: regionIds,
               },
             },
           },

@@ -9,3 +9,4 @@ export * from './search.constant';
 export * from './elasticsearch.constant';
 export * from './flight.constant';
 export * from './currency.constant';
+export * from './region.constant';
