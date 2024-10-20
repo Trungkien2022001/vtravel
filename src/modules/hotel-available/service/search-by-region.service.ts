@@ -6,7 +6,7 @@ import {
 } from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { ValidateSearchRequest } from 'src/common';
+import { ValidateHotelSearchRequest } from 'src/common';
 // import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
 import { SearchByRegionDto } from '../dto';
 
@@ -21,7 +21,7 @@ export class SearchByRegionService {
   ) {}
 
   async search(body: SearchByRegionDto) {
-    ValidateSearchRequest(body);
+    ValidateHotelSearchRequest(body);
     const hotels = await this.availableService.findHotelAvailable(body);
 
     return hotels;

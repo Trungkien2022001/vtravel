@@ -7,7 +7,7 @@ import {
 import { EntityManager } from 'typeorm';
 import { SearchByAirportCodeDto } from '../dto/search-by-airport-code.dto';
 import { Injectable } from '@nestjs/common';
-import { ValidateSearchRequest } from 'src/common';
+import { ValidateHotelSearchRequest } from 'src/common';
 import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
 import { SearchByRegionDto } from '../dto';
 
@@ -22,7 +22,7 @@ export class SearchByAirportCodeService {
   ) {}
 
   async search(body: SearchByAirportCodeDto) {
-    ValidateSearchRequest(body);
+    ValidateHotelSearchRequest(body);
     const { airport_code: airportCode } = body;
     const regionId =
       await this.regionMappingService.getRegionFromDestination(airportCode);

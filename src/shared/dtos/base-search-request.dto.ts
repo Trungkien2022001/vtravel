@@ -3,9 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMaxSize,
   ArrayMinSize,
+  IsArray,
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   Min,
@@ -53,7 +55,7 @@ export class RoomsSearchRequestDto {
   @IsNumber()
   @ApiProperty({
     type: Number,
-    description: 'Number of infants!',
+    description: 'Number of infant!',
     example: 1,
     minimum: MIN_INFANT_ALLOWED,
     maximum: MAX_INFANT_ALLOWED,
@@ -150,7 +152,7 @@ export class BaseTourSearchRequestDto {
   @IsNumber()
   @ApiProperty({
     type: Number,
-    description: 'Number of infants!',
+    description: 'Number of infant!',
     example: 1,
     minimum: MIN_INFANT_ALLOWED,
     maximum: MAX_INFANT_ALLOWED,
@@ -216,7 +218,7 @@ export class BaseVehicleSearchRequestDto {
   @IsNumber()
   @ApiProperty({
     type: Number,
-    description: 'Number of infants!',
+    description: 'Number of infant!',
     example: 1,
     minimum: MIN_INFANT_ALLOWED,
     maximum: MAX_INFANT_ALLOWED,
@@ -297,7 +299,7 @@ export class BaseFlightSeachRequestDto {
   @IsNumber()
   @ApiProperty({
     type: Number,
-    description: 'Number of infants!',
+    description: 'Number of infant!',
     example: 1,
     minimum: MIN_INFANT_ALLOWED,
     maximum: MAX_INFANT_ALLOWED,
@@ -314,4 +316,23 @@ export class BaseFlightSeachRequestDto {
     example: 'VND',
   })
   currency: string;
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({
+    type: [String],
+    description: 'corporate_codes',
+    example: ['123'],
+  })
+  @Min(1)
+  corporate_codes: string[];
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    type: String,
+    description: 'corporate_id',
+    example: '123',
+  })
+  corporate_id: string;
 }

@@ -2,7 +2,11 @@ import { BaseHotelSeachRequestDto } from 'src/shared/dtos';
 import * as moment from 'moment';
 import { AppError } from '../errors';
 import { DEFAULT_DATE_FORMAT, SEARCH_ERROR } from 'src/shared/constants';
-export function ValidateSearchRequest(req: BaseHotelSeachRequestDto): void {
+import { FlightSearchDto } from 'src/modules/flight-available/dto';
+
+export function ValidateHotelSearchRequest(
+  req: BaseHotelSeachRequestDto,
+): void {
   if (
     moment(req.checkin, DEFAULT_DATE_FORMAT).isBefore(moment().startOf('day'))
   ) {
@@ -15,5 +19,23 @@ export function ValidateSearchRequest(req: BaseHotelSeachRequestDto): void {
     )
   ) {
     throw new AppError(SEARCH_ERROR.INVALID_CHECKOUT_DATE);
+  }
+}
+
+export function ValidateFlightSearchRequest(req: FlightSearchDto): void {
+  if (
+    moment(req.departure_date, DEFAULT_DATE_FORMAT).isBefore(
+      moment().startOf('day'),
+    )
+  ) {
+    throw new AppError(SEARCH_ERROR.INVALID_DEPARTURE_DATE);
+  }
+
+  if (
+    moment(req.return_date, DEFAULT_DATE_FORMAT).isBefore(
+      moment(req.departure_date, DEFAULT_DATE_FORMAT),
+    )
+  ) {
+    throw new AppError(SEARCH_ERROR.INVALID_RETURN_DATE);
   }
 }

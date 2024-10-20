@@ -23,7 +23,7 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 export class AvailableController {
   constructor(private readonly availableService: AvailableService) {}
 
-  @Post('/basic')
+  @Post('/')
   @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Flight Search' })

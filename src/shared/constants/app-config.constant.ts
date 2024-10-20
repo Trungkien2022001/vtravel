@@ -24,3 +24,6 @@ export const MAXIMUM_ES_SUGGESTED_REGION = 10;
 export const MAX_TOUR_DURATION = 10;
 
 export const APPLICATION_STARTED_DATE = '2024-10-01 00:00:00';
+
+export const MIN_MULTI_CITY_ALLOWED = 1;
+export const MAX_MULTI_CITY_ALLOWED = 5;

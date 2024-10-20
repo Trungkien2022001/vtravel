@@ -4,9 +4,13 @@ import { uuid } from 'src/common';
 import * as _ from 'lodash';
 import * as crypto from 'crypto';
 import { FlightProvider, FlightSession } from 'src/shared';
+import { FLIGHT_AMADEUS_CONFIG } from 'src/shared/constants';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class HelperService {
+  constructor(private readonly httpService: HttpService) {}
   hashPassword(password, nonce, created) {
     // eslint-disable-next-line prettier/prettier
     const shasum = crypto.createHash('sha1').update(password).digest();
@@ -93,5 +97,63 @@ export class HelperService {
         'soapenv:Body': {},
       },
     };
+  }
+
+  getPriceTypes(type: string, airlineCode: string) {
+    switch (type) {
+      case 'flight':
+      case 'stopover':
+        return (
+          FLIGHT_AMADEUS_CONFIG.priceTypes[type][airlineCode] ||
+          FLIGHT_AMADEUS_CONFIG.priceTypes[type].default
+        );
+      default:
+        return (
+          FLIGHT_AMADEUS_CONFIG.priceTypes.flight[airlineCode] ||
+          FLIGHT_AMADEUS_CONFIG.priceTypes.flight.default
+        );
+    }
+  }
+
+  getRePaxtypeMapping(airlineCode) {
+    return (
+      FLIGHT_AMADEUS_CONFIG.reMapPaxType[airlineCode] ||
+      FLIGHT_AMADEUS_CONFIG.reMapPaxType.default
+    );
+  }
+
+  searchByCompanyIdentity(acc: FlightProvider) {
+    return (
+      acc.airline_code &&
+      acc.custom_config &&
+      !acc.custom_config.allow_all_airline
+    );
+  }
+
+  async sendRequest(xml: string, acc: FlightProvider, action: string) {
+    const opts = {
+      headers: {
+        'Content-Type': 'text/xml;charset=utf8',
+        SOAPAction: `http://webservices.amadeus.com/${action}`,
+      },
+      data: xml, // Use 'data' instead of 'body' for axios
+    };
+
+    try {
+      const response = await this.httpService
+        .post(acc.url, opts.data, { headers: opts.headers })
+        .toPromise();
+
+      return {
+        statusCode: response.status,
+        body: response.data,
+      };
+    } catch (error) {
+      // Handle error accordingly
+      return {
+        statusCode: error.status,
+        body: error.response.data,
+      };
+    }
   }
 }

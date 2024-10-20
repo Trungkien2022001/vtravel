@@ -6,7 +6,7 @@ export const FLIGHT_PROVIDERS = {
 };
 export const DEFAULT_FLIGHT_PROVIDER_ID = 1;
 
-export const FLIGHT_ACTIONS = {
+export const FLIGHT_AMADEUS_ACTIONS = {
   Fare_FlexPricerUpsell: 'FFPRQT_17_2_1A',
   Fare_InformativePricingWithoutPNR: 'TIPNRQ_18_1_1A',
   Fare_MasterPricerTravelBoardSearch: 'FMPTBQ_17_3_1A',
@@ -33,4 +33,104 @@ export const FLIGHT_ACTIONS = {
   Ticket_CreateTSMFromPricing: 'TAUSCQ_09_1_1A',
   Fare_GetFareRules: 'FARQNQ_07_1_1A',
   Ticket_ProcessEDoc: 'TATREQ_20_1_1A',
+};
+
+export const FLIGHT_AMADEUS_CONFIG = {
+  ListAccountCodes: {
+    EY: 399236,
+    MH: 967128,
+  },
+  priceTypes: {
+    flight: {
+      EY: ['RP', 'RW', 'RU', 'TAN', 'CUC'],
+      default: ['RP', 'RU', 'TAC', 'CUC'],
+    },
+    stopover: {
+      EY: ['RP', 'RW', 'RU', 'TAN', 'CUC'],
+      default: ['RP', 'RU', 'TAC', 'CUC'],
+    },
+  },
+  mapPaxType: {
+    EY: {
+      IIT: 'ADT',
+      ADT: 'ADT',
+      INN: 'CHD',
+      INF: 'INF',
+    },
+    default: {
+      ADT: 'ADT',
+      CH: 'CHD',
+      INF: 'INF',
+    },
+  },
+  reMapPaxType: {
+    EY: {
+      ADT: 'IIT',
+      CHD: 'INN',
+      INF: 'INF',
+    },
+    default: {
+      ADT: 'ADT',
+      CHD: 'CH',
+      INF: 'INF',
+    },
+  },
+  paxMap: {
+    EY: {
+      adult: 'IIT',
+      child: 'INN',
+      infant: 'INF',
+      senior: 'SRC',
+      disabled: 'DIS',
+    },
+    default: {
+      adult: 'ADT',
+      child: 'CHD',
+      infant: 'INF',
+      senior: 'SRC',
+      disabled: 'DIS',
+    },
+  },
+  respPaxTypeMap: {
+    EY: {
+      ADT: 'ADT',
+      IIT: 'ADT',
+      INN: 'CHD',
+      CH: 'CHD',
+      IN: 'INF',
+      INF: 'INF',
+      CD: 'SCR',
+      IC: 'PWD',
+    },
+    default: {
+      ADT: 'ADT',
+      CH: 'CHD',
+      IN: 'INF',
+      CD: 'SCR',
+      IC: 'PWD',
+    },
+  },
+  baggageAllowancePaxtype: {
+    EY: {
+      IIT: 'adt',
+      INN: 'chd',
+      INF: 'inf',
+    },
+    default: {
+      ADT: 'adt',
+      CHD: 'chd',
+      INF: 'inf',
+    },
+  },
+  orderPassengerType: {
+    EY: ['IIT', 'IT', 'IIN'],
+    default: ['ADT', 'CH', 'CHD'],
+  },
+};
+
+export const FLIGHT_AMADEUS_CABIN_CLASS_MAPPING = {
+  Business: 'C',
+  First: 'F',
+  'Premium Economy': 'W',
+  Economy: 'Y',
 };
