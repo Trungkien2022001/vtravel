@@ -134,3 +134,64 @@ export const FLIGHT_AMADEUS_CABIN_CLASS_MAPPING = {
   'Premium Economy': 'W',
   Economy: 'Y',
 };
+
+export const DIRECTION_MAPPING = {
+  outbound: 'outbound',
+  inbound: 'inbound',
+};
+
+export const TECHNICAL_STOP_QUALIFIER = {
+  arrival: 'AA',
+  departure: 'AD',
+};
+
+export const PAX_MAP = {
+  adult: 'ADT',
+  child: 'CHD',
+  infant: 'INF',
+  senior: 'SRC',
+  disabled: 'DIS',
+};
+
+export const PAX_TYPE_MAP = {
+  ADT: 'ADT',
+  CH: 'CHD',
+  IN: 'INF',
+  CD: 'SCR',
+  IC: 'PWD',
+};
+
+export const CABIN_CLASS_MAPPING = {
+  Business: 'C',
+  First: 'F',
+  'Premium Economy': 'W',
+  Economy: 'Y',
+};
+
+export const CABIN_CLASS_NAME_MAPPING = {
+  C: 'Business',
+  F: 'First',
+  M: 'Economy',
+  W: 'Premium Economy',
+  Y: 'Economy',
+};
+
+export const DURATION_MAP = {
+  DOH_CDG: 415,
+  // CDG_DOH: 390,
+  DOH_AMS: 435,
+  AKL_DOH: 1070,
+  DOH_BRU: 400,
+  DOH_ARN: 380,
+  ARN_DOH: 360,
+  DOH_LHR: 435,
+  LHR_DOH: 405,
+  PEK_DOH: 545,
+  DOH_PEK: 460,
+  DOH_JFK: 845,
+  JFK_DOH: 735,
+  FRA_DOH: 355,
+  DOH_FRA: 400,
+  // DOH_HKT: 395,
+  HKT_DOH: 445,
+};

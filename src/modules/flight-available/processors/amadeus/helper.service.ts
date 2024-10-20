@@ -115,6 +115,13 @@ export class HelperService {
     }
   }
 
+  getPaxTypeMapping(airlineCode) {
+    return (
+      FLIGHT_AMADEUS_CONFIG.mapPaxType[airlineCode] ||
+      FLIGHT_AMADEUS_CONFIG.mapPaxType.default
+    );
+  }
+
   getRePaxtypeMapping(airlineCode) {
     return (
       FLIGHT_AMADEUS_CONFIG.reMapPaxType[airlineCode] ||

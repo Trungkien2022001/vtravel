@@ -40,6 +40,7 @@
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "camaro": "^6.2.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "crypto": "^1.0.1",
