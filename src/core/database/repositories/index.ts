@@ -7,3 +7,4 @@ export * from './agent.repository';
 export * from './destination-region-mapping.repository';
 export * from './airport.repository';
 export * from './provider-logs.repository';
+export * from './room-rate.repository';

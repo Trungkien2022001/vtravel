@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 import { OnEvent } from '@nestjs/event-emitter';
 import { IProviderLog } from 'src/shared';
 import { ProviderLogsEntity } from '../database/entities';
-import { EVENT_EMITTERS } from 'src/shared/constants/event-emitter.constant';
+import { EVENT_EMITTERS } from 'src/shared/constants';
 
 dotenv.config();
 

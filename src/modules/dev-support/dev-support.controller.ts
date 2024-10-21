@@ -2,13 +2,16 @@ import { Controller, Post, UseGuards } from '@nestjs/common';
 import { Roles } from 'src/common/decorators';
 import { ERoles } from 'src/shared/enums';
 import { AdminRolesGuard } from 'src/common/guards';
-import { DevSupportService } from './services';
+import { DevSupportService, CrawlerService } from './services';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('v1/dev-support')
 @ApiTags('Dev Support Component')
 export class DevSupportController {
-  constructor(private readonly devSupportService: DevSupportService) {}
+  constructor(
+    private readonly devSupportService: DevSupportService,
+    private readonly crawlerService: CrawlerService,
+  ) {}
 
   @Post('elasticsearch/entrypoint')
   @Roles(ERoles.SUPER_ADMIN)
@@ -57,5 +60,12 @@ export class DevSupportController {
   @UseGuards(AdminRolesGuard)
   bulkVehiclesElasticsearch() {
     return this.devSupportService.bulkInsertVehicleslElasticseach();
+  }
+
+  @Post('crawler/hotel')
+  @Roles(ERoles.SUPER_ADMIN)
+  @UseGuards(AdminRolesGuard)
+  crawlerHotel() {
+    return this.crawlerService.crawlerHotel();
   }
 }

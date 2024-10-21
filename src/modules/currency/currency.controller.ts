@@ -10,7 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class CurrencyController {
   constructor(private readonly currencyService: CurrencyService) {}
 
-  @Post('entrypoint')
+  @Post('')
   @Roles(ERoles.SUPER_ADMIN)
   @UseGuards(AdminRolesGuard)
   entryPoint() {}

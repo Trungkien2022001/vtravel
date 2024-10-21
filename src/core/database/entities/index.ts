@@ -10,3 +10,5 @@ export * from './airport.entity';
 export * from './destination-region-mapping';
 export * from './error-log.entity';
 export * from './provider-log.entity';
+export * from './room-rate.entity';
+export * from './hotel-rate-crawler.entity';

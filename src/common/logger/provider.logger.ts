@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ALLOW_SAVE_PROVIDER_LOG } from 'src/shared/constants';
+import { ALLOW_SAVE_PROVIDER_LOG, EVENT_EMITTERS } from 'src/shared/constants';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EVENT_EMITTERS } from 'src/shared/constants/event-emitter.constant';
 import { IProviderLog } from 'src/shared';
 
 @Injectable()

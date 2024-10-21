@@ -47,6 +47,7 @@ module.exports = {
     'newline-before-return': 'error',
     'no-restricted-syntax': ['warn'],
     'no-param-reassign': ['error', { props: false }],
+    'camelcase': 'off',
   },
   overrides: [
     {

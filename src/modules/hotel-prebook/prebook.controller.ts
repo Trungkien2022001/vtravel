@@ -22,10 +22,10 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 export class HotelPrebookController {
   constructor(private readonly HotelPrebookService: HotelPrebookService) {}
 
-  @Post('/airport-code')
+  @Post('')
   @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
-  @ApiOperation({ summary: '' })
+  @ApiOperation({ summary: 'Prebook Hotel' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
   @ApiBody({
     type: Object,
