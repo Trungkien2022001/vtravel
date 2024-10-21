@@ -47,7 +47,7 @@ export class CrawlerService {
         SELECT hotel_id from hotel_info where country_code <> 'VN'  
     `);
     const cnk = _.chunk(hotels, 50);
-    for (let index = 4969; index < cnk.length; index++) {
+    for (let index = 5275; index < cnk.length; index++) {
       const chunk = cnk[index];
       await Promise.all(
         chunk.map(async (h) => {

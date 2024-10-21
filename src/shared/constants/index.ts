@@ -8,6 +8,7 @@ export * from './search-error.constant';
 export * from './search.constant';
 export * from './elasticsearch.constant';
 export * from './flight.constant';
+export * from './hotel.constant';
 export * from './currency.constant';
 export * from './region.constant';
 export * from './event-emitter.constant';

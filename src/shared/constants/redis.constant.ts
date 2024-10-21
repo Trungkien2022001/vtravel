@@ -13,6 +13,7 @@ export const REDIS_KEY = {
   HOTEL_RATES_FROM_SEARCH_REQUEST: 'hotelrate',
   CURRENCY: 'currency',
   CURRENCIES: 'currencies',
+  HOTEL_PROVIDER: 'hotelids',
   INSURANCE: 'insurance',
   PROVIDER: {
     HOTEL: 'provider:hotel',

@@ -1,4 +1,4 @@
-export interface HotelProvider {
+export interface FlightProvider {
   id: number;
   product: string;
   code: string;
@@ -25,4 +25,14 @@ export interface HotelProvider {
   mock_booking: boolean;
   client_id: string | null;
   client_secret: string | null;
+}
+
+export interface FlightSession {
+  'awsse:Session': {
+    '@TransactionStatusCode': string;
+    '@xmlns:awsse'?: string;
+    'awsse:SessionId'?: string;
+    'awsse:SequenceNumber'?: string;
+    'awsse:SecurityToken'?: string;
+  };
 }

@@ -10,7 +10,10 @@ import {
   SearchByAirportCodeService,
   SearchByHotelIdsService,
   SearchByRegionService,
+  SearchProviderService,
 } from './service';
+
+import { ProcessorsModules } from './processors';
 
 @Module({
   imports: [
@@ -20,6 +23,7 @@ import {
     UserModule,
     RegionMappingModule,
     HotelMappingModule,
+    ...Object.values(ProcessorsModules),
   ],
   controllers: [AvailableController],
   providers: [
@@ -27,6 +31,7 @@ import {
     SearchByRegionService,
     SearchByAirportCodeService,
     SearchByHotelIdsService,
+    SearchProviderService,
   ],
   exports: [AvailableService],
 })

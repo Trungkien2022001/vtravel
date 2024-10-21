@@ -1,3 +1,4 @@
+import { SearchProviderService } from './service/seach-provider.service';
 import {
   SeachByAirportCodeResponseDto,
   SeachByHotelIdsResponseDto,
@@ -26,6 +27,7 @@ import {
   Roles,
   StandardAPIErrorResponse,
   StandardApiHeaders,
+  User,
 } from 'src/common/decorators';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';
@@ -35,6 +37,7 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 export class AvailableController {
   constructor(
     private readonly availableService: AvailableService,
+    private readonly searchProviderService: SearchProviderService,
     private readonly searchByAirportCodeService: SearchByAirportCodeService,
     private readonly searchByRegionService: SearchByRegionService,
     private readonly searchByHotelIdsService: SearchByHotelIdsService,
@@ -98,5 +101,28 @@ export class AvailableController {
   @UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByHotelIds(@Body() body: SearchByHotelIdsDto) {
     return this.searchByHotelIdsService.search(body);
+  }
+
+  @Post('/provider')
+  @Roles(ERoles.HOTEL_SEARCH_BY_REGION)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Search by Region Id' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: SearchByRegionDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: SearchByRegionResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
+  @UseInterceptors(DatabaseLoggingInterceptor)
+  async SearchByProvider(
+    @Body() body: SearchByRegionDto,
+    @User('id') agentId: number,
+  ) {
+    return this.searchProviderService.search(body, agentId);
   }
 }
