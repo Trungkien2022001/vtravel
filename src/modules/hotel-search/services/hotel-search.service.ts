@@ -9,12 +9,12 @@ import {
 import { Injectable, Logger } from '@nestjs/common';
 import {
   SearchByAirportCodeDto,
+  SearchByHotelIdsDto,
   SearchByRegionDto,
 } from 'src/modules/hotel-available/dto';
 import { DataCenterService } from 'src/modules/data-center';
 import * as _ from 'lodash';
 import { buildRegionSearchCacheKey } from 'src/common';
-import { REDIS_EXPIRED, REDIS_KEY } from 'src/shared/constants';
 
 @Injectable()
 export class HotelSearchService {
@@ -77,6 +77,38 @@ export class HotelSearchService {
       ...others,
       region_id: regionId,
     });
+    const hotelCurrencies = _.uniq(hotels.map((hotel) => hotel.currency));
+    const currencyRates = await this.dataCenterService.getConvertCurrencies(
+      currency,
+      hotelCurrencies,
+    );
+    const hotelIds = hotels.map((h) => h.hotel_id);
+
+    const hotelsInfo =
+      await this.elasticSearchService.findHotelByHotelIds(hotelIds);
+    Logger.log(hotelsInfo.length);
+    const rateMaps = this.getBestRoomRate(
+      hotels,
+      numOfRooms,
+      currencyRates,
+      currency,
+    );
+
+    return hotelsInfo.map((hotel: any) => ({
+      ...hotel,
+      // amenities: hotel.amenities?.map((amenity) => amenity.name),
+      rating: hotel.rating?.rating,
+      images:
+        (hotel.images && hotel.images.length && hotel.images[0].urls) || [],
+      total_price: rateMaps[hotel.hotel_id].total_price,
+      price_currency: rateMaps[hotel.hotel_id].currency,
+    }));
+  }
+
+  async searchByHotelIds(body: SearchByHotelIdsDto) {
+    const currency = body.currency;
+    const numOfRooms = body.rooms.length;
+    const hotels = await this.availableService.findHotelAvailableByIds(body);
     const hotelCurrencies = _.uniq(hotels.map((hotel) => hotel.currency));
     const currencyRates = await this.dataCenterService.getConvertCurrencies(
       currency,

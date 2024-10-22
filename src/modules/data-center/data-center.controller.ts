@@ -12,11 +12,12 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   HotelPlaceholderSuggestedDto,
   HotelPlaceholderSuggestedResponseDto,
+  NearestAirportDto,
 } from './dtos';
 import {
   ParentRegionDto,
   ParentRegionResponseDto,
-} from './dtos/parent-reigon.dto';
+} from './dtos/parent-region.dto';
 
 @Controller('v1/data-center')
 @ApiTags('Data Center Component')
@@ -96,5 +97,30 @@ export class DataCenterController {
   ])
   getRegionDetail(@Body() body: ParentRegionDto) {
     return this.dataCenterService.getRegionDetail(body.region_id);
+  }
+
+  @Post('nearest-airport')
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Get Region Detail' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: NearestAirportDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: ParentRegionResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-VERSION', 'X-LANG')
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse([
+    'FORBIDDEN_TO_ACCESS',
+    'INVALID_TOKEN',
+    'TOKEN_EXPIRED',
+  ])
+  getNearestAirport(@Body() body: NearestAirportDto) {
+    return this.dataCenterService.getNearestAirport(body);
   }
 }

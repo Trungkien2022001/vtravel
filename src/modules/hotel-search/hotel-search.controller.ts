@@ -1,3 +1,4 @@
+import { SearchByHotelIdsDto } from './../hotel-available/dto/search-by-hotel-ids.dto';
 import {
   CustomAPIErrorResponse,
   Roles,
@@ -78,5 +79,30 @@ export class HotelSearchController {
   ])
   searchByAirportCode(@Body() body: SearchByAirportCodeDto) {
     return this.HotelSearchService.searchByAirportCode(body);
+  }
+
+  @Post('hotel-ids')
+  @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
+  @UseGuards(AgentRolesGuard)
+  @ApiOperation({ summary: 'Search by Hotel Ids' })
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')
+  @ApiBody({
+    type: SearchByAirportCodeDto,
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    type: SeachByAirportCodeResponseDto,
+  })
+  @StandardAPIErrorResponse()
+  @StandardApiHeaders('X-ACCESS-TOKEN', 'X-VERSION', 'X-LANG')
+  @StandardAPIErrorResponse()
+  @CustomAPIErrorResponse([
+    'FORBIDDEN_TO_ACCESS',
+    'INVALID_TOKEN',
+    'TOKEN_EXPIRED',
+  ])
+  SearchByHotelIds(@Body() body: SearchByHotelIdsDto) {
+    return this.HotelSearchService.searchByHotelIds(body);
   }
 }

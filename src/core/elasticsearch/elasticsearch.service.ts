@@ -240,8 +240,14 @@ export class ElasticSearchService {
       body: {
         _source: ['hotel_id', 'name', 'address', 'country_code'],
         query: {
-          match_phrase: {
-            name: text,
+          // match_phrase: {
+          //   name: text,
+          // },
+          match: {
+            name: {
+              query: text.toLowerCase(),
+              operator: 'and',
+            },
           },
         },
       },
@@ -293,8 +299,16 @@ export class ElasticSearchService {
         query: {
           bool: {
             must: {
-              match_phrase: {
-                region_name: text,
+              // match_phrase: {
+              //   region_name: {
+              //     query: text.toLowerCase(),
+              //   },
+              // },
+              match: {
+                region_name: {
+                  query: text.toLowerCase(),
+                  operator: 'and',
+                },
               },
             },
             must_not: {

@@ -1,7 +1,7 @@
 export const REGION_TYPE = {
   AIRPORT: 'airport',
   PROVINCE_STATE: 'province_state',
-  NEIGHBOORHOOD: 'province_state',
+  NEIGHBOORHOOD: 'neighboorhood',
   CITY: 'city',
   HIGH_LEVEL_REGION: 'high_level_region',
   COUNTRY: 'country',
