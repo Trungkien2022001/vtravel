@@ -26,11 +26,13 @@ import { VehicleDetailModule } from 'src/modules/vehicle-detail/detail.module';
 import { InsuranceModule } from 'src/modules/insurance/insurance.module';
 import { DatabaseLoggingInterceptor } from 'src/common';
 import { FlightSearchModule } from 'src/modules/flight-available/available.module';
+import { GuilderModule } from 'src/modules/guider/guider.module';
 
 @Module({
   imports: [
     CoreModule,
     FlightSearchModule,
+    GuilderModule,
     InsuranceModule,
     VehicleDetailModule,
     VehicleSearchModule,

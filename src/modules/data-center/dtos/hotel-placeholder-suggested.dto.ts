@@ -5,7 +5,7 @@ import { BaseAPIResponseDTO } from 'src/shared/dtos';
 export class HotelPlaceholderSuggestedDto {
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
+  @MinLength(2)
   @ApiProperty({
     type: String,
     description: 'Region Id',
