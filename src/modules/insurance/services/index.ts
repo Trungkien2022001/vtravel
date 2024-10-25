@@ -1,1 +1,1 @@
-export * from './Insurance.service';
+export * from './insurance.service';

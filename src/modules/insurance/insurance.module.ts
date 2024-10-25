@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ElasticsearchModule, RedisModule } from 'src/core';
-import { InsuranceController } from './Insurance.controller';
+import { InsuranceController } from './insurance.controller';
 import { InsuranceService } from './services';
 import { HotelAvailableModule } from '../hotel-available/available.module';
 import { TypeOrmModule } from '@nestjs/typeorm';

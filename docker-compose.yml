@@ -1,5 +1,16 @@
 version: '3'
 services:
+
+  vtravel-core-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3030:3030"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     container_name: zookeeper

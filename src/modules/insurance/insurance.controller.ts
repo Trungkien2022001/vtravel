@@ -4,7 +4,7 @@ import {
   StandardAPIErrorResponse,
   StandardApiHeaders,
 } from 'src/common/decorators';
-import { InsuranceService } from './services/Insurance.service';
+import { InsuranceService } from './services/insurance.service';
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ERoles } from 'src/shared/enums';
 import { AgentRolesGuard } from 'src/common/guards/agent.guard';

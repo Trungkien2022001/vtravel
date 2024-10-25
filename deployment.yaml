@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-vtravel-service-vtravel-core-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nestjs
+  template:
+    metadata:
+      labels:
+        app: nestjs
+    spec:
+      containers:
+        - name: core-vtravel-service-vtravel-core-service
+          image: core-vtravel-service-vtravel-core-service:latest
+          ports:
+            - containerPort: 3030
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-vtravel-service-vtravel-core-service
+spec:
+  type: NodePort
+  ports:
+    - port: 3030
+      targetPort: 3030
+      nodePort: 30001
+  selector:
+    app: nestjs
