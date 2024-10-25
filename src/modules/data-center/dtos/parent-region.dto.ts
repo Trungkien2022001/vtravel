@@ -7,11 +7,19 @@ export class ParentRegionDto {
   @IsNotEmpty()
   @ApiProperty({
     type: String,
-    description: 'Region Id',
+    description: 'Property Id',
     example: '1941',
   })
-  // eslint-disable-next-line camelcase
-  region_id: string;
+  property_id: string;
+
+  @IsString()
+  // @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    description: 'Region Type',
+    example: 'Region',
+  })
+  property_type: string;
 }
 
 class ParentRegionResponse {}

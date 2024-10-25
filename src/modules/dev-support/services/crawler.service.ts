@@ -47,7 +47,7 @@ export class CrawlerService {
         SELECT hotel_id from hotel_info where country_code <> 'VN'  
     `);
     const cnk = _.chunk(hotels, 50);
-    for (let index = 6477; index < cnk.length; index++) {
+    for (let index = 10716; index < cnk.length; index++) {
       const chunk = cnk[index];
       await Promise.all(
         chunk.map(async (h) => {
@@ -94,7 +94,7 @@ export class CrawlerService {
 
       return response.data; // Trả về dữ liệu từ API EAN
     } catch (error) {
-      throw new Error(`Failed to ping EAN API: ${error.message}`);
+      Logger.error(`Failed to ping EAN API: ${error.message}`);
     }
   }
 

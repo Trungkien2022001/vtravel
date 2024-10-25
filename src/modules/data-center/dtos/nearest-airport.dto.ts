@@ -14,7 +14,7 @@ export class NearestAirportDto {
   property_id: string;
 
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @ApiProperty({
     type: String,
     description: 'Property Type, valid value are [region, hotel]',

@@ -71,7 +71,7 @@ export class DataCenterController {
     'TOKEN_EXPIRED',
   ])
   getParentRegion(@Body() body: ParentRegionDto) {
-    return this.dataCenterService.getParentRegion(body.region_id);
+    return this.dataCenterService.getParentRegion(body.property_id);
   }
 
   @Post('region/detail')
@@ -96,7 +96,7 @@ export class DataCenterController {
     'TOKEN_EXPIRED',
   ])
   getRegionDetail(@Body() body: ParentRegionDto) {
-    return this.dataCenterService.getRegionDetail(body.region_id);
+    return this.dataCenterService.getRegionDetail(body);
   }
 
   @Post('nearest-airport')

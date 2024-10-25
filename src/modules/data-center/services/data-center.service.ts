@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
 import { AvailableService } from '../../hotel-available/service';
 import { EntityManager } from 'typeorm';
-import { ElasticSearchService, RedisService } from 'src/core';
+import {
+  ElasticSearchService,
+  RedisService,
+  RegionMappingService,
+} from 'src/core';
 import { Injectable } from '@nestjs/common';
 import { SearchByRegionDto } from 'src/modules/hotel-available/dto';
 import {
@@ -14,7 +18,7 @@ import {
 import * as unidecode from 'unidecode';
 import * as _ from 'lodash';
 import { AppError, tryParseJson } from 'src/common';
-import { NearestAirportDto } from '../dtos';
+import { NearestAirportDto, ParentRegionDto } from '../dtos';
 import { calculateDistance } from 'src/common/utils/calculator.util';
 
 @Injectable()
@@ -24,6 +28,7 @@ export class DataCenterService {
     private readonly redisService: RedisService,
     private readonly entityManager: EntityManager,
     private readonly availableService: AvailableService,
+    private readonly regionMappingService: RegionMappingService,
   ) {}
 
   async searchByRegion(body: SearchByRegionDto) {
@@ -61,9 +66,18 @@ export class DataCenterService {
     return _.flatten(Object.values(descendantRegions));
   }
 
-  async getRegionDetail(regionId: string, priorityRegionType?: string) {
+  async getRegionDetail(req: ParentRegionDto, priorityRegionType?: string) {
+    let propertyId;
+    const propertyType = req.property_type;
+    if (propertyType === PROPERTY_TYPE.AIRPORT) {
+      propertyId = await this.regionMappingService.getRegionFromDestination(
+        req.property_id,
+      );
+    } else {
+      propertyId = req.property_id;
+    }
     const esData: any[] =
-      await this.elasticSearchService.findRegionById(regionId);
+      await this.elasticSearchService.findRegionById(propertyId);
     if (!esData.length) {
       return;
     }

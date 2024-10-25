@@ -168,7 +168,7 @@ export class AvailableService {
       rr.cancellation_policies,
       rr.tax,
       rr.fee
-    from room_rate rr
+    from room_rate_v2 rr
     where rr.room_id in (${roomIds.map((id) => `'${id}'`).join(',')})
       and rr.is_active = true
       and rr.is_deleted = false

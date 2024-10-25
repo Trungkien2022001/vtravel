@@ -1,4 +1,4 @@
-import { SearchByHotelIdsDto } from './../hotel-available/dto/search-by-hotel-ids.dto';
+import { SearchByHotelIdsDto } from './../hotel-available/dto';
 import {
   CustomAPIErrorResponse,
   Roles,

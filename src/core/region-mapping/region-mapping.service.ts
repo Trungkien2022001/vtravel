@@ -58,24 +58,29 @@ export class RegionMappingService {
   }
 
   async getRegionFromDestination(airportCode: string): Promise<string> {
-    const fn: Promise<any> =
-      airportCode.length === IATA_AIPORT_CODE_LENGTH
-        ? this.airportRepository.findOne({
-            where: {
-              airportCode,
-            },
-          })
-        : this.destinationRegionMappingRepository.findOne({
-            where: {
-              code: airportCode,
-            },
-          });
+    // const fn: Promise<any> =
+    //   airportCode.length === IATA_AIPORT_CODE_LENGTH
+    //     ? this.airportRepository.findOne({
+    //         where: {
+    //           airportCode,
+    //         },
+    //       })
+    //     : this.destinationRegionMappingRepository.findOne({
+    //         where: {
+    //           code: airportCode,
+    //         },
+    //       });
     const region = await this.redisService.cachedExecute(
       {
         key: `${REDIS_KEY.DESTINATION_TO_REGION}:${airportCode}`,
         ttl: REDIS_EXPIRED['1_WEEKS'],
       },
-      () => fn,
+      () =>
+        this.airportRepository.findOne({
+          where: {
+            airportCode,
+          },
+        }),
     );
 
     if (!region) {
