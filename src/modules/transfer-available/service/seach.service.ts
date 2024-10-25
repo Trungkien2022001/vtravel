@@ -2,10 +2,10 @@ import { RedisService } from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';
-import { Transfer_PROVIDERS } from 'src/shared/constants';
+import { TRANSFER_PROVIDERS } from 'src/shared/constants';
+import { TransferzSearchService } from '../processors/transferz/search.service';
+import { HotelBedsSearchService } from '../processors/hotelbeds/search.service';
 import { ModuleRef } from '@nestjs/core';
-import { AmadeusSearchService } from '../processors/amadeus/search.service';
-import { SabreSearchService } from '../processors/sabre/search.service';
 
 @Injectable()
 export class AvailableService {
@@ -16,7 +16,7 @@ export class AvailableService {
   ) {}
 
   async search(body: any, agentId: number) {
-    const providerName = Transfer_PROVIDERS.DEFAULT;
+    const providerName = TRANSFER_PROVIDERS.DEFAULT;
     const processor = await this.getProcessorFactory(providerName);
 
     return processor.search(body, agentId);
@@ -28,14 +28,14 @@ export class AvailableService {
   async getProcessorFactory(providerName: string): Promise<any> {
     let processor;
     switch (providerName) {
-      case Transfer_PROVIDERS.AMADEUS:
-        processor = await this.moduleRef.get(AmadeusSearchService, {
+      case TRANSFER_PROVIDERS.HOTELBEDS:
+        processor = await this.moduleRef.get(HotelBedsSearchService, {
           strict: false,
         });
         break;
 
-      case Transfer_PROVIDERS.SABRE:
-        processor = await this.moduleRef.get(SabreSearchService, {
+      case TRANSFER_PROVIDERS.TRANSFERZ:
+        processor = await this.moduleRef.get(TransferzSearchService, {
           strict: false,
         });
         break;

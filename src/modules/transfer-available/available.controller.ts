@@ -24,7 +24,7 @@ import { AgentRolesGuard } from 'src/common/guards/agent.guard';
 export class AvailableController {
   constructor(private readonly availableService: AvailableService) {}
 
-  @Post('/')
+  @Post('/region')
   @Roles(ERoles.HOTEL_SEARCH_BY_AIRPORT_CODE)
   @UseGuards(AgentRolesGuard)
   @ApiOperation({ summary: 'Transfer Search' })
@@ -41,7 +41,8 @@ export class AvailableController {
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
   @UseInterceptors(DatabaseLoggingInterceptor)
   async TransferSesrch(
-    @Body() body: TransferSearchDto,
+    // @Body() body: TransferSearchDto,
+    @Body() body: any,
     @User('id') agentId: number,
   ) {
     return this.availableService.search(body, agentId);

@@ -27,10 +27,12 @@ import { InsuranceModule } from 'src/modules/insurance/insurance.module';
 import { DatabaseLoggingInterceptor } from 'src/common';
 import { FlightSearchModule } from 'src/modules/flight-available/available.module';
 import { GuilderModule } from 'src/modules/guider/guider.module';
+import { TransferSearchModule } from 'src/modules/transfer-available/available.module';
 
 @Module({
   imports: [
     CoreModule,
+    TransferSearchModule,
     FlightSearchModule,
     GuilderModule,
     InsuranceModule,
