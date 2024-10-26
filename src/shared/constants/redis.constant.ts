@@ -18,6 +18,9 @@ export const REDIS_KEY = {
   PROVIDER: {
     HOTEL: 'provider:hotel',
     FLIGHT: 'provider:flight',
+    TRANSFER: 'provider:transfer',
+    VEHICLE: 'provider:vehicle',
+    TOUR: 'provider:tour',
   },
 };
 export const REDIS_EXPIRED = {

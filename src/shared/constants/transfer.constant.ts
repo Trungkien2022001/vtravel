@@ -1,4 +1,4 @@
-export const DEFAULT_TRANSFER_PROVIDER_ID = 2;
+export const DEFAULT_TRANSFER_PROVIDER_ID = 42;
 
 export const TRANSFER_PROVIDERS = {
   DEFAULT: 'Hotelbeds',

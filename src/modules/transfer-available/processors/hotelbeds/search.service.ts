@@ -26,7 +26,13 @@ interface TravelRequest {
 }
 
 import { BaseTransferSearchProcessor } from '../base-processors';
-import { TRANSFER_DATETIME_FORMAT } from 'src/shared/constants';
+import {
+  DEFAULT_FLIGHT_PROVIDER_ID,
+  DEFAULT_TRANSFER_PROVIDER_ID,
+  REDIS_EXPIRED,
+  REDIS_KEY,
+  TRANSFER_DATETIME_FORMAT,
+} from 'src/shared/constants';
 @Injectable()
 export class HotelBedsSearchService extends BaseTransferSearchProcessor {
   constructor(
@@ -38,11 +44,22 @@ export class HotelBedsSearchService extends BaseTransferSearchProcessor {
   }
 
   async search(req: TransferSearchDto, agentId: number): Promise<any> {
-    const provider = {}; // Todo
+    const providerCres: any[] = await this.redisService.cachedExecute(
+      {
+        key: `${REDIS_KEY.PROVIDER.TRANSFER}:${DEFAULT_TRANSFER_PROVIDER_ID}`,
+        ttl: REDIS_EXPIRED['1_WEEKS'],
+      },
+      () =>
+        this.entityManager.query(
+          `SELECT * from supplier_transfer where id = ${DEFAULT_TRANSFER_PROVIDER_ID}`,
+        ),
+    );
+    const provider = providerCres[0];
     const requestObj = await this.buildRequest(req, provider);
-    const request = this.sendRequest(requestObj, provider);
+    let res: any = await this.sendRequest(requestObj, provider);
+    res = this.transformResponse(res, req);
 
-    return request;
+    return res;
   }
 
   async validateRequest(request) {
@@ -164,5 +181,120 @@ export class HotelBedsSearchService extends BaseTransferSearchProcessor {
     const response = await this.helperService.getAsync(url, acc);
 
     return response;
+  }
+
+  async transformResponse(response, req) {
+    if (!response) {
+      const error = new Error(
+        JSON.stringify({
+          message: `Don't recevie any resp = ${response}`,
+        }),
+      );
+      throw error;
+    }
+
+    if (response.code) {
+      const message = !response.isBadRequest
+        ? response.message
+        : JSON.stringify(
+            _.get(response, 'fieldErrors', []).map((f) => ({
+              field: f.field,
+              message: f.message,
+            })),
+          );
+
+      const error = new Error(JSON.stringify({ code: response.code, message }));
+      throw error;
+    }
+
+    const data = this.handleSuccess(response, req);
+
+    return data;
+  }
+  handleSuccess(response, request) {
+    const {
+      adults,
+      travel_date: travelDate,
+      pickup_from: pickupFrom,
+      dropoff_to: dropoffTo,
+    } = request;
+    const res = {
+      adults: adults,
+      children: request.children || 0,
+      infants: request.infants || 0,
+      travelDate: travelDate,
+      returnDate: request.returnDate || '',
+      travelling: {
+        pickupFrom,
+        dropoffTo,
+        accommodations: [],
+        transfers: this._transform(response, false, request),
+      },
+      returning: {
+        pickupFrom: dropoffTo,
+        dropoffTo: pickupFrom,
+        accommodations: [],
+        transfers: this._transform(response, true, request),
+      },
+    };
+
+    return res;
+  }
+  _transform(response, isReturn = false, request) {
+    const services = !isReturn
+      ? _.filter(response.services, (service) => {
+          if (request.pickup_from === 'airport') {
+            return (
+              service.pickupInformation.from.type === 'IATA' &&
+              service.pickupInformation.date === request.travel_date
+            );
+          } else {
+            return (
+              service.pickupInformation.from.type === 'ATLAS' &&
+              service.pickupInformation.date === request.travel_date
+            );
+          }
+        })
+      : _.filter(response.services, (service) => {
+          if (request.pickup_from === 'airport') {
+            return (
+              service.pickupInformation.from.type === 'ATLAS' &&
+              service.pickupInformation.date === request.return_date
+            );
+          } else {
+            return (
+              service.pickupInformation.from.type === 'IATA' &&
+              service.pickupInformation.date === request.return_date
+            );
+          }
+        });
+
+    if (_.isEmpty(services)) return [];
+
+    return services.map((s) => ({
+      id: s.rateKey,
+      name: `${s.category.name} ${s.vehicle.name}`,
+      description: '',
+      currencyCode: s.price.currencyId,
+      approximateTransferTime: s.pickupInformation.time,
+      allowForCheckInTime:
+        s.pickupInformation.pickup.checkPickup.mustCheckPickupTime,
+      conditions: [],
+      images: s.content.images.map((i) => ({
+        url: i.url,
+        caption: '',
+      })),
+      vehicles: [
+        {
+          name: s.vehicle.name,
+          code: s.vehicle.code,
+          minPax: s.minPaxCapacity,
+          maxPax: s.maxPaxCapacity,
+          amount: s.price.totalAmount,
+          dates: [s.pickupInformation.date],
+          times: [s.pickupInformation.time],
+        },
+      ],
+    }));
   }
 }
