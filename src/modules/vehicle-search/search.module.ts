@@ -15,6 +15,8 @@ import { DataCenterModule } from '../data-center/data-center.module';
 import { CurrencyModule } from '../currency/currency.module';
 import { VehicleSearchbyAirportCodeService } from './services/search-by-airport-code.service';
 import { VehicleSearchbyIdService } from './services/search-by-id.service';
+import { VehicleProviderSearchService } from './services/search-provider.sevice';
+import { ProcessorsModules } from './processors';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { VehicleSearchbyIdService } from './services/search-by-id.service';
     ElasticsearchModule,
     DataCenterModule,
     CurrencyModule,
+    ...Object.values(ProcessorsModules),
   ],
   controllers: [VehicleSearchController],
   providers: [
@@ -37,6 +40,7 @@ import { VehicleSearchbyIdService } from './services/search-by-id.service';
     VehicleSearchbyRegionService,
     VehicleSearchbyAirportCodeService,
     VehicleSearchbyIdService,
+    VehicleProviderSearchService,
   ],
   exports: [VehicleSearchService],
 })

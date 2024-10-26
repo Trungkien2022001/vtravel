@@ -3,6 +3,7 @@ import {
   Roles,
   StandardAPIErrorResponse,
   StandardApiHeaders,
+  User,
 } from 'src/common/decorators';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ERoles } from 'src/shared/enums';
@@ -50,8 +51,11 @@ export class VehicleSearchController {
     'INVALID_TOKEN',
     'TOKEN_EXPIRED',
   ])
-  searchByRegion(@Body() body: VehicleSearchByRegionDto) {
-    return this.VehicleSearchByRegionService.search(body);
+  searchByRegion(
+    @Body() body: VehicleSearchByRegionDto,
+    @User('id') agentId: number,
+  ) {
+    return this.VehicleSearchByRegionService.search(body, agentId);
   }
 
   @Post('airport-code')

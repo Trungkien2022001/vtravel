@@ -6,18 +6,20 @@ import { DataCenterService } from 'src/modules/data-center';
 import * as _ from 'lodash';
 import { VehicleSearchByRegionDto } from '../dto';
 import { VehicleSearchService } from './search.service';
+import { VehicleProviderSearchService } from './search-provider.sevice';
 
 @Injectable()
 export class VehicleSearchbyRegionService {
   constructor(
     private readonly elasticSearchService: ElasticSearchService,
     private readonly redisService: RedisService,
-    private readonly VehicleSearchService: VehicleSearchService,
+    private readonly vehicleSearchService: VehicleSearchService,
+    private readonly vehicleProviderSearchService: VehicleProviderSearchService,
     private readonly entityManager: EntityManager,
     private readonly dataCenterService: DataCenterService,
   ) {}
 
-  async search(body: VehicleSearchByRegionDto) {
-    return await this.VehicleSearchService.search(body);
+  async search(body: VehicleSearchByRegionDto, agentId: number) {
+    return await this.vehicleProviderSearchService.search(body, agentId);
   }
 }
