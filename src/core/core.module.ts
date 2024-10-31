@@ -7,6 +7,7 @@ import { ElasticsearchModule } from './elasticsearch/elasticsearch.module';
 import { RegionMappingModule, RegionMappingService } from './region-mapping';
 import { HotelMappingModule, HotelMappingService } from './hotel-mapping';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClientsModule } from '@nestjs/microservices';
 import {
   AirportEntity,
   DestinationRegionMappingEntity,
@@ -14,6 +15,8 @@ import {
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventEmitterHandlerModule } from './event-emitter';
 import { ProviderLogger } from 'src/common/logger';
+import { kafkaConfig, KafkaProducer } from './message-queue';
+import { KAFKA_SERVICE_NAME } from 'src/shared/constants';
 
 const providers: Provider[] = [
   ApiConfigService,
@@ -21,6 +24,7 @@ const providers: Provider[] = [
   RegionMappingService,
   HotelMappingService,
   ProviderLogger,
+  KafkaProducer,
 ];
 
 @Global()
@@ -35,6 +39,12 @@ const providers: Provider[] = [
     RegionMappingModule,
     HotelMappingModule,
     EventEmitterHandlerModule,
+    ClientsModule.register([
+      {
+        name: KAFKA_SERVICE_NAME,
+        ...kafkaConfig,
+      },
+    ]),
   ],
   exports: [...providers],
 })

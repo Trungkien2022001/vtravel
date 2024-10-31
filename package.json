@@ -26,7 +26,8 @@
     "migration:generate": "npx typeorm-ts-node-commonjs migration:generate ./src/core/database/migrations/schema-update -d ./src/core/database/data-source.ts",
     "migration:show": "npx typeorm-ts-node-commonjs migration:show -d ./src/core/database/data-source.ts",
     "migration:up": "npx typeorm-ts-node-commonjs migration:run -d  ./src/core/database/data-source.ts",
-    "migration:downnnn": "npx typeorm-ts-node-commonjs migration:revert -d ./src/core/database/data-source.ts"
+    "migration:downnnn": "npx typeorm-ts-node-commonjs migration:revert -d ./src/core/database/data-source.ts",
+    "consumer": "npx ts-node -r tsconfig-paths/register src/consumer.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.15.0",
@@ -36,6 +37,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/elasticsearch": "^10.0.1",
     "@nestjs/event-emitter": "^2.0.4",
+    "@nestjs/microservices": "^10.4.6",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.4.1",
     "@nestjs/typeorm": "^10.0.2",
