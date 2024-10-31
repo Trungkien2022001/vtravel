@@ -1,9 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AvailableController } from './available.controller';
-import { AvailableService } from './service';
+import { AvailableService, FlightSearcherService } from './service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AgentEntity, HotelEntity } from 'src/core/database/entities';
-import { HotelMappingModule, RedisModule, RegionMappingModule } from 'src/core';
+import {
+  HotelMappingModule,
+  ProducerModule,
+  RedisModule,
+  RegionMappingModule,
+} from 'src/core';
 import { AuthModule } from '../agent-auth/auth.module';
 import { UserModule } from '../user/agent.module';
 import { ProcessorsModules } from './processors';
@@ -16,10 +21,11 @@ import { ProcessorsModules } from './processors';
     UserModule,
     RegionMappingModule,
     HotelMappingModule,
+    ProducerModule,
     ...Object.values(ProcessorsModules),
   ],
   controllers: [AvailableController],
-  providers: [AvailableService],
-  exports: [AvailableService],
+  providers: [AvailableService, FlightSearcherService],
+  exports: [AvailableService, FlightSearcherService],
 })
 export class FlightSearchModule {}

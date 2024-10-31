@@ -1,3 +1,4 @@
+import { RunnerConsummer } from './runner/runner.service';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
 import {
@@ -9,6 +10,7 @@ import {
 
 @Injectable()
 export class ConsumerService implements OnModuleInit {
+  constructor(private readonly runnerConsummer: RunnerConsummer) {}
   private kafka = new Kafka({
     clientId: KAFKA_CLIENT_ID,
     brokers: KAFKA_BROKERS,
@@ -18,7 +20,10 @@ export class ConsumerService implements OnModuleInit {
 
   async onModuleInit() {
     await this.consumer.connect();
-    await this.consumer.subscribe({ topic: KAFKA_TOPIC, fromBeginning: true });
+    await this.consumer.subscribe({
+      topic: KAFKA_TOPIC.FLIGHT,
+      fromBeginning: true,
+    });
 
     await this.consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
@@ -27,7 +32,7 @@ export class ConsumerService implements OnModuleInit {
         );
         try {
           const payload = JSON.parse(message.value.toString());
-          console.log('Received message:', payload);
+          await this.runnerConsummer.handler(payload);
         } catch (error) {
           console.error('Error processing message:', error);
         }

@@ -15,7 +15,7 @@ import {
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventEmitterHandlerModule } from './event-emitter';
 import { ProviderLogger } from 'src/common/logger';
-import { kafkaConfig, KafkaProducer } from './message-queue';
+import { kafkaConfig, KafkaProducer, ProducerModule } from './message-queue';
 import { KAFKA_SERVICE_NAME } from 'src/shared/constants';
 
 const providers: Provider[] = [
@@ -39,6 +39,7 @@ const providers: Provider[] = [
     RegionMappingModule,
     HotelMappingModule,
     EventEmitterHandlerModule,
+    ProducerModule,
     ClientsModule.register([
       {
         name: KAFKA_SERVICE_NAME,

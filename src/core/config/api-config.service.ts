@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { type TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { isNil } from 'lodash';
 import * as dotenv from 'dotenv';
+import * as entities from 'src/core/database/entities';
 
 dotenv.config();
 
@@ -96,7 +97,7 @@ export class ApiConfigService {
   }
 
   get posgresConfig(): TypeOrmModuleOptions {
-    const entities = ['dist/**/*.entity{.ts,.js}'];
+    // const entities = ['dist/**/*.entity{.ts,.js}'];
     const migrations = [__dirname + '/migrations/**/*{.ts,.js}'];
     const seeds = [__dirname + '/seeds/**/*{.ts,.js}'];
 

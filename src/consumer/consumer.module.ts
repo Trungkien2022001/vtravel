@@ -29,6 +29,7 @@ import { DatabaseLoggingInterceptor } from 'src/common';
 import { FlightSearchModule } from 'src/modules/flight-available/available.module';
 import { GuilderModule } from 'src/modules/guider/guider.module';
 import { TransferSearchModule } from 'src/modules/transfer-available/available.module';
+import { RunnerConsummer } from './runner';
 @Module({
   imports: [
     HotelSearchModule,
@@ -55,6 +56,7 @@ import { TransferSearchModule } from 'src/modules/transfer-available/available.m
   ],
   providers: [
     ConsumerService,
+    RunnerConsummer,
     {
       provide: APP_FILTER,
       useClass: UnexpectedExceptionFilter,

@@ -19,7 +19,7 @@ export class KafkaProducer {
     this.producer = this.kafkaInstance.producer();
   }
 
-  async sendMessage(message: any, topic: string) {
+  async sendMessage({ message, topic }: { message: any; topic: string }) {
     await this.producer.send({
       topic: topic,
       messages: [{ value: JSON.stringify(message) }],
