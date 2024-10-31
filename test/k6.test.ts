@@ -4,7 +4,7 @@ import { check, sleep } from 'k6';
 
 // Thiết lập thông số kiểm tra
 export const options = {
-  vus: 20, // Số lượng người dùng ảo (Virtual Users)
+  vus: 2000, // Số lượng người dùng ảo (Virtual Users)
   duration: '120s', // Thời gian kiểm tra
 };
 
@@ -21,7 +21,7 @@ function getFutureDate(daysFromNow) {
 }
 
 export default function () {
-  const url = 'http://localhost:3030/api/v1/hotel/search/region';
+  const url = 'http://localhost:30001/api/v1/hotel/search/region';
 
   // Payload với dữ liệu POST
   const adult = getRandomInt(1, 4);
@@ -52,7 +52,7 @@ export default function () {
     headers: {
       'x-key': 'superkey',
       'x-access-token':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwid29ya3NwYWNlIjoiYWdlbnQsIiwiaWF0IjoxNzI5MTM0MTc3LCJleHAiOjE3Mjk5OTgxNzd9.ZfkTu-Wg5kwz4SKabS-2oujT-Xd5GQMpNJfOQhr3YlI',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwid29ya3NwYWNlIjoiYWdlbnQsIiwiaWF0IjoxNzMwMjcwMjE0LCJleHAiOjE3MzExMzQyMTR9.JecJN7g-uUnGEW3ZdE7sJKW7r1amJCdulK073-phMGA',
       'Content-Type': 'application/json',
     },
   };
@@ -66,3 +66,21 @@ export default function () {
   // Nghỉ 1 giây trước khi gửi yêu cầu tiếp theo
   sleep(1);
 }
+
+export const a = () => {
+  const url = 'http://localhost:30001/api/v1/auth/login';
+
+  const payload = {
+    username: 'admin',
+    password: 'admin',
+  };
+  // Gửi yêu cầu POST
+  const res = http.post(url, payload);
+  check(res, {
+    'status was 200': (r) => r.status === 200, // Kiểm tra status code
+    'response time < 4000ms': (r) => r.timings.duration < 4000, // Kiểm tra thời gian phản hồi
+  });
+
+  // Nghỉ 1 giây trước khi gửi yêu cầu tiếp theo
+  sleep(1);
+};

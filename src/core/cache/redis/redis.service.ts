@@ -6,7 +6,12 @@ export class RedisService {
   private redis: Redis;
 
   constructor() {
-    this.redis = new Redis(); // Kết nối đến Redis server, có thể cung cấp thêm cấu hình nếu cần
+    const redisHost = process.env.REDIS_HOST || 'localhost';
+    const redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379;
+    this.redis = new Redis({
+      host: redisHost,
+      port: redisPort,
+    });
   }
 
   async cachedExecute(

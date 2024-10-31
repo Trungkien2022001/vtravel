@@ -1,9 +1,12 @@
+# Deployment Configuration
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: core-vtravel-service-vtravel-core-service
+  name: core-vtravel-service
+  labels:
+    app: core-vtravel-service
 spec:
-  replicas: 1
+  replicas: 2  # Số lượng Pod khởi tạo
   selector:
     matchLabels:
       app: nestjs
@@ -13,20 +16,52 @@ spec:
         app: nestjs
     spec:
       containers:
-        - name: core-vtravel-service-vtravel-core-service
-          image: core-vtravel-service-vtravel-core-service:latest
+        - name: core-vtravel-service
+          image: nguyenkien2022001/core-vtravel-service:latest
           ports:
             - containerPort: 3030
+          resources:
+            requests:
+              memory: "256Mi"  # yêu cầu bộ nhớ
+              cpu: "200m"      # yêu cầu CPU
+            limits:
+              memory: "512Mi"  # giới hạn bộ nhớ
+              cpu: "1"         # giới hạn CPU
+
 ---
+
+# Service Configuration
 apiVersion: v1
 kind: Service
 metadata:
-  name: core-vtravel-service-vtravel-core-service
+  name: core-vtravel-service
 spec:
   type: NodePort
   ports:
-    - port: 3030
-      targetPort: 3030
-      nodePort: 30001
+    - port: 3030        # Cổng Service lắng nghe trong cluster
+      targetPort: 3030  # Cổng trong container
+      nodePort: 30001   # Cổng được expose ra bên ngoài
   selector:
     app: nestjs
+
+---
+
+# Horizontal Pod Autoscaler (HPA) Configuration
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: core-vtravel-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: core-vtravel-service
+  minReplicas: 2             # Số lượng Pod tối thiểu
+  maxReplicas: 10            # Số lượng Pod tối đa
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50  # Target CPU utilization là 50%

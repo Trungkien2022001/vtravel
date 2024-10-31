@@ -1,14 +1,17 @@
-FROM node:21-alpine AS build
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+FROM node:21.7.3-alpine AS builder
+WORKDIR /usr/src/app
+COPY ["package*.json", "ts*.json", "nest-cli.json", "./"]
+RUN npm install --from-lock-file
+COPY ["src", "./src"]
+COPY .env ./
 RUN npm run build
 
-FROM node:18-alpine AS production
+FROM node:21.7.3-alpine AS production
 ENV NODE_ENV=production
-WORKDIR /app
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/.env ./
+COPY ["package.json", "./"]
 EXPOSE 3030
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/main"]
