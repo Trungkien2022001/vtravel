@@ -1,7 +1,7 @@
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ConsumerModule } from './consumer/consumer.module';
+import { ConsumerModule } from './modules/consumer/consumer.module';
 import { KAFKA_BROKERS, KAFKA_GROUP_ID } from './shared/constants';
 
 async function bootstrap() {
