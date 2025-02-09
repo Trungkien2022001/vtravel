@@ -1,4 +1,4 @@
-import { ProducerService, RedisService } from 'src/core';
+import { RedisService } from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';

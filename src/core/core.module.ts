@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { Global, Module, type Provider } from '@nestjs/common';
 import { ApiConfigService } from './config/api-config.service';
 import { RedisModule } from './cache/redis/redis.module';
@@ -24,29 +25,38 @@ const providers: Provider[] = [
   RegionMappingService,
   HotelMappingService,
   ProviderLogger,
-  KafkaProducer,
 ];
+
+const imports = [
+  EventEmitterModule.forRoot(),
+  TypeOrmModule.forFeature([AirportEntity, DestinationRegionMappingEntity]),
+  DatabaseModule,
+  RedisModule,
+  ElasticsearchModule,
+  RegionMappingModule,
+  HotelMappingModule,
+  EventEmitterHandlerModule,
+];
+
+if (dotenv.config().parsed.IS_USE_KAFKA === 'true') {
+  imports.push(
+    ...[
+      ProducerModule,
+      ClientsModule.register([
+        {
+          name: KAFKA_SERVICE_NAME,
+          ...kafkaConfig,
+        },
+      ]),
+    ],
+  );
+  providers.push(KafkaProducer);
+}
 
 @Global()
 @Module({
   providers,
-  imports: [
-    EventEmitterModule.forRoot(),
-    TypeOrmModule.forFeature([AirportEntity, DestinationRegionMappingEntity]),
-    DatabaseModule,
-    RedisModule,
-    ElasticsearchModule,
-    RegionMappingModule,
-    HotelMappingModule,
-    EventEmitterHandlerModule,
-    ProducerModule,
-    ClientsModule.register([
-      {
-        name: KAFKA_SERVICE_NAME,
-        ...kafkaConfig,
-      },
-    ]),
-  ],
+  imports,
   exports: [...providers],
 })
 export class CoreModule {}

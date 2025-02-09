@@ -1,4 +1,4 @@
-import { ProducerService, RedisService } from 'src/core';
+import { RedisService } from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';
@@ -13,18 +13,45 @@ export class AvailableService {
     protected readonly entityManager: EntityManager,
     protected readonly redisService: RedisService,
     private readonly moduleRef: ModuleRef,
-    private readonly producerService: ProducerService,
+    // private readonly producerService: ProducerService,
   ) {}
 
   async search(body: any, agentId: number) {
     const providerName = FLIGHT_PROVIDERS.DEFAULT;
-    // const processor = await this.getProcessorFactory(providerName);
-    this.producerService.sendTestMessage({
-      providerName,
-      body,
-      agentId,
-    });
+    const processor = await this.getProcessorFactory(providerName);
+    // this.producerService.sendTestMessage({
+    //   providerName,
+    //   body,
+    //   agentId,
+    // });
 
-    // return processor.search(body, agentId);
+    return processor.search(body, agentId);
+  }
+
+  /**
+   * Dynamically resolve the appropriate processor service based on the configured provider
+   */
+  async getProcessorFactory(providerName: string): Promise<any> {
+    let processor;
+    switch (providerName) {
+      case FLIGHT_PROVIDERS.AMADEUS:
+        processor = await this.moduleRef.get(AmadeusSearchService, {
+          strict: false,
+        });
+        break;
+
+      case FLIGHT_PROVIDERS.SABRE:
+        processor = await this.moduleRef.get(SabreSearchService, {
+          strict: false,
+        });
+        break;
+
+      default:
+        throw new Error(
+          `Processor service not found for provider: ${providerName}`,
+        );
+    }
+
+    return processor;
   }
 }

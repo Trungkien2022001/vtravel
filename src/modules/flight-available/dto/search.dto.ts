@@ -15,6 +15,7 @@ import {
   MIN_MULTI_CITY_ALLOWED,
 } from 'src/shared/constants';
 import { BaseAPIResponseDTO, BaseFlightSeachRequestDto } from 'src/shared/dtos';
+import { BaseFlightSearchResponseDto } from './base.dto';
 
 export class MultiCitySearchRequestDto {
   @IsString()
@@ -75,6 +76,4 @@ export class FlightSearchDto extends BaseFlightSeachRequestDto {
   multi_city: MultiCitySearchRequestDto[];
 }
 
-class FlightSearchResponse {}
-
-export class FlightSearchResponseDto extends BaseAPIResponseDTO<FlightSearchResponse> {}
+export class FlightSearchResponseDto extends BaseAPIResponseDTO<BaseFlightSearchResponseDto> {}

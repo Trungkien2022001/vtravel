@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { Injectable, Logger } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import {
@@ -18,9 +19,11 @@ export class ProducerService {
   async getProcessorFactory(providerName: string): Promise<void> {
     switch (providerName) {
       case PRODUCER_TYPE.KAFKA:
-        this.producer = await this.moduleRef.get(KafkaProducer, {
-          strict: false,
-        });
+        if (dotenv.config().parsed.IS_USE_KAFKA === 'true') {
+          this.producer = await this.moduleRef.get(KafkaProducer, {
+            strict: false,
+          });
+        }
         break;
 
       case PRODUCER_TYPE.AWS_SQS:
