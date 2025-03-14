@@ -55,6 +55,8 @@ export class AvailableService {
     const binaryAvailRoomCheck = getBitsArray(10, 3);
     const redisKey = cacheKey || buildRegionSearchCacheKey(body);
 
+    // HandleV2 has better performance
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handle = async () => {
       const rows = await this.entityManager.query(`
         select 
@@ -81,12 +83,38 @@ export class AvailableService {
         .filter((h) => h.room_ids.length >= numOfRooms)
         .value();
     };
+    const handleV2 = async () => {
+      const rows = await this.entityManager.query(`
+      SELECT 
+          rc.hotel_id,
+          rc.room_id
+      FROM room_control rc 
+      INNER JOIN hotel_mapping hm ON hm.hotel_id = rc.hotel_id 
+      WHERE hm.region_id = '${body.region_id}'
+        AND hm.is_active = true
+        AND rc.max_adult >= ${maxAdult}
+        AND rc.max_children >= ${maxChildren}
+        AND rc.max_infant >= ${maxInfant}
+        AND substring(rc.availability FROM ${3 + 1} FOR ${10}) <> B'${'1'.repeat(10)}';
+    `);
+
+      return _(rows)
+        .groupBy('hotel_id')
+        .map((items, hotelId) => ({
+          // eslint-disable-next-line camelcase
+          hotel_id: hotelId,
+          // eslint-disable-next-line camelcase
+          room_ids: items.map((i) => i.room_id),
+        }))
+        .filter((h) => h.room_ids.length >= numOfRooms)
+        .value();
+    };
     const hotels = await this.redisService.cachedExecute(
       {
         key: `${REDIS_KEY.HOTEL_ROOMS_FROM_SEARCH_REQUEST}:${redisKey}`,
         ttl: REDIS_EXPIRED['1_DAYS'],
       },
-      handle,
+      handleV2,
     );
 
     return hotels;

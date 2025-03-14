@@ -39,7 +39,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async FlightSesrch(
     @Body() body: FlightSearchDto,
     @User('id') agentId: number,

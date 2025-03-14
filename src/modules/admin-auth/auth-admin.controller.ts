@@ -22,7 +22,7 @@ export class AuthAdminController {
   constructor(private readonly authAdminService: AuthAdminService) {}
 
   @Post('/login')
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Admin Login' })
   @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({

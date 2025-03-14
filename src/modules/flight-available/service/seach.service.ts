@@ -1,4 +1,4 @@
-import { RedisService } from 'src/core';
+import { ProducerService, RedisService } from 'src/core';
 import { EntityManager } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ export class AvailableService {
     protected readonly entityManager: EntityManager,
     protected readonly redisService: RedisService,
     private readonly moduleRef: ModuleRef,
-    // private readonly producerService: ProducerService,
+    private readonly producerService: ProducerService,
   ) {}
 
   async search(body: any, agentId: number) {

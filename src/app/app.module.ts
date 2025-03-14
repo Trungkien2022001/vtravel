@@ -74,10 +74,10 @@ import { TransferSearchModule } from 'src/modules/transfer-available/available.m
       provide: APP_FILTER,
       useClass: AppMetatadaExceptionFilter,
     },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: DatabaseLoggingInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: DatabaseLoggingInterceptor,
+    // },
   ],
 })
 export class AppModule {}

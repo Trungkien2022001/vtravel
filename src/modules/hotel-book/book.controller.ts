@@ -37,7 +37,7 @@ export class HotelBookController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: any) {
     return this.HotelBookService.get();
   }

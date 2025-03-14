@@ -37,11 +37,13 @@ export class DevSupportService {
   }
 
   async bulkInsertHotelElasticseach() {
-    const hotels = await this.entityManager.query(`
-      SELECT * FROM hotel_info
-      `);
+    for (let index = 20; index < 100; index++) {
+      const hotels = await this.entityManager.query(`
+          SELECT * FROM hotel_info where id >= ${index * 10000} and id < ${(index + 1) * 10000}
+        `);
 
-    await this.elasticSearchService.bulk('hotel_info', hotels);
+      await this.elasticSearchService.bulk('hotel_info', hotels);
+    }
   }
 
   async bulkInsertRegionslElasticseach() {
@@ -61,11 +63,13 @@ export class DevSupportService {
   }
 
   async bulkInsertRoomslElasticseach() {
-    const data = await this.entityManager.query(`
-      SELECT * FROM room_info
+    for (let index = 0; index < 50; index++) {
+      const data = await this.entityManager.query(`
+      SELECT * FROM room_info where id >= ${index * 50000} and id < ${(index + 1) * 50000}
       `);
 
-    await this.elasticSearchService.bulk('room_info', data);
+      await this.elasticSearchService.bulk('room_info', data);
+    }
   }
   async bulkInsertTourslElasticseach() {
     const data = await this.entityManager.query(`

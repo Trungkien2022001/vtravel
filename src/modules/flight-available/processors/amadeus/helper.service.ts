@@ -166,14 +166,16 @@ export class HelperService {
       statusCode = error.status;
       body = error.response.data;
     }
-    this.providerLogger.log({
-      product: 'FLIGHT',
-      body: req,
-      request: xml,
-      response: body,
-      userId: req.agentId,
-      statusCode: statusCode,
-    });
+
+    // Todo: Log request and response
+    // this.providerLogger.log({
+    //   product: 'FLIGHT',
+    //   body: req,
+    //   request: xml,
+    //   response: body,
+    //   userId: req.agentId,
+    //   statusCode: statusCode,
+    // });
 
     return body;
   }

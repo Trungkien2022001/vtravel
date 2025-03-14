@@ -21,7 +21,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
   @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({

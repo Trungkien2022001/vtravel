@@ -32,7 +32,7 @@ export class HotelSearchController {
 
   @Post('region')
   @Roles(ERoles.HOTEL_SEARCH_BY_REGION)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @UseGuards(AgentRolesGuard, AgentIpWhitelistGuard)
   @ApiOperation({ summary: 'Search by Region Id' })
   @StandardApiHeaders('X-ACCESS-TOKEN', 'X-LANG', 'X-VERSION')

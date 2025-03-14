@@ -58,7 +58,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: SearchByAirportCodeDto) {
     return this.searchByAirportCodeService.search(body);
   }
@@ -78,7 +78,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByRegion(@Body() body: SearchByRegionDto) {
     return this.searchByRegionService.search(body);
   }
@@ -98,7 +98,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByHotelIds(@Body() body: SearchByHotelIdsDto) {
     return this.searchByHotelIdsService.search(body);
   }
@@ -118,7 +118,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByProvider(
     @Body() body: SearchByRegionDto,
     @User('id') agentId: number,

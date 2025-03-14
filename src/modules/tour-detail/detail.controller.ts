@@ -38,7 +38,7 @@ export class TourDetailController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: TourDetailDto) {
     return this.tourDetailService.getTourDetail(body);
   }

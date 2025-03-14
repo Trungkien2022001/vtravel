@@ -33,7 +33,7 @@ export class UserController {
   @Post()
   @Roles(ERoles.ADMIN_USER)
   @UseGuards(AdminRolesGuard)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
   @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
@@ -63,7 +63,7 @@ export class UserController {
   @Get('me')
   @Roles(ERoles.AGENT_INFO)
   @UseGuards(AgentRolesGuard)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
   @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({
@@ -85,7 +85,7 @@ export class UserController {
   @Get(':id')
   @Roles(ERoles.ADMIN_USER)
   @UseGuards(AdminRolesGuard)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Agent Login' })
   @StandardApiHeaders('X-KEY', 'X-VERSION', 'X-ACCESS-TOKEN', 'X-LANG')
   @ApiBody({

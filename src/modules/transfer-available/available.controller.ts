@@ -39,7 +39,7 @@ export class AvailableController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async TransferSesrch(
     // @Body() body: TransferSearchDto,
     @Body() body: any,

@@ -55,7 +55,7 @@ export class HotelDetailService {
           and rc.max_adult >= ${maxAdult}
           and rc.max_children >= ${maxChildren}
           and rc.max_infant >= ${maxInfant}
-          and rc.availability & B'${binaryAvailRoomCheck}' = ${BINARY_AVAIL_ROOM_CHECK}
+          AND substring(rc.availability FROM ${3 + 1} FOR ${10}) <> B'${'1'.repeat(10)}';
     `);
 
       const hotels = _(rows)

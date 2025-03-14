@@ -38,7 +38,7 @@ export class VehicleDetailController {
   })
   @StandardAPIErrorResponse()
   @CustomAPIErrorResponse(['TOKEN_EXPIRED'])
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   async SearchByAirportCode(@Body() body: VehicleDetailDto) {
     return this.VehicleDetailService.getVehicleDetail(body);
   }

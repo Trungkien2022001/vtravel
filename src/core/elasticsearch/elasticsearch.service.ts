@@ -36,7 +36,7 @@ export class ElasticSearchService {
     );
   }
   async bulk(index: TElasticsearchDocumentType, data: any) {
-    const cnk = _.chunk(data, 50);
+    const cnk = _.chunk(data, 100);
     Logger.log(`Total record: ${data.length}, Total chunk: ${cnk.length}`);
     for (let idx = 0; idx < cnk.length; idx++) {
       const list = cnk[idx];

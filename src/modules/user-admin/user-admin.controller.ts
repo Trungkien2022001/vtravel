@@ -35,7 +35,7 @@ export class UserAdminController {
 
   @Post('entrypoint')
   @UseGuards(SuperAdminGuard)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Supper Admin create first admin account' })
   @StandardApiHeaders('X-KEY', 'X-VERSION')
   @ApiResponse({
@@ -56,7 +56,7 @@ export class UserAdminController {
   @Post()
   @Roles(ERoles.ADMIN_USER)
   @UseGuards(AdminRolesGuard)
-  @UseInterceptors(DatabaseLoggingInterceptor)
+  //@UseInterceptors(DatabaseLoggingInterceptor)
   @ApiOperation({ summary: 'Supper Admin create new admin account' })
   @StandardApiHeaders('X-KEY', 'X-VERSION')
   @ApiBody({
